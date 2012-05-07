@@ -1,0 +1,3 @@
+function AntWorldParser(code) {
+	
+}
