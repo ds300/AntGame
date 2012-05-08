@@ -1,5 +1,6 @@
-module = QUnit.module;
-module("DebugRNG Tests");
+var imports = require("../../src/debug/DebugRNG.js");
+
+var rng = new imports.RandomNumberGenerator();
 
 var correctNumbers = [7193, 2932, 10386, 5575, 100, 15976, 430, 9740, 9449, 
                       1636, 11030, 9848, 13965, 16051, 14483, 6708, 5184, 15931,
@@ -12,21 +13,28 @@ var correctNumbers = [7193, 2932, 10386, 5575, 100, 15976, 430, 9740, 9449,
                       8081, 4900, 10723, 10360, 1218, 11923, 3870, 12071, 3574, 
                       12232, 15592, 12909, 9711, 6638, 2488, 12725, 16145, 9746, 
                       9053, 5881, 3867, 10512, 4312, 8529, 1576, 15803, 5498, 
-                      12730, 7397]
-test("Check that numbers are the same as in the project spec", function(){
-	var rng = new RandomNumberGenerator();
-	expect(100);
+                      12730, 7397];
+
+exports["Check that numbers are the same as in the project spec"] = function (test) {
+	test.expect(100);
 	var results = 100;
-	stop(100);
+	// timeout incase of badness
+	var timeout = setTimeout(function(){
+		rng.close();
+		test.done();
+	},3000);
+
 	for (var i=0;i<100;i++) {
 		rng.next(16384,function (expectedResult) {
 			return function (result) {
+				test.strictEqual(expectedResult,result,expectedResult+" expected, "+result+" seen");
 				if (--results === 0) {
-					rng.close(); 
+					rng.close();
+					clearTimeout(timeout);
+					test.done();
 				}
-				strictEqual(expectedResult,result,expectedResult+" expected, "+result+" seen");
-				start();
 			};
 		}(correctNumbers[i]));
 	}
-})
+	
+};
