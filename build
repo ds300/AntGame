@@ -1,14 +1,20 @@
-#!/usr/bin/python
 import subprocess, os, re
 RUN_PATH = os.getcwd()
 
 debug_files = ["debug/DebugRNG"]
+parser_files = ["AntBrainParser"]
 
 buildLog = ""
 
 lint_errors = []
-def runUnitTests():
-	pass
+def runTests(path):
+	global buildLog
+	try:
+		out = subprocess.check_output(["nodeunit",path], shell=True)
+		buildLog += out
+	except subprocess.CalledProcessError as error:
+		buildLog += error.output
+		print "Some file(s) failed testing. Check the build log for details."
 
 def runAcceptanceTest():
 	pass
@@ -22,19 +28,7 @@ def lintFile(filename):
 	except subprocess.CalledProcessError as error:
 		buildLog += "\n" + error.output
 		output_lines = re.findall(r'(.*)\n',error.output)
-		lint_errors.extend([line for line in output_lines if line.find(filename) == 0])
-
-def testFile(filename):
-	"""Runs unit tests using QUnit"""
-	global buildLog
-	try:
-		out = subprocess.check_output(["qunit","-c","./src/"+filename+".js",
-		                                       "-t","./test/"+filename+"-test.js"],
-		                              shell=True)
-		buildLog += out
-	except subprocess.CalledProcessError as error:
-		buildLog += error.output
-		print filename,"failed testing. Check the build log for details."
+		lint_errors.extend([line for line in output_lines if line.find(filename) > -1])
 
 def printLintErrors():
 	"""If lint errors have been found, prints them."""
@@ -44,9 +38,9 @@ def printLintErrors():
 			print "   ",error
 
 if __name__ == "__main__":
-	[lintFile(filename) for filename in debug_files]
-	[testFile(filename) for filename in debug_files]
+	[lintFile(filename) for filename in debug_files+parser_files]
 	printLintErrors()
+	runTests("./test/")
 	f = open("build.log","w")
 	f.write(buildLog)
 	f.close()
