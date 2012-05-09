@@ -162,7 +162,7 @@ function _getElements(grid, targetType) {
 			if (visitedCells.indexOf(row + ":" + col) === -1 && 
 				cell.type === targetType) {
 				// get coords of all cells of this element
-				var coords = _getElementCoords(grid, targetType, row, col);
+				var coords = _getElementCoords(grid, row, col);
 				// add all coords to visited
 				for (var i = 0, len = coords.length; i < len; i++) {
 					visitedCells.push(coords[i].row + ":" + coords[i].col);
@@ -172,6 +172,8 @@ function _getElements(grid, targetType) {
 			}
 		}
 	}
+
+	return elements;
 }
 exports.test_only._getElements = _getElements;
 
@@ -180,10 +182,10 @@ exports.test_only._getElements = _getElements;
 // shape of an element
 function _getElementBox(coords) {
 	// find min and max rows and cols
-	var minRow = coords[i].row,
-		maxRow = coords[i].row,
-		minCol = coords[i].col,
-		maxCol = coords[i].col;
+	var minRow = coords[0].row,
+		maxRow = coords[0].row,
+		minCol = coords[0].col,
+		maxCol = coords[0].col;
 
 	var len = coords.length;
 	for (var i = 0; i < len; i++) {
@@ -196,8 +198,8 @@ function _getElementBox(coords) {
 	}
 
 	// find dimensions of box
-	var width = maxCol - minCol;
-	var height = maxRow - minRow;
+	var width = maxCol - minCol + 1;
+	var height = maxRow - minRow + 1;
 
 	// create empty box
 	var box = [];
@@ -213,20 +215,20 @@ function _getElementBox(coords) {
 		var c = coords[i];
 		box[c.row - minRow][c.col - minCol] = true; 
 	}
-
-	return box;
+	return {config: box, topRow: minRow};
 }
 exports.test_only._getElementBox = _getElementBox;
 
 
 // gets all the coordinates which comprise an element
-function _getElementCoords(grid, targetType, row, col) {
+function _getElementCoords(grid, row, col) {
+	var targetType = grid.cells[row][col].type;
 	var visitedCells = [];
 	var elementCoords = [];
 	function visitCell(row, col) {
 		if (row >= 0 && row < grid.height && 
 		    col >= 0 && col < grid.width &&
-		    visitedCells.indexOf(grid.cells[row][col]) > -1) {
+		    visitedCells.indexOf(grid.cells[row][col]) === -1) {
 			// this is a valid cell we haven't seen before
 			visitedCells.push(grid.cells[row][col]);
 			if (grid.cells[row][col].type === targetType) {
@@ -279,3 +281,34 @@ function _getAdjacentCoord(row, col, direction) {
 	return {row: row, col: col};
 }
 exports.test_only._getAdjacentCoord = _getAdjacentCoord;
+
+function _foodElementIsLegal(box) {
+	// food must be in 5x5 grid
+	// there are three possible configs, each with two possible manifestations
+	//   x x x x x    if top    xxxxx     if top   xxxxx  
+	//    x x x x x    row is   xxxxx     row is    xxxxx 
+	//     x x x x x    even:    xxxxx     odd      xxxxx 
+	//      x x x x x            xxxxx               xxxxx
+	//       x x x x x            xxxxx              xxxxx
+	//
+	//       x x x x x  if top    xxxxx   if top    xxxxx
+	//      x x x x x    row is  xxxxx    row is    xxxxx
+	//     x x x x x      even:  xxxxx     odd     xxxxx 
+	//    x x x x x             xxxxx              xxxxx 
+	//   x x x x x              xxxxx             xxxxx  
+	//
+	//          x                 x           x
+	//         x x               xx           xx  
+	//        x x x              xxx         xxx     
+	//       x x x x            xxxx         xxxx       
+	//      x x x x x           xxxxx       xxxxx          
+	//       x x x x            xxxx         xxxx       
+	//        x x x              xxx         xxx     
+	//         x x               xx           xx  
+	//          x                 x           x
+	//
+	// how best to represent this algorithmically? Quickest just to 
+	// convert the box config to a string and check against what i've
+	// written above. Code to do it properly might be hella ugly and long.
+	
+}

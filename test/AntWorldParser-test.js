@@ -5,6 +5,9 @@ var _isSurroundedByRock = imports.test_only._isSurroundedByRock;
 var _gridContains = imports.test_only._gridContains;
 var _gridContains = imports.test_only._gridContains;
 var _getAdjacentCoord = imports.test_only._getAdjacentCoord;
+var _getElementCoords = imports.test_only._getElementCoords;
+var _getElementBox = imports.test_only._getElementBox;
+var _getElements = imports.test_only._getElements;
 
 var validEvenLine = "# 1 5 . # 9 - +  ";
 var validEvenLine_expected = [
@@ -137,4 +140,51 @@ exports["Test that _getAdjacentCoord works"] = function (test) {
 	test.deepEqual(_getAdjacentCoord(2,1,4),{row:1,col:0},"going up and left from even row");
 	test.deepEqual(_getAdjacentCoord(2,1,5),{row:1,col:1},"going up and right from even row");
 	test.done();
-}
+};
+
+// the following two arrays represents contiguous areas of coordinates in 
+// the good/bad mock grids which have type ".";
+var expectedCoordsGood = ["1:1","1:2","1:3"];
+var expectedCoordsBad = ["3:1","3:2","3:3","3:4"];
+exports["Test that _getElementCoords works"] = function (test) {
+	test.expect(7);
+	function testGrid(grid,row,col,expectedCoords) {
+		var coords = _getElementCoords(grid,row,col);
+		for (var i = 0; i < coords.length; i++){
+			var c = coords[i];
+			test.ok(expectedCoords.indexOf(c.row + ":" + c.col) >= 0,"yes");
+		}
+	}
+	testGrid(mockGridGood,1,1,expectedCoordsGood);
+	testGrid(mockGridBad,3,3,expectedCoordsBad);
+
+	test.done();
+};
+
+var crossCoords = [{row:5,col:6},{row:6,col:5},
+                   {row:6,col:7},{row:7,col:6}];
+// should look like this:
+//   +
+//  + +
+//   +
+var crossArray = [[false,true,false],
+                  [true,false,true],
+                  [false,true,false]];
+
+var expectedBox = {config: crossArray, topRow: 5};
+exports["Test that _getElementBox works"] = function (test) {
+	test.expect(1);
+	test.deepEqual(_getElementBox(crossCoords),expectedBox,"should be equal");
+	test.done();
+};
+
+var expectedElements = [
+	{config: [[true,true,true]], topRow: 1},
+	{config: [[true,true,true,true]], topRow: 3}
+];
+
+exports["Test that _getElements works"] = function (test) {
+	test.expect(1);
+	test.deepEqual(_getElements(mockGridBad,"."),expectedElements, "should be equal");
+	test.done();
+};
