@@ -1,6 +1,7 @@
 var imports = require("../src/AntWorldParser.js");
 var parseAntWorld = imports.parseAntWorld;
 var _parseGridLine = imports.test_only._parseGridLine;
+var _isSurroundedByRock = imports.test_only._isSurroundedByRock;
 
 var validEvenLine = "# 1 5 . # 9 - +  ";
 var validEvenLine_expected = [
@@ -22,6 +23,9 @@ var validOddLine_expected = [
 	{type: "+"},
 	{type: "-"}
 ];
+
+var invalidOddLine1 = " 3 y . +";
+var invalidOddLine2 = "  3 . # +";
 
 exports["Test that _parseGridLine works for valid input"] = function (test) {
 	test.expect(2);
@@ -58,4 +62,47 @@ exports["Test that _parseGridLine throws errors on width mismatch"] = function (
 	test.done();
 };
 
+exports["Test that _parseGridLine throws errors upon seeing invalid chars"] = function (test) {
+	test.throws(function(){
+		_parseGridLine(invalidOddLine1, true, 4);
+	}, "this should throw an exception");
+	test.done();
+};
 
+exports["Test that _parseGridLine throws errors upon seeing an odd line with too many spaces at the beginning"] = function (test) {
+	test.throws(function(){
+		_parseGridLine(invalidOddLine2, true, 4);
+	}, "this should throw an exception");
+	test.done();
+};
+
+var mockGridGood = {
+	width: 5,
+	height: 5,
+	cells: [
+		[{type:"#"},{type:"#"},{type:"#"},{type:"#"},{type:"#"}],
+		[{type:"#"},{type:"."},{type:"."},{type:"."},{type:"#"}],
+		[{type:"#"},{type:"+"},{type:"f", quantity: 5},{type:"-"},{type:"#"}],
+		[{type:"#"},{type:"."},{type:"."},{type:"."},{type:"#"}],
+		[{type:"#"},{type:"#"},{type:"#"},{type:"#"},{type:"#"}]
+	]
+};
+
+var mockGridBad = {
+	width: 5,
+	height: 5,
+	cells: [
+		[{type:"#"},{type:"#"},{type:"#"},{type:"#"},{type:"#"}],
+		[{type:"#"},{type:"."},{type:"."},{type:"."},{type:"#"}],
+		[{type:"#"},{type:"+"},{type:"f", quantity: 5},{type:"-"},{type:"#"}],
+		[{type:"#"},{type:"."},{type:"."},{type:"."},{type:"."}], // error is here
+		[{type:"#"},{type:"#"},{type:"#"},{type:"#"},{type:"#"}]
+	]
+};
+
+exports["Test that _isSurroundedByRock works"] = function (test) {
+	test.expect(2);
+	test.ok(_isSurroundedByRock(mockGridGood),"This grid is good");
+	test.ok(!_isSurroundedByRock(mockGridBad),"This grid is bad");
+	test.done();
+};
