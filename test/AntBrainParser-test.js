@@ -11,6 +11,9 @@ exports["Test that _parseInt strips zeroes properly"] = function (test) {
 	test.done();
 };
 
+// _parseLine is tested pretty explicitly by the parseAntBrain function so I
+// won't bother with unit tests.
+
 var goodBrain = [
 	"", // empty lines to see if they get ignored
 	"Flip 6 5 1",
