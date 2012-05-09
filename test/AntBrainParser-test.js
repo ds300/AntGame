@@ -1,5 +1,15 @@
 var imports = require("../src/AntBrainParser.js");
 var parseAntBrain = imports.parseAntBrain;
+var _parseInt = imports.test_only._parseInt;
+var _parseLine = imports.test_only._parseLine;
+
+exports["Test that _parseInt strips zeroes properly"] = function (test) {
+	test.expect(3);
+	test.strictEqual(3,_parseInt("00003"),"these should be equal");
+	test.strictEqual(30,_parseInt("0030"),"these should be equal");
+	test.strictEqual(0,_parseInt("0"),"these should be equal");
+	test.done();
+};
 
 var goodBrain = [
 	"", // empty lines to see if they get ignored
