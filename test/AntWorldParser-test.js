@@ -2,6 +2,9 @@ var imports = require("../src/AntWorldParser.js");
 var parseAntWorld = imports.parseAntWorld;
 var _parseGridLine = imports.test_only._parseGridLine;
 var _isSurroundedByRock = imports.test_only._isSurroundedByRock;
+var _gridContains = imports.test_only._gridContains;
+var _gridContains = imports.test_only._gridContains;
+var _getAdjacentCoord = imports.test_only._getAdjacentCoord;
 
 var validEvenLine = "# 1 5 . # 9 - +  ";
 var validEvenLine_expected = [
@@ -106,3 +109,32 @@ exports["Test that _isSurroundedByRock works"] = function (test) {
 	test.ok(!_isSurroundedByRock(mockGridBad),"This grid is bad");
 	test.done();
 };
+
+exports["Test that _gridContains works"] = function (test) {
+	test.expect(6);
+	test.ok(_gridContains(mockGridGood,"#"), "The grid contains rock");
+	test.ok(_gridContains(mockGridGood,"."), "The grid contains clear cells");
+	test.ok(_gridContains(mockGridGood,"+"), "The grid contains red hill");
+	test.ok(_gridContains(mockGridGood,"-"), "The grid contains black hill");
+	test.ok(_gridContains(mockGridGood,"f"), "The grid contains food");
+	test.ok(!_gridContains(mockGridGood,"g"), "The grid doesn't contain 'g'");
+	test.done();
+};
+
+exports["Test that _getAdjacentCoord works"] = function (test) {
+	test.expect(12);
+	test.deepEqual(_getAdjacentCoord(1,1,0),{row:1,col:2},"going right from odd row");
+	test.deepEqual(_getAdjacentCoord(1,1,1),{row:2,col:2},"going down and right from odd row");
+	test.deepEqual(_getAdjacentCoord(1,1,2),{row:2,col:1},"going down and left from odd row");
+	test.deepEqual(_getAdjacentCoord(1,1,3),{row:1,col:0},"going left from odd row");
+	test.deepEqual(_getAdjacentCoord(1,1,4),{row:0,col:1},"going up and left from odd row");
+	test.deepEqual(_getAdjacentCoord(1,1,5),{row:0,col:2},"going up and right from odd row");
+
+	test.deepEqual(_getAdjacentCoord(2,1,0),{row:2,col:2},"going right from even row");
+	test.deepEqual(_getAdjacentCoord(2,1,1),{row:3,col:1},"going down and right from even row");
+	test.deepEqual(_getAdjacentCoord(2,1,2),{row:3,col:0},"going down and left from even row");
+	test.deepEqual(_getAdjacentCoord(2,1,3),{row:2,col:0},"going left from even row");
+	test.deepEqual(_getAdjacentCoord(2,1,4),{row:1,col:0},"going up and left from even row");
+	test.deepEqual(_getAdjacentCoord(2,1,5),{row:1,col:1},"going up and right from even row");
+	test.done();
+}

@@ -118,16 +118,16 @@ exports.test_only._parseGridLine = _parseGridLine;
 // checks that there are no gaps around the edges of the grid
 function _isSurroundedByRock(grid) {
 	// check top and bottom row
-	for (var x = 0; x < grid.width; x++) {
-		if (grid.cells[0][x].type !== "#" || 
-			grid.cells[grid.height - 1][x].type !== "#") {
+	for (var col = 0; col < grid.width; col++) {
+		if (grid.cells[0][col].type !== "#" || 
+			grid.cells[grid.height - 1][col].type !== "#") {
 			return false;
 		}
 	}
 	// check leftmost and rightmost columns
-	for (var y = 0; y < grid.height; y++) {
-		if (grid.cells[y][0].type !== "#" || 
-			grid.cells[y][grid.width - 1].type !== "#") {
+	for (var row = 0; row < grid.height; row++) {
+		if (grid.cells[row][0].type !== "#" || 
+			grid.cells[row][grid.width - 1].type !== "#") {
 			return false;
 		}
 	}
@@ -137,9 +137,9 @@ exports.test_only._isSurroundedByRock = _isSurroundedByRock;
 
 // searches the grid for a specific cell type
 function _gridContains(grid, targetType) {
-	for (var x = 0; x < grid.width; x++) {
-		for (var y = 0; y < grid.height; y++) {
-			if (grid.cells[x][y].type === targetType) {
+	for (var row = 0; row < grid.height; row++) {
+		for (var col = 0; col < grid.width; col++) {
+			if (grid.cells[row][col].type === targetType) {
 				return true;
 			}
 		}
@@ -147,8 +147,135 @@ function _gridContains(grid, targetType) {
 }
 exports.test_only._gridContains = _gridContains;
 
+// returns a list of 2D arrays which represent the shape of elements of the
+// specified target type
+// an element is a contiguous region of one particular type
 function _getElements(grid, targetType) {
 	var elements = [];
 	var visitedCells = [];
-	// todo
+
+	// for every cell
+	for (var row = 0; row < grid.height; row++) {
+		for (var col = 0; col < grid.width; col++) {
+			var cell = grid.cells[row][col];
+			// if cell not visited and correct type
+			if (visitedCells.indexOf(row + ":" + col) === -1 && 
+				cell.type === targetType) {
+				// get coords of all cells of this element
+				var coords = _getElementCoords(grid, targetType, row, col);
+				// add all coords to visited
+				for (var i = 0, len = coords.length; i < len; i++) {
+					visitedCells.push(coords[i].row + ":" + coords[i].col);
+				}
+				// superimpose on box so the shape can be tested
+				elements.push(_getElementBox(coords));
+			}
+		}
+	}
 }
+exports.test_only._getElements = _getElements;
+
+
+// returns a 2D array of boolean values representing the 
+// shape of an element
+function _getElementBox(coords) {
+	// find min and max rows and cols
+	var minRow = coords[i].row,
+		maxRow = coords[i].row,
+		minCol = coords[i].col,
+		maxCol = coords[i].col;
+
+	var len = coords.length;
+	for (var i = 0; i < len; i++) {
+		var c = coords[i];
+		if (c.row > maxRow) { maxRow = c.row; }
+		else if (c.row < minRow) { minRow = c.row; }
+		
+		if (c.col > maxCol) { maxCol = c.col; }
+		else if (c.col < minCol) { minCol = c.col; }
+	}
+
+	// find dimensions of box
+	var width = maxCol - minCol;
+	var height = maxRow - minRow;
+
+	// create empty box
+	var box = [];
+	for (var row = 0; row < height; row++) {
+		box[row] = [];
+		for (var col = 0; col < width; col++) {
+			box[row][col] = false;
+		}
+	}
+
+	// fill box
+	for (var i = 0; i < len; i++) {
+		var c = coords[i];
+		box[c.row - minRow][c.col - minCol] = true; 
+	}
+
+	return box;
+}
+exports.test_only._getElementBox = _getElementBox;
+
+
+// gets all the coordinates which comprise an element
+function _getElementCoords(grid, targetType, row, col) {
+	var visitedCells = [];
+	var elementCoords = [];
+	function visitCell(row, col) {
+		if (row >= 0 && row < grid.height && 
+		    col >= 0 && col < grid.width &&
+		    visitedCells.indexOf(grid.cells[row][col]) > -1) {
+			// this is a valid cell we haven't seen before
+			visitedCells.push(grid.cells[row][col]);
+			if (grid.cells[row][col].type === targetType) {
+				// this cell is part of the element
+				elementCoords.push({row: row, col: col});
+				// explore this cell's adjacent cells
+				for (var dir = 0; dir < 6; dir++) {
+					var coord = _getAdjacentCoord(row, col, dir);
+					visitCell(coord.row, coord.col);
+				}
+			}
+		}
+	}
+	visitCell(row, col);
+	return elementCoords;
+}
+exports.test_only._getElementCoords = _getElementCoords;
+
+// gets the coordinates of the cell adjacent to the cell at
+// (row, col) in the specified direction
+function _getAdjacentCoord(row, col, direction) {
+	direction = Math.abs(direction) % 6;
+	var odd = row % 2 === 1;
+	function changeRowRight() { col += odd ? 1 : 0; }
+	function changeRowLeft() { col -= odd ? 0 : 1; }
+	switch (direction) {
+	case 0: 
+		col++; 
+		break;
+	case 1: 
+		row++; 
+		changeRowRight();
+		break;
+	case 2: 
+		row++; 
+		changeRowLeft();
+		break;
+	case 3: 
+		col--; 
+		break;
+	case 4: 
+		row--; 
+		changeRowLeft();
+		break;
+	case 5: 
+		row--; 
+		changeRowRight();
+		break;
+	}
+	return {row: row, col: col};
+}
+exports.test_only._getAdjacentCoord = _getAdjacentCoord;
