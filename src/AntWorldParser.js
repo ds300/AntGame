@@ -21,8 +21,8 @@ function parseAntWorld(code, contestRules) {
 	var numLines = lines.length;
 
 	// check we have enough lines
-	if ((contestRules && numLines < 3 + 150) ||
-		(!contestRules && numLines < 3 + 3)) {
+	if ((contestRules && numLines < 2 + 150) ||
+		(!contestRules && numLines < 2 + 3)) {
 		throw new Error("Too few lines");
 	}
 
@@ -46,7 +46,7 @@ function parseAntWorld(code, contestRules) {
 	// parse lines inividually
 	var grid = {cells: [], width: width, height: height};
 	for (var i = 0; i < height; i++) {
-		grid.cells.push(_parseGridLine(lines[i]));
+		grid.cells.push(_parseGridLine(lines[i], i % 2 === 1, width));
 	}
 
 	// aight, so we've got a well-dimensioned grid
@@ -54,19 +54,69 @@ function parseAntWorld(code, contestRules) {
 	if (!_isSurroundedByRock(grid)) {
 		throw new Error("The ant world must be enclosed by rock.");
 	}
-	if (!_gridContains("+")) {
+	if (!_gridContains(grid, "+")) {
 		throw new Error("The ant wold must contain at least one red hill");
 	}
-	if (!_gridContains("-")) {
+	if (!_gridContains(grid, "-")) {
 		throw new Error("The ant wold must contain at least one black hill");
 	}
-	if (!_gridContains("f")) {
+	if (!_gridContains(grid, "f")) {
 		throw new Error("The ant wold must contain at least one source of food");
 	}
 
 	if (contestRules) {
 		// now check for any remaining contest rules
+		// we know it's 150x150 and that rocks surround the grid
+
+		// check that there are one of each type of ant hill
+		var redHills = _getElements(grid, "+");
+		if (redHills.length !== 1) {
+			throw new Error("Incorrect number of red hills detected");
+		}
+		var blackHills = _getElements(grid, "-");
+		if (blackHills.length !== 1) {
+			throw new Error("Incorrect number of black hills detected");
+		}
 		
+		// check that the hills are the right size and shape
+		if (!_isLegalHill(redHills[0])) {
+			throw new Error("Red hill is of illegal size and shape");
+		}
+		if (!_isLegalHill(blackHills[0])) {
+			throw new Error("Black hill is of illegal size and shape");
+		}
+
+		// check that there are 14 rocks (not inlcuding outer edge)
+		var rocks = _getElements(grid, "#");
+		if (rocks.length !== 15) {
+			throw new Error("There must be 14 incongruous rocky " +
+			                "areas unattached to the edge");
+		}
+
+		// check that there are 11*25 food deposits and that they each have
+		// quantity 5
+		var numFood = 0;
+		for (var row = 0; row < height; row++) {
+			for (var col = 0; col < width; col++) {
+				if (grid.cells[row][col].type === "f") {
+					numFood++;
+					if (grid.cells[row][col].quantity !== 5) {
+						throw new Error("The cell at (" + row + "," + col + 
+							            ") has an incorrect amount of food");
+					}
+				}
+			}
+		}
+		if (numFood !== 11 * 25) {
+			throw new Error("There are too few food deposits");
+		}
+		// now check that they are the right shape
+		var foods = _getElements(grid, "f");
+		for (var i = 0; i < foods.length; i++) {
+			if (!_containsLegalFoodBlobs(foods[i])) {
+				throw new Error("Mishapen food blobs discovered");
+			}
+		}
 	}
 	return grid;
 }
@@ -239,6 +289,26 @@ function _getElementCoords(grid, row, col) {
 					var coord = _getAdjacentCoord(row, col, dir);
 					visitCell(coord.row, coord.col);
 				}
+			} else {
+				// check for rocks adjacent to ant hills and so forth
+				var thisType = grid.cells[row][col].type;
+				var throwError = false;
+				switch (targetType) {
+				case "+":
+					if (thisType === "#" || thisType === "-") {
+						throwError = true;
+					}
+					break;
+				case "-":
+					if (thisType === "#" || thisType === "+") {
+						throwError = true;
+					}
+					break;
+				}
+				if (throwError) {
+					throw new Error("An ant hill cannot be immediately adjacent" + 
+					                " to a rock or to the other ant hill.");
+				}
 			}
 		}
 	}
@@ -360,19 +430,24 @@ function _containsLegalFoodBlobs(box) {
 	var lastGoodBox = box;
 	// while we haven't gotten down to an empty box
 	while (newBox.config.length > 0) {
-		var good = false;
+		var good = false; // good if an intersection was found
+		// for each possible food config
 		for (var i = 0; i < 3; i++) {
 			newBox = _attemptBoxIntersection(newBox,
 			                              foodOverlays[newBox.topRow % 2][i]);
-			good = !!newBox;
+			// we get a reduced box (sans intersecting cells) if
+			// successful. Otherwise undefined.
+			good = !!newBox; // cast to bool
 			if (good) { 
-				lastGoodBox = newBox;
+				lastGoodBox = newBox; // this box is good so remember it
 				break; 
 			} else {
-				newBox = lastGoodBox;
+				newBox = lastGoodBox; // the box was bad so revert
 			}
 		}
-		if (!good) {
+		if (!good) { 
+			// we got through all three possible food configs and none
+			// created valid intersection
 			return false;
 		}
 	}
@@ -483,3 +558,59 @@ function _cropBox(box) {
 	return box;
 }
 exports.test_only._cropBox = _cropBox;
+
+
+
+// hills must look like this:
+//        x x x x x x x           xxxxxxx         xxxxxxx               
+//       x x x x x x x x         xxxxxxxx         xxxxxxxx                
+//      x x x x x x x x x        xxxxxxxxx       xxxxxxxxx                 
+//     x x x x x x x x x x      xxxxxxxxxx       xxxxxxxxxx                   
+//    x x x x x x x x x x x     xxxxxxxxxxx     xxxxxxxxxxx                    
+//   x x x x x x x x x x x x   xxxxxxxxxxxx     xxxxxxxxxxxx                      
+//  x x x x x x x x x x x x x  xxxxxxxxxxxxx   xxxxxxxxxxxxx                        
+//   x x x x x x x x x x x x                              
+//    x x x x x x x x x x x                               
+//     x x x x x x x x x x                                
+//      x x x x x x x x x                                 
+//       x x x x x x x x                                  
+//        x x x x x x x                                   
+// I can do this one algorithmically
+
+function _isLegalHill(box) {
+	if (box.config.length !== 13 ||
+		box.config[0].length !== 13) {
+		return false;
+	}
+	function isLegalRow(n) {
+		var numCellsOnRow = 13 - Math.abs(n - 6);
+		var firstIndex = Math.floor(Math.abs(n - 6) / 2);
+		if (box.topRow % 2 === 1 && n % 2 === 1) {
+			firstIndex++;
+		}
+		for (var i = 0; i < 13; i++) {
+			if (i >= firstIndex && i < firstIndex + numCellsOnRow) {
+				// these cells should be hills
+				if (!box.config[n][i]) {
+					return false;
+				}
+			} else {
+				// these cells should be empty
+				if (box.config[n][i]) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	// iterate over rows
+	for (var row = 0; row < 13; row++) {
+		if (!isLegalRow(row)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+exports.test_only._isLegalHill = _isLegalHill;

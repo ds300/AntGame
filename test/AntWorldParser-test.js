@@ -12,6 +12,7 @@ var _cloneBox = imports.test_only._cloneBox;
 var _cropBox = imports.test_only._cropBox;
 var _attemptBoxIntersection = imports.test_only._attemptBoxIntersection;
 var _containsLegalFoodBlobs = imports.test_only._containsLegalFoodBlobs;
+var _isLegalHill = imports.test_only._isLegalHill;
 
 var validEvenLine = "# 1 5 . # 9 - +  ";
 var validEvenLine_expected = [
@@ -342,3 +343,113 @@ exports["Test that _containsLegalFoodBlobs works for illegal blobs"] = function 
 	}
 	test.done();
 };
+
+var goodHill = [[], []];
+// box starting on even row
+goodHill[0].push(". . . - - - - - - - . . . ");
+goodHill[0].push(" . . - - - - - - - - . . .");
+goodHill[0].push(". . - - - - - - - - - . . ");
+goodHill[0].push(" . - - - - - - - - - - . .");
+goodHill[0].push(". - - - - - - - - - - - . ");
+goodHill[0].push(" - - - - - - - - - - - - .");
+goodHill[0].push("- - - - - - - - - - - - - ");
+goodHill[0].push(" - - - - - - - - - - - - .");
+goodHill[0].push(". - - - - - - - - - - - . ");
+goodHill[0].push(" . - - - - - - - - - - . .");
+goodHill[0].push(". . - - - - - - - - - . . ");
+goodHill[0].push(" . . - - - - - - - - . . .");
+goodHill[0].push(". . . - - - - - - - . . . ");
+goodHill[0] = {config: booleanify(goodHill[0], "-"), topRow: 2};
+
+// bo- starting on odd row
+goodHill[1].push(". . . . . . . . . . . . . ")
+goodHill[1].push(" . . . - - - - - - - . . .");
+goodHill[1].push(". . . - - - - - - - - . . ");
+goodHill[1].push(" . . - - - - - - - - - . .");
+goodHill[1].push(". . - - - - - - - - - - . ");
+goodHill[1].push(" . - - - - - - - - - - - .");
+goodHill[1].push(". - - - - - - - - - - - - ");
+goodHill[1].push(" - - - - - - - - - - - - -");
+goodHill[1].push(". - - - - - - - - - - - - ");
+goodHill[1].push(" . - - - - - - - - - - - .");
+goodHill[1].push(". . - - - - - - - - - - . ");
+goodHill[1].push(" . . - - - - - - - - - . .");
+goodHill[1].push(". . . - - - - - - - - . . ");
+goodHill[1].push(" . . . - - - - - - - . . .");
+goodHill[1] = _cropBox({config: booleanify(goodHill[1], "-"), topRow: 2});
+
+var badHill = [[], []];
+// box starting on even row
+badHill[0].push(". . . + + + + + + + . . . ");
+badHill[0].push(" . . + + + + + + + + . . .");
+badHill[0].push(". . + + + + + + + + + . . ");
+badHill[0].push(" . + + + + + + + + + + . .");
+badHill[0].push(". + + + + + + + + + + + . ");
+badHill[0].push(" + + + + + + + + + + + + .");
+badHill[0].push("+ + + + + + + . + + + + + ");
+badHill[0].push(" + + + + + + + + + + + + .");
+badHill[0].push(". + + + + + + + + + + + . ");
+badHill[0].push(" . + + + + + + + + + + . .");
+badHill[0].push(". . + + + + + + + + + . . ");
+badHill[0].push(" . . + + + + + + + + . . .");
+badHill[0].push(". . . + + + + + + + . . . ");
+badHill[0] = {config: booleanify(badHill[0], "+"), topRow: 2};
+
+// bo+ starting on odd row
+badHill[1].push(". . . . . . . . . . . . . ")
+badHill[1].push(" . . . + + + + + + + . . .");
+badHill[1].push(". . . + + + + + + + + . . ");
+badHill[1].push(" . . + + + + + + + + + . .");
+badHill[1].push(". . + + + + + + + + + + . ");
+badHill[1].push(" . + + + + + + + + + + + .");
+badHill[1].push(". + + + + + + + + + + + + ");
+badHill[1].push(" . + + + + + + + + + + + +");
+badHill[1].push(". + + + + + + + + + + + + ");
+badHill[1].push(" . + + + + + + + + + + + .");
+badHill[1].push(". . + + + + + + + + + + . ");
+badHill[1].push(" . . + + + + + + + + + . .");
+badHill[1].push(". . . + + + + + + + + . . ");
+badHill[1].push(" . . . + + + + + + + . . .");
+badHill[1] = _cropBox({config: booleanify(badHill[1], "+"), topRow: 2});
+
+exports["Test that _isLegalHill works"] = function (test) {
+	test.expect(4);
+	test.ok(_isLegalHill(goodHill[0]), "this hill is legal on even row");
+	test.ok(_isLegalHill(goodHill[1]), "this hill is legal on odd row");
+	test.ok(!_isLegalHill(badHill[0]), "this hill is illegal on even row");
+	test.ok(!_isLegalHill(badHill[1]), "this hill is illegal on odd row");
+	test.done();
+};
+
+var fs = require("fs");
+
+try {
+	var goodMap = fs.readFileSync(__dirname+"/maps/goodMap.dat","ascii");
+	var badMaps = [];
+	badMaps.push(fs.readFileSync(__dirname+"/maps/badMap-foodNum.dat","ascii"));
+	badMaps.push(fs.readFileSync(__dirname+"/maps/badMap-foodNum2.dat","ascii"));
+	badMaps.push(fs.readFileSync(__dirname+"/maps/badMap-foodShape.dat","ascii"));
+	badMaps.push(fs.readFileSync(__dirname+"/maps/badMap-hillShape.dat","ascii"));
+	badMaps.push(fs.readFileSync(__dirname+"/maps/badMap-rockNum.dat","ascii"));
+	badMaps.push(fs.readFileSync(__dirname+"/maps/badMap-rockTouchingHill.dat","ascii"));
+	badMaps.push(fs.readFileSync(__dirname+"/maps/badMap-hillTouchingHill.dat","ascii"));
+
+} catch (err) {
+	console.log(err);
+}
+
+
+exports["Test that a contest-legal world parses without error"] = function (test) {
+	test.doesNotThrow(function(){parseAntWorld(goodMap, true)});
+	test.done();
+};
+
+
+exports["Test that bad maps throw errors"] = function (test) {
+	test.expect(7);
+	for (var i=0;i<badMaps.length;i++) {
+		test.throws(function(){parseAntWorld(badMaps[i], true)});
+	}
+	test.done();
+};
+
