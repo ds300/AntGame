@@ -8,6 +8,10 @@ var _getAdjacentCoord = imports.test_only._getAdjacentCoord;
 var _getElementCoords = imports.test_only._getElementCoords;
 var _getElementBox = imports.test_only._getElementBox;
 var _getElements = imports.test_only._getElements;
+var _cloneBox = imports.test_only._cloneBox;
+var _cropBox = imports.test_only._cropBox;
+var _attemptBoxIntersection = imports.test_only._attemptBoxIntersection;
+var _containsLegalFoodBlobs = imports.test_only._containsLegalFoodBlobs;
 
 var validEvenLine = "# 1 5 . # 9 - +  ";
 var validEvenLine_expected = [
@@ -186,5 +190,155 @@ var expectedElements = [
 exports["Test that _getElements works"] = function (test) {
 	test.expect(1);
 	test.deepEqual(_getElements(mockGridBad,"."),expectedElements, "should be equal");
+	test.done();
+};
+
+
+
+
+/**** food stuffs *****/
+
+
+exports["Test that _cloneBox works"] = function (test) {
+	test.expect(2);
+	var clone = _cloneBox(expectedBox);
+	test.deepEqual(clone,expectedBox,"The clone should have the same structure");
+	test.notStrictEqual(clone,expectedBox,"The clone should not be the same object");
+	test.done();
+};
+
+var boxToCrop = _cloneBox(expectedBox);
+boxToCrop.config.unshift([false,false,false]); // add row at top
+boxToCrop.topRow--;
+boxToCrop.config.push([false,false,false]); // add row at bottom
+for (var i=0;i<boxToCrop.config.length;i++) {
+	boxToCrop.config[i].unshift(false); // add col at left
+	boxToCrop.config[i].push(false); // add col at right
+}
+
+var emptyBox = {
+	config: [
+		[false,false,false],
+		[false,false,false],
+		[false,false,false]
+	],
+	topRow: 0
+};
+
+exports["Test that _cropBox works"] = function (test) {
+	test.expect(2);
+	var cropped = _cropBox(boxToCrop);
+	test.deepEqual(expectedBox,cropped,"cropped box should have same structure");
+	test.deepEqual(_cropBox(emptyBox),{config:[],topRow:3}, "cropped box should be empty");
+	test.done();
+};
+
+var overlay = [
+	[true, false],
+	[false, true]
+];
+
+exports["Test that _attemptBoxIntersection works"] = function (test) {
+	test.expect(3);
+	var output = _attemptBoxIntersection(expectedBox,overlay);
+	test.ok(!!output,"The function should not return undefined");
+	test.deepEqual(output.config, overlay, "The function should return a cropped version of anything left over after intersection.");
+	test.strictEqual(output.topRow,expectedBox.topRow+1);
+	test.done();
+};
+
+function booleanify(arr, targetType) {
+	for (var i = 0; i < arr.length; i++) {
+		arr[i] = _parseGridLine(arr[i],i%2===1,arr[i].length/2);
+		for (var j = 0; j < arr[i].length; j++) {
+			arr[i][j] = arr[i][j].type === targetType;
+		}
+	}
+	return arr;
+}
+
+var legalFood = [[], [], []];
+legalFood[0].push("5 5 5 5 5 . . . ");
+legalFood[0].push(" 5 5 5 5 5 . . .");
+legalFood[0].push(". 5 5 5 5 5 . . ");
+legalFood[0].push(" . 5 5 5 5 5 . .");
+legalFood[0].push(". . 5 5 5 5 5 . ");
+legalFood[0] = {config: booleanify(legalFood[0], "f"), topRow: 2};
+
+legalFood[1].push("5 5 5 5 5 . . . . . . . . ");
+legalFood[1].push(" 5 5 5 5 5 4 4 4 4 4 . . .");
+legalFood[1].push(". 5 5 5 5 5 4 4 4 4 4 . . ");
+legalFood[1].push(" . 5 5 5 5 5 4 4 4 4 4 . .");
+legalFood[1].push(". . 5 5 5 5 5 4 4 4 4 4 . ");
+legalFood[1].push(" . . . . . . . 4 4 4 4 4 .");
+legalFood[1] = {config: booleanify(legalFood[1], "f"), topRow: 2};
+
+legalFood[2].push(". . . . . . . . . . . . . . ");
+legalFood[2].push(" . . . . . . . . . 5 5 5 5 5");
+legalFood[2].push(". . . . . 3 . . . 5 5 5 5 5 ");
+legalFood[2].push(" . . . . 3 3 . . 5 5 5 5 5 .");
+legalFood[2].push(". . . . 3 3 3 . 5 5 5 5 5 . ");
+legalFood[2].push(" . . . 3 3 3 3 5 5 5 5 5 . .");
+legalFood[2].push(". . . 3 3 3 3 3 . . . . . . ");
+legalFood[2].push(" . . . 3 3 3 3 . . . . . . .");
+legalFood[2].push(". . . . 3 3 3 . . . . . . . ");
+legalFood[2].push(" . . . . 3 3 . . . . . . . .");
+legalFood[2].push("5 5 5 5 5 3 . . . . . . . . ");
+legalFood[2].push(" 5 5 5 5 5 4 4 4 4 4 . . . .");
+legalFood[2].push(". 5 5 5 5 5 4 4 4 4 4 . . . ");
+legalFood[2].push(" . 5 5 5 5 5 4 4 4 4 4 . . .");
+legalFood[2].push(". . 5 5 5 5 5 4 4 4 4 4 . . ");
+legalFood[2].push(" . . . . . . . 4 4 4 4 4 . .");
+legalFood[2] = _cropBox({config: booleanify(legalFood[2], "f"), topRow: 2});
+
+var illegalFood = [[], [], []];
+illegalFood[0].push("5 5 5 5 5 . . . ");
+illegalFood[0].push(" 5 5 5 5 5 . . .");
+illegalFood[0].push(". 5 5 5 5 5 . . ");
+illegalFood[0].push(" . 5 5 5 5 5 . .");
+illegalFood[0].push(". . . 5 5 5 5 . ");
+illegalFood[0] = {config: booleanify(illegalFood[0], "f"), topRow: 2};
+
+illegalFood[1].push("5 5 5 5 5 . . . . . . . . ");
+illegalFood[1].push(" 5 5 5 5 5 4 4 4 4 4 . . .");
+illegalFood[1].push(". 5 5 5 5 5 4 4 4 4 . . . ");
+illegalFood[1].push(" . 5 5 5 5 5 4 4 4 4 4 . .");
+illegalFood[1].push(". . 5 5 5 5 5 4 4 4 4 4 . ");
+illegalFood[1].push(" . . . . . . . 4 4 4 4 4 .");
+illegalFood[1] = {config: booleanify(illegalFood[1], "f"), topRow: 2};
+
+illegalFood[2].push(". . . . . . . . . . . . . . ");
+illegalFood[2].push(" . . . . . . . . . 5 5 5 5 5");
+illegalFood[2].push(". . . . . 3 . . . 5 5 5 5 5 ");
+illegalFood[2].push(" . . . . 3 3 . . 5 5 5 5 5 .");
+illegalFood[2].push(". . . . 3 3 3 . 5 5 5 5 5 . ");
+illegalFood[2].push(" . . . 3 3 3 3 5 5 5 5 5 . .");
+illegalFood[2].push(". . . 3 3 3 3 3 . . . . . . ");
+illegalFood[2].push(" . . . 3 3 3 3 . . . . . . .");
+illegalFood[2].push(". . . . 3 3 3 . . . . . . . ");
+illegalFood[2].push(" . . . . 3 3 . . . . . . . .");
+illegalFood[2].push("5 5 5 5 5 3 . . . . . . . . ");
+illegalFood[2].push(" 5 5 5 5 5 4 4 4 4 4 . . . .");
+illegalFood[2].push(". 5 5 5 5 5 4 4 . 4 4 . . . ");
+illegalFood[2].push(" . 5 5 5 5 5 4 4 4 4 4 . . .");
+illegalFood[2].push(". . 5 5 5 5 5 4 4 4 4 4 . . ");
+illegalFood[2].push(" . . . . . . . 4 4 4 4 4 . .");
+illegalFood[2] = _cropBox({config: booleanify(illegalFood[2], "f"), topRow: 2});
+
+
+
+exports["Test that _containsLegalFoodBlobs works for legal blobs"] = function (test) {
+	test.expect(3);
+	for (var i=0;i<3;i++) {
+		test.ok(_containsLegalFoodBlobs(legalFood[i]), "These blobs are legal");
+	}
+	test.done();
+};
+
+exports["Test that _containsLegalFoodBlobs works for illegal blobs"] = function (test) {
+	test.expect(3);
+	for (var i=0;i<3;i++) {
+		test.ok(!_containsLegalFoodBlobs(illegalFood[i]), "These blobs are illegal");
+	}
 	test.done();
 };

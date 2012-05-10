@@ -282,33 +282,204 @@ function _getAdjacentCoord(row, col, direction) {
 }
 exports.test_only._getAdjacentCoord = _getAdjacentCoord;
 
-function _foodElementIsLegal(box) {
-	// food must be in 5x5 grid
-	// there are three possible configs, each with two possible manifestations
-	//   x x x x x    if top    xxxxx     if top   xxxxx  
-	//    x x x x x    row is   xxxxx     row is    xxxxx 
-	//     x x x x x    even:    xxxxx     odd      xxxxx 
-	//      x x x x x            xxxxx               xxxxx
-	//       x x x x x            xxxxx              xxxxx
-	//
-	//       x x x x x  if top    xxxxx   if top    xxxxx
-	//      x x x x x    row is  xxxxx    row is    xxxxx
-	//     x x x x x      even:  xxxxx     odd     xxxxx 
-	//    x x x x x             xxxxx              xxxxx 
-	//   x x x x x              xxxxx             xxxxx  
-	//
-	//          x                 x           x
-	//         x x               xx           xx  
-	//        x x x              xxx         xxx     
-	//       x x x x            xxxx         xxxx       
-	//      x x x x x           xxxxx       xxxxx          
-	//       x x x x            xxxx         xxxx       
-	//        x x x              xxx         xxx     
-	//         x x               xx           xx  
-	//          x                 x           x
-	//
-	// how best to represent this algorithmically? Quickest just to 
-	// convert the box config to a string and check against what i've
-	// written above. Code to do it properly might be hella ugly and long.
-	
+// food must be in 5x5 grid
+// there are three possible configs, each with two possible manifestations
+//   x x x x x    if top    xxxxx     if top   xxxxx  
+//    x x x x x    row is   xxxxx     row is    xxxxx 
+//     x x x x x    even:    xxxxx     odd      xxxxx 
+//      x x x x x            xxxxx               xxxxx
+//       x x x x x            xxxxx              xxxxx
+//
+//       x x x x x  if top    xxxxx   if top    xxxxx
+//      x x x x x    row is  xxxxx    row is    xxxxx
+//     x x x x x      even:  xxxxx     odd     xxxxx 
+//    x x x x x             xxxxx              xxxxx 
+//   x x x x x              xxxxx             xxxxx  
+//
+//          x                 x           x  
+//         x x               xx           xx  
+//        x x x              xxx         xxx     
+//       x x x x            xxxx         xxxx       
+//      x x x x x           xxxxx       xxxxx          
+//       x x x x            xxxx         xxxx       
+//        x x x              xxx         xxx     
+//         x x               xx           xx  
+//          x                 x           x   
+//
+// how best to represent this algorithmically? Can't think of a good
+// way, especially when another problem is that food elements can 
+// touch each other. d'oh!
+// so i've opted for an ugly, brute force way of doing it
+var foodOverlays = [[[], [], []], [[], [], []]];
+foodOverlays[0][0].push([true, true, true, true, true, false, false]);
+foodOverlays[0][0].push([true, true, true, true, true, false, false]);
+foodOverlays[0][0].push([false, true, true, true, true, true, false]);
+foodOverlays[0][0].push([false, true, true, true, true, true, false]);
+foodOverlays[0][0].push([false, false, true, true, true, true, true]);
+
+foodOverlays[0][1].push([false, false, true, true, true, true, true]);
+foodOverlays[0][1].push([false, true, true, true, true, true, false]);
+foodOverlays[0][1].push([false, true, true, true, true, true, false]);
+foodOverlays[0][1].push([true, true, true, true, true, false, false]);
+foodOverlays[0][1].push([true, true, true, true, true, false, false]);
+
+foodOverlays[0][2].push([false, false, true, false, false]);
+foodOverlays[0][2].push([false, true, true, false, false]);
+foodOverlays[0][2].push([false, true, true, true, false]);
+foodOverlays[0][2].push([true, true, true, true, false]);
+foodOverlays[0][2].push([true, true, true, true, true]);
+foodOverlays[0][2].push([true, true, true, true, false]);
+foodOverlays[0][2].push([false, true, true, true, false]);
+foodOverlays[0][2].push([false, true, true, false, false]);
+foodOverlays[0][2].push([false, false, true, false, false]);
+
+foodOverlays[1][0].push([true, true, true, true, true, false, false]);
+foodOverlays[1][0].push([false, true, true, true, true, true, false]);
+foodOverlays[1][0].push([false, true, true, true, true, true, false]);
+foodOverlays[1][0].push([false, false, true, true, true, true, true]);
+foodOverlays[1][0].push([false, false, true, true, true, true, true]);
+
+foodOverlays[1][1].push([false, false, true, true, true, true, true]);
+foodOverlays[1][1].push([false, false, true, true, true, true, true]);
+foodOverlays[1][1].push([false, true, true, true, true, true, false]);
+foodOverlays[1][1].push([false, true, true, true, true, true, false]);
+foodOverlays[1][1].push([true, true, true, true, true, false, false]);
+
+foodOverlays[1][2].push([false, false, true, false, false]);
+foodOverlays[1][2].push([false, false, true, true, false]);
+foodOverlays[1][2].push([false, true, true, true, false]);
+foodOverlays[1][2].push([false, true, true, true, true]);
+foodOverlays[1][2].push([true, true, true, true, true]);
+foodOverlays[1][2].push([false, true, true, true, true]);
+foodOverlays[1][2].push([false, true, true, true, false]);
+foodOverlays[1][2].push([false, false, true, true, false]);
+foodOverlays[1][2].push([false, false, true, false, false]);
+
+function _containsLegalFoodBlobs(box) {
+	var newBox = box;
+	var lastGoodBox = box;
+	// while we haven't gotten down to an empty box
+	while (newBox.config.length > 0) {
+		var good = false;
+		for (var i = 0; i < 3; i++) {
+			newBox = _attemptBoxIntersection(newBox,
+			                              foodOverlays[newBox.topRow % 2][i]);
+			good = !!newBox;
+			if (good) { 
+				lastGoodBox = newBox;
+				break; 
+			} else {
+				newBox = lastGoodBox;
+			}
+		}
+		if (!good) {
+			return false;
+		}
+	}
+	return true;
 }
+exports.test_only._containsLegalFoodBlobs = _containsLegalFoodBlobs;
+
+function _attemptBoxIntersection(box, overlay) {
+	box = _cloneBox(box);
+	var config = box.config;
+	// if underneath is shorten than overlay, no intersection is possible
+	if (config.length < overlay.length) {
+		return undefined;
+	}
+	// find indices of first overlap on top row
+	var ci, oi;
+	for (var i = 0; i < config[0].length; i++) {
+		if (config[0][i]) {
+			ci = i;
+			break;
+		}
+	}
+	for (var i = 0; i < overlay[0].length; i++) {
+		if (overlay[0][i]) {
+			oi = i;
+			break;
+		}
+	}
+	var colOffset = ci - oi;
+	// if the overlay doesn't fit within the bounds of the box config, 
+	// an intersection is not possible;
+	if (colOffset < 0 || colOffset + overlay[0].length > config[0].length) {
+		return undefined;
+	}
+	// now iterate over overlay and check that &&s come out true;
+	for (var row = 0; row < overlay.length; row++) {
+		for (var col = 0; col < overlay[0].length; col++) {
+			if (overlay[row][col]) {
+				if (!config[row][col + colOffset]) {
+					return undefined;
+				} else {
+					// blot it out
+					config[row][col + colOffset] = false;
+				}
+			}
+		}
+	}
+	// if we got here without returning undefined, an intersetion was
+	// successfully made! hooray!
+	return _cropBox(box);
+}
+exports.test_only._attemptBoxIntersection = _attemptBoxIntersection;
+
+function _cloneBox(box) {
+	var newConfig = [];
+	for (var i = 0; i < box.config.length; i++) {
+		newConfig.push([]);
+		for (var j = 0; j < box.config[i].length; j++) {
+			newConfig[i][j] = box.config[i][j];
+		}
+	}
+	return {config: newConfig, topRow: box.topRow};
+}
+exports.test_only._cloneBox = _cloneBox;
+
+function _cropBox(box) {
+	box = _cloneBox(box);
+	function boxHasDimensions() {
+		return box.config.length > 0 && box.config[0].length > 0;
+	}
+	function colIsEmpty(n) {
+		for (var row = 0; row < box.config.length; row++) {
+			if (box.config[row][n]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	function rowIsEmpty(n) {
+		for (var col = 0; col < box.config[n].length; col++) {
+			if (box.config[n][col]) {
+				return false;
+			}
+		}
+		return true;
+	}
+	function deleteCol(n) {
+		for (var row = 0; row < box.config.length; row++) {
+			box.config[row].splice(n, 1);
+		}
+	}
+	function deleteRow(n) {
+		box.config.splice(n, 1);
+	}
+	while (boxHasDimensions() && rowIsEmpty(0)) {
+		deleteRow(0);
+		box.topRow++;
+	}
+	while (boxHasDimensions() && rowIsEmpty(box.config.length - 1)) {
+		deleteRow(box.config.length - 1);
+	}
+	while (boxHasDimensions() && colIsEmpty(0)) {
+		deleteCol(0);
+	}
+	while (boxHasDimensions() && colIsEmpty(box.config[0].length - 1)) {
+		deleteCol(box.config[0].length - 1);
+	}
+	return box;
+}
+exports.test_only._cropBox = _cropBox;
