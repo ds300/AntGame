@@ -12,11 +12,11 @@ function Ant(id, color, brain, world) {
 	this.food = 0;
 
 	this.kill = function () {
-		var cell = world.getCell(this.row,this.col);
+		var cell = world.getCell(this.row, this.col);
 		cell.depositFood(3);
 		cell.removeAnt();
 		// remove from ants
-		this.step = function() {};
+		this.step = function () {};
 	};
 
 
@@ -27,7 +27,7 @@ function Ant(id, color, brain, world) {
 	this.checkForDeath = function () {
 		var count = 0;
 		for (var d = 0; d < 6; d++) {
-			if (!world.getAdjacentCell(this.row, this.col, d).containsAntOfColor(this.otherColor)){
+			if (!world.getAdjacentCell(this.row, this.col, d).containsAntOfColor(this.otherColor)) {
 				count++;
 				if (count > 1) {
 					return;
@@ -39,7 +39,7 @@ function Ant(id, color, brain, world) {
 
 	this.checkForAdjacentDeaths = function () {
 		var adjCells = world.getAllAdjacentCells(this.row, this.col);
-		var enemies = new Array();
+		var enemies = [];
 		for (var i = 0; i < adjCells.length; i++) {
 			if (adjCells[i].containsAntOfColor(this.otherColor)) {
 				enemies.push(adjCells[i].getAnt());
@@ -62,8 +62,8 @@ function Ant(id, color, brain, world) {
 		return world.getCell(this.row, this.col);
 	};
 
-	this.step = function(){
-		if (this.resting > 0){
+	this.step = function () {
+		if (this.resting > 0) {
 			this.resting--;
 		} else {
 			brain[this.state](this);
@@ -71,6 +71,8 @@ function Ant(id, color, brain, world) {
 	};
 
 	this.toString = function () {
-		return this.color + " ant of id "+this.id+", dir "+this.dir+", food "+this.food+", state "+this.state+", resting "+this.resting;
-	}
+		return this.color + " ant of id " + this.id + ", dir " + 
+		       this.dir + ", food " + this.food + ", state " + 
+		       this.state + ", resting " + this.resting;
+	};
 }

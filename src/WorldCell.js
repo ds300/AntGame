@@ -22,7 +22,7 @@ function WorldCell(cell, row, col) {
 			// set ant can't be called
 			// get ant can't be called
 			// get food can't be called
-		}
+		};
 	}
 
 	/***** initialise cell vars *****/
@@ -50,15 +50,15 @@ function WorldCell(cell, row, col) {
 		// then red markers
 		if (markers.red.length > 0) {
 			s += "red marks: ";
-			for (var i=0; i < markers.red.length; i++) {
+			for (var i = 0; i < markers.red.length; i++) {
 				s += markers.red[i];
 			}
 			s += "; ";
 		}
 		// black markers
 		if (markers.black.length > 0) {
-			s+="black marks: ";
-			for(var i = 0; i < markers.black.length; i++) {
+			s += "black marks: ";
+			for (var i = 0; i < markers.black.length; i++) {
 				s += markers.black[i];
 			}
 			s += "; ";
@@ -68,36 +68,36 @@ function WorldCell(cell, row, col) {
 		return s.trim();
 	};
 
-	var addMarker = function(color, num){
-		if (markers[color].indexOf(num) === -1){
+	var addMarker = function (color, num) {
+		if (markers[color].indexOf(num) === -1) {
 			markers[color].push(num);
 			markers[color].sort();
 		}
 	};
-	var hasMarker = function(color, num){
-		if (typeof num === 'undefined'){
+	var hasMarker = function (color, num) {
+		if (typeof num === 'undefined') {
 			return markers[color].length > 0;
 		} else {
 			return markers[color].indexOf(num) > -1;
 		}
 	};
-	var removeMarker = function(color, num){
+	var removeMarker = function (color, num) {
 		var i = markers[color].indexOf(num);
-		if (i > -1){
-			markers[color].splice(i,1);
+		if (i > -1) {
+			markers[color].splice(i, 1);
 		}
 	};
-	var containsAntOfColor = function(color){
+	var containsAntOfColor = function (color) {
 		return !!ant && ant.color === color;
 	};
-	var containsAntOfColorWithFood = function(color){
+	var containsAntOfColorWithFood = function (color) {
 		return containsAntOfColor(color) && ant.hasFood();
 	};
 	var depositFood = function (num) {
-		if (typeof num === 'undefined'){
+		if (typeof num === 'undefined') {
 			food++;
 		} else {
-			food+=num;
+			food += num;
 		}
 	};
 	var hasFood = function () { return food > 0; };
@@ -121,23 +121,23 @@ function WorldCell(cell, row, col) {
 	var getFood = function () { return food; };
 
 	return {
-		row:row,
-		col:col,
-		type:type,
+		row: row,
+		col: col,
+		type: type,
 		getAnt: getAnt,
-		toString:toString,
-		addMarker : addMarker,
-		hasMarker : hasMarker,
-		removeMarker : removeMarker,
-		containsAntOfColor : containsAntOfColor,
-		containsAntOfColorWithFood : containsAntOfColorWithFood,
-		depositFood : depositFood,
-		hasFood : hasFood,
-		getFood : getFood,
-		removeFood : removeFood,
-		isAvailable : isAvailable,
-		moveAntHere : moveAntHere,
-		removeAnt : removeAnt,
-		setAnt : setAnt
-	}
+		toString: toString,
+		addMarker: addMarker,
+		hasMarker: hasMarker,
+		removeMarker: removeMarker,
+		containsAntOfColor: containsAntOfColor,
+		containsAntOfColorWithFood: containsAntOfColorWithFood,
+		depositFood: depositFood,
+		hasFood: hasFood,
+		getFood: getFood,
+		removeFood: removeFood,
+		isAvailable: isAvailable,
+		moveAntHere: moveAntHere,
+		removeAnt: removeAnt,
+		setAnt: setAnt
+	};
 }
