@@ -59,14 +59,50 @@ def printLintErrors():
 		for error in lint_errors:
 			print "   ",error
 
+def compileModel(minimise):
+	"""Compiles all of the model source files into one big file"""
+	print "Compiling model...",
+	try:
+		source_files = [open("./src/model/"+f, "r") for f in model_src_files]
+	except IOError:
+		print "unable to open source file"
+	for d in ["./build","./build/js"]:
+		try:
+			os.mkdir(d)
+		except OSError:
+			pass
+	model = open("./build/js/model.js","w")
+	model.write("var model = (function () {\n\n")
+	[model.write(f.read()) for f in source_files]
+	model.write("\n\ndelete exports.test_only;\n\nreturn exports;\n})();")
+	model.close()
+	print "done"
+	if minimise:
+		print "Minimising model...",
+		model = open("./build/js/model.js","r")
+		minmodel = open("./build/js/model.min.js","w")
+		proc = subprocess.Popen(["jsmin","-l","3","./build/js/model.js"],
+			                    stdout=minmodel, 
+			                    shell=True)
+		return_code = proc.wait()
+		model.close()
+		minmodel.close()
+		os.remove("./build/js/model.js")
+		os.rename("./build/js/model.min.js","./build/js/model.js")
+		print "done"
+
+
+
+
 if __name__ == "__main__":
+	# lint and test
 	if "-s" not in sys.argv:
 		[lintFiles("./src/model/"+f) for f in model_src_files]
 		[runTests("./test/model/"+f) for f in model_test_files]
-	printLintErrors()
-
-	if encountered_unit_test_errors:
-		print "Some file(s) failed test. See build log for details."
-	else:
-		print "All tests passed! Congrats!"
+		printLintErrors()
+		if encountered_unit_test_errors:
+			print "Some file(s) failed test. See build log for details."
+		else:
+			print "All tests passed! Congrats!"
+	compileModel(("-m" in sys.argv))
 	buildLog.close()

@@ -34,8 +34,23 @@ function AntGame(redBrain, blackBrain, world) {
 		}
 	};
 
+	var getScore = function () {
+		score = {red:0,black:0};
+		for (var row = 0; row < world.height; row++) {
+			for (var col = 0; col < world.width; col++) {
+				var cell = world.getCell(row, col);
+				if (cell.type === "black hill") {
+					score.black += cell.getFood();
+				} else if (cell.type === "red hill") {
+					score.red += cell.getFood();
+				}
+			}
+		}
+	};
+
 	return {
-		run: run
+		run: run,
+		getScore: getScore
 	};
 }
 exports.AntGame = AntGame;
