@@ -76,3 +76,4 @@ function Ant(id, color, brain, world) {
 		       this.state + ", resting " + this.resting;
 	};
 }
+exports.Ant = Ant;

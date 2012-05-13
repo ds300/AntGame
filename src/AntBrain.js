@@ -98,7 +98,7 @@ function AntBrain(states, color, rng) {
 			}
 			return function (ant) {
 				turnAnt(ant);
-				ant.st = state.st;
+				ant.state = state.st;
 			};
 		},
 		"Move": function (state) {
@@ -116,13 +116,11 @@ function AntBrain(states, color, rng) {
 		},
 		"Flip": function (state) {
 			return function (ant) {
-				rng.next(state.p, function (result) {
-					if (result === 0) {
-						ant.state = state.st1;
-					} else {
-						ant.state = state.st2;
-					}
-				});
+				if (rng.next(state.p) === 0) {
+					ant.state = state.st1;
+				} else {
+					ant.state = state.st2;
+				}
 			};
 		}
 	};
@@ -134,8 +132,4 @@ function AntBrain(states, color, rng) {
 	return brain;
 }
 
-
-
-
-
-
+exports.AntBrain = AntBrain;

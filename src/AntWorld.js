@@ -6,7 +6,7 @@ function AntWorld(parsedGrid) {
 	for (var row = 0; row < height; row++) {
 		grid.push([]);
 		for (var col = 0; col < width; col++) {
-			grid[row].push(new WorldCell(parsedGrid.cells[row][col]));
+			grid[row].push(new WorldCell(parsedGrid.cells[row][col],row,col));
 		}
 	}
 
@@ -54,3 +54,4 @@ function AntWorld(parsedGrid) {
 		toString: toString
 	};
 }
+exports.AntWorld = AntWorld;

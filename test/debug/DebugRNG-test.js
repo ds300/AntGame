@@ -1,7 +1,5 @@
 var imports = require("../../src/debug/DebugRNG.js");
 
-
-
 var correctNumbers = [7193, 2932, 10386, 5575, 100, 15976, 430, 9740, 9449, 
                       1636, 11030, 9848, 13965, 16051, 14483, 6708, 5184, 15931,
                       7014, 461, 11371, 5856, 2136, 9139, 1684, 15900, 10236, 
@@ -17,26 +15,12 @@ var correctNumbers = [7193, 2932, 10386, 5575, 100, 15976, 430, 9740, 9449,
 
 exports["Check that first 100 numbers are the same as in the project spec"] = function (test) {
 	test.expect(100);
-	var rng = new imports.RandomNumberGenerator();
-	var results = 100;
-	// timeout incase of badness
-	var timeout = setTimeout(function(){
-		rng.close();
-		test.done();
-	},3000);
+	var rng = imports.RandomNumberGenerator();
 
 	for (var i=0;i<100;i++) {
-		rng.next(16384,function (expectedResult) {
-			return function (result) {
-				test.strictEqual(expectedResult,result,expectedResult+" expected, "+result+" seen");
-				if (--results === 0) {
-					rng.close();
-					clearTimeout(timeout);
-					test.done();
-				}
-			};
-		}(correctNumbers[i]));
+		test.strictEqual(correctNumbers[i],rng.next(500000),"These should be equal");		
 	}
+	test.done();
 };
 
 
@@ -50,24 +34,10 @@ var correctNumbers2 = [ 0, 0, 0, 3, 0, 4, 3, 4, 8, 6, 8, 8, 3, 7, 8, 4, 16, 1,
 
 exports["Check that first 100 integers give the correct results"] = function (test) {
 	test.expect(100);
-	var rng = new imports.RandomNumberGenerator();
-	var results = 100;
-	// timeout incase of badness
-	var timeout = setTimeout(function(){
-		rng.close();
-		test.done();
-	},3000);
+	var rng = imports.RandomNumberGenerator();
 
 	for (var i=0;i<100;i++) {
-		rng.next(i+1,function (expectedResult) {
-			return function (result) {
-				test.strictEqual(expectedResult,result,expectedResult+" expected, "+result+" seen");
-				if (--results === 0) {
-					rng.close();
-					clearTimeout(timeout);
-					test.done();
-				}
-			};
-		}(correctNumbers2[i]));
+		test.strictEqual(correctNumbers2[i],rng.next(i+1),"These should be equal");	
 	}
+	test.done();
 };

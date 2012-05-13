@@ -141,3 +141,4 @@ function WorldCell(cell, row, col) {
 		setAnt: setAnt
 	};
 }
+exports.WorldCell = WorldCell;

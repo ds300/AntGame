@@ -35,10 +35,10 @@ def printLintErrors():
 			print "   ",error
 
 if __name__ == "__main__":
-	lintFiles("./src/")
-	lintFiles("./src/debug/")
+	#lintFiles("./src/")
+	#lintFiles("./src/debug/")
 	printLintErrors()
-	runTests("./test/")
+	#runTests("./test/")
 	runTests("./test/debug/")
 	if encountered_unit_test_errors:
 		print "Some file(s) failed test. See build log for details."
