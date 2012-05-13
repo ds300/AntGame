@@ -46,7 +46,7 @@ function AntBrain(states, color, rng) {
 	var instructions = {
 		"Sense": function (state) {
 			var getSenseCell = senseCellFinders[state.dir];
-			var senseSuccess = senseConditionEvaluators[state.cond];
+			var senseSuccess = senseConditionEvaluators[state.condition];
 			return function (ant) {
 				if (senseSuccess(getSenseCell(ant), state.marker)) {
 					ant.state = state.st1;
@@ -84,7 +84,6 @@ function AntBrain(states, color, rng) {
 				if (ant.food === 1) {
 					ant.getCurrentCell().depositFood();
 					ant.food = 0;
-					ant.dropCallback();
 				}
 				ant.state = state.st;
 			};

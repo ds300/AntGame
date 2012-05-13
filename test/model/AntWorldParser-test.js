@@ -1,4 +1,4 @@
-var imports = require("../src/AntWorldParser.js");
+var imports = require("../../src/model/AntWorldParser.js");
 var parseAntWorld = imports.parseAntWorld;
 var _parseGridLine = imports.test_only._parseGridLine;
 var _isSurroundedByRock = imports.test_only._isSurroundedByRock;

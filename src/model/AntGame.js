@@ -1,3 +1,11 @@
+var Ant = Ant || function () {}; // to avoid lint errors
+/**
+ * AntGame objects represent a match between two ant brains on a specific
+ * world.
+ * @param redBrain the brain of the ants on the red team
+ * @param blackBrain the brain of the ants on the black team
+ * @param world the world in which the ants compete
+ */
 function AntGame(redBrain, blackBrain, world) {
 	var ants = [];
 	var id = 0;

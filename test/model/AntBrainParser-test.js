@@ -1,4 +1,4 @@
-var imports = require("../src/AntBrainParser.js");
+var imports = require("../../src/model/AntBrainParser.js");
 var parseAntBrain = imports.parseAntBrain;
 var _parseInt = imports.test_only._parseInt;
 var _parseLine = imports.test_only._parseLine;

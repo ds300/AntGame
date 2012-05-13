@@ -1,11 +1,10 @@
-var imports = require("../src/RandomWorldGenerator.js");
+var imports = require("../../src/model/RandomWorldGenerator.js");
 
 
 var generateRandomWorld = imports.generateRandomWorld;
 var _superimpose = imports.test_only._superimpose;
 
-var imports = require("../src/AntWorldParser.js");
-var parseAntWorld = imports.parseAntWorld;
+var parseAntWorld = require("../../src/model/AntWorldParser.js").parseAntWorld;
 
 var testGrid = [
 	[".",".",".","."],
@@ -34,7 +33,7 @@ exports["Test that _superimpose works"] = function (test) {
 	test.done();
 };
 
-exports["Test thtat generateRandomWorld returns valid contest worlds"] = function (test) {
+exports["Test that generateRandomWorld returns valid contest worlds"] = function (test) {
 	test.expect(5);
 	for (var i=0;i<5;i++){
 		test.doesNotThrow(function(){parseAntWorld(generateRandomWorld(),true);});

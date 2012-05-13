@@ -1,35 +1,37 @@
 var fs = require("fs");
+var model_dir = __dirname+"/../../src/model/";
 
 // concat model files
 var model = [];
-model.push(fs.readFileSync(__dirname+"/../../src/AntGame.js","ascii"));
-model.push(fs.readFileSync(__dirname+"/../../src/Ant.js","ascii"));
-model.push(fs.readFileSync(__dirname+"/../../src/AntBrain.js","ascii"));
-model.push(fs.readFileSync(__dirname+"/../../src/WorldCell.js","ascii"));
-model.push(fs.readFileSync(__dirname+"/../../src/AntWorld.js","ascii"));
+model.push(fs.readFileSync(model_dir+"AntGame.js","ascii"));
+model.push(fs.readFileSync(model_dir+"Ant.js","ascii"));
+model.push(fs.readFileSync(model_dir+"AntBrain.js","ascii"));
+model.push(fs.readFileSync(model_dir+"WorldCell.js","ascii"));
+model.push(fs.readFileSync(model_dir+"AntWorld.js","ascii"));
+model.push(fs.readFileSync(model_dir+"AntWorldParser.js","ascii"));
+model.push(fs.readFileSync(model_dir+"AntBrainParser.js","ascii"));
 model = model.join("\n");
 
 fs.writeFileSync(__dirname+"/model.qx", model, "ascii");
 
+// import model
 model = require("./model.qx");
 
-var parseAntBrain = require("../../src/AntBrainParser.js").parseAntBrain;
-var parseAntWorld = require("../../src/AntWorldParser.js").parseAntWorld;
-var RandomNumberGenerator = require("../../src/debug/DebugRNG.js").RandomNumberGenerator;
-var rng = new RandomNumberGenerator();
+// setup game vars
+var rng = require("../../src/model/debug/DebugRNG.js").RandomNumberGenerator();
 
-var sampleWorldFile = fs.readFileSync(__dirname+"/tiny.world", "ascii");
-var sampleBrainFile = fs.readFileSync(__dirname+"/sample.ant", "ascii");
+var sampleWorldFile = fs.readFileSync(__dirname+"/debug/tiny.world", "ascii");
+var sampleBrainFile = fs.readFileSync(__dirname+"/debug/sample.ant", "ascii");
 
-var world = new model.AntWorld(parseAntWorld(sampleWorldFile));
+var world = model.AntWorld(model.parseAntWorld(sampleWorldFile));
 
-var redBrain = new model.AntBrain(parseAntBrain(sampleBrainFile),"red",rng);
-var blackBrain = new model.AntBrain(parseAntBrain(sampleBrainFile),"black",rng);
+var redBrain = model.AntBrain(model.parseAntBrain(sampleBrainFile),"red",rng);
+var blackBrain = model.AntBrain(model.parseAntBrain(sampleBrainFile),"black",rng);
 
-var game = new model.AntGame(redBrain,blackBrain,world);
+var game = model.AntGame(redBrain,blackBrain,world);
 
-var dumpFile = fs.openSync(__dirname+"/dump.all","r");
-
+// open dump file to read states from
+var dumpFile = fs.openSync(__dirname+"/debug/dump.all","r");
 function worldStateReader() {
 	var stateIndex = 0;
 	var buffer = "";
@@ -44,11 +46,14 @@ function worldStateReader() {
 
 	var getNextState = function () {
 		if (stateArray.length === 0) {
+			// if we've got no states to return
+			// read some data in until we do
 			do {
 				readKilobyte();
 				stateArray = buffer.split(splitRegex);
 			} while (stateArray.length < 2);
-			//console.log(stateArray);
+			// put any excess data back into the buffer
+			// we'll need it later
 			buffer = stateArray.pop();
 		}
 		lastState = thisState;
@@ -68,10 +73,13 @@ wsr.getNextState(); // ignore first one
 exports["Test that output matches the dump file"] = function (test) {
 	test.expect(1);
 	var worldState, dumpState;
-	var count = 10;
+	var count = 10000;
 	for (var i = 0; i < count; i++) {
 		worldState = world.toString();
 		dumpState = wsr.getNextState();
+		// when testing for equality, remove whitespace. Slows it down, but
+		// figuring out how to fix my output so the whitespace is the same
+		// was proving to be strangely difficult
 		if (worldState.replace(/\s/g, "") !== dumpState.replace(/\s/g, "")) {
 			console.log("Discrepancey detected at round " + i);
 			console.log("last good state: ");

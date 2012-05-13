@@ -1,3 +1,5 @@
+var WorldCell = WorldCell || function () {}; // to avoid lint errors
+
 function AntWorld(parsedGrid) {
 	var width = parsedGrid.width,
 		height = parsedGrid.height;
@@ -6,7 +8,7 @@ function AntWorld(parsedGrid) {
 	for (var row = 0; row < height; row++) {
 		grid.push([]);
 		for (var col = 0; col < width; col++) {
-			grid[row].push(new WorldCell(parsedGrid.cells[row][col],row,col));
+			grid[row].push(new WorldCell(parsedGrid.cells[row][col], row, col));
 		}
 	}
 

@@ -1,4 +1,4 @@
-var imports = require("../../src/debug/DebugRNG.js");
+var imports = require("../../../src/model/debug/DebugRNG.js");
 
 var correctNumbers = [7193, 2932, 10386, 5575, 100, 15976, 430, 9740, 9449, 
                       1636, 11030, 9848, 13965, 16051, 14483, 6708, 5184, 15931,
