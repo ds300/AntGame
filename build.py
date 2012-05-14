@@ -1,4 +1,4 @@
-import subprocess, os, re, time, sys
+import subprocess, os, re, time, sys, shutil
 RUN_PATH = os.getcwd()
 
 buildLog = open("build.log","w")
@@ -84,13 +84,38 @@ def compileModel(minimise):
 		proc = subprocess.Popen(["jsmin","-l","3","./build/js/model.js"],
 			                    stdout=minmodel, 
 			                    shell=True)
-		return_code = proc.wait()
+		proc.wait()
 		model.close()
 		minmodel.close()
 		os.remove("./build/js/model.js")
 		os.rename("./build/js/model.min.js","./build/js/model.js")
 		print "done"
 
+
+def compileView():
+	"""Compiles the view component"""
+	print "Compiling view...",
+	for d in ["./build","./build/img"]:
+		try:
+			os.mkdir(d)
+		except OSError:
+			pass
+	# copy index.html
+	shutil.copyfile("./src/view/index.html","./build/index.html")
+	# copy bootstrap
+	shutil.rmtree("./build/bootstrap", True)
+	shutil.copytree("./src/view/bootstrap", "./build/bootstrap")
+	# copy image folder
+	shutil.rmtree("./build/img", True)
+	shutil.copytree("./src/view/img", "./build/img")
+	# compile style
+	style = open("./build/style.css","w")
+	proc = subprocess.Popen(["lessc","./src/view/style.less"],
+		                    stdout=style, 
+		                    shell=True)
+	proc.wait()
+	style.close()
+	print "done"
 
 
 
@@ -105,4 +130,5 @@ if __name__ == "__main__":
 		else:
 			print "All tests passed! Congrats!"
 	compileModel(("-m" in sys.argv))
+	compileView()
 	buildLog.close()
