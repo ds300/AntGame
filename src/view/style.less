@@ -1,6 +1,6 @@
 @background: #EEE;
 
-.border-radius (@radius: 10px) {
+.border-radius (@radius: 7px) {
 	border-radius: @radius;
 	-moz-border-radius: @radius;
 	-webkit-border-radius: @radius;
@@ -10,11 +10,14 @@
 	background: white;
 	.border-radius;
 	padding-top: 10px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 body {
 	background: @background;
 	padding-top: 50px;
+}
+.breadcrumb {
+	.border-radius;
 }
 
 .screenshot {
@@ -22,4 +25,8 @@ body {
 	background: url("./img/screenshot.png");
 	margin-left: 10px;
 	height: 140px;
+}
+
+.navbar .brand {
+	color: #CCC;
 }

@@ -23,6 +23,11 @@ model_test_files = [
 	"AntGame-test.js"
 ]
 
+view_src_files = [
+	"Components.js",
+	"Game.js"
+]
+
 lint_errors = []
 encountered_unit_test_errors = False
 
@@ -59,55 +64,50 @@ def printLintErrors():
 		for error in lint_errors:
 			print "   ",error
 
-def compileModel(minimise):
-	"""Compiles all of the model source files into one big file"""
-	print "Compiling model...",
+def compileComponent(src_files, root_dir, output_path):
+	files = ["header.js"] + src_files + ["footer.js"]
+	files = [root_dir + filename for filename in files]
 	try:
-		source_files = [open("./src/model/"+f, "r") for f in model_src_files]
+		files = [open(path,"r") for path in files]
+		out = open(output_path, "w")
+		[out.write(f.read()) for f in files]
+		out.close()
+		[f.close() for f in files]
 	except IOError:
-		print "unable to open source file"
-	for d in ["./build","./build/js"]:
-		try:
-			os.mkdir(d)
-		except OSError:
-			pass
-	model = open("./build/js/model.js","w")
-	model.write("var model = (function () {\n\n")
-	[model.write(f.read()) for f in source_files]
-	model.write("\n\ndelete exports.test_only;\n\nreturn exports;\n})();")
-	model.close()
-	print "done"
-	if minimise:
-		print "Minimising model...",
-		model = open("./build/js/model.js","r")
-		minmodel = open("./build/js/model.min.js","w")
-		proc = subprocess.Popen(["jsmin","-l","3","./build/js/model.js"],
+		print "unable to open source files"
+		sys.exit(1)
+
+def minimiseJSFile(path):
+	try:
+		outputFile = open(path+".tmp","w")
+		proc = subprocess.Popen(["jsmin","-l","3",path],
 			                    stdout=minmodel, 
 			                    shell=True)
 		proc.wait()
-		model.close()
-		minmodel.close()
-		os.remove("./build/js/model.js")
-		os.rename("./build/js/model.min.js","./build/js/model.js")
+		outputFile.close()
+		os.remove(path)
+		os.rename(path+".tmp",path)
+	except OSError:
+		"unable to remove or rename"
+	except IOError:
+		"unable to open file", path
+
+def compileModel(minimise=False):
+	"""Compiles all of the model source files into one big file"""
+	print "Compiling model...",
+	# create directory structure
+	compileComponent(model_src_files,"./src/model/","./build/js/model.js")
+	print "done"
+	if minimise:
+		print "Minimising model...",
+		minimiseJSFile("./build/js/model.js")
 		print "done"
 
 
-def compileView():
+def compileView(minimise=False):
 	"""Compiles the view component"""
 	print "Compiling view...",
-	for d in ["./build","./build/img"]:
-		try:
-			os.mkdir(d)
-		except OSError:
-			pass
-	# copy index.html
-	shutil.copyfile("./src/view/index.html","./build/index.html")
-	# copy bootstrap
-	shutil.rmtree("./build/bootstrap", True)
-	shutil.copytree("./src/view/bootstrap", "./build/bootstrap")
-	# copy image folder
-	shutil.rmtree("./build/img", True)
-	shutil.copytree("./src/view/img", "./build/img")
+	compileComponent(view_src_files,"./src/view/","./build/js/view.js")
 	# compile style
 	style = open("./build/style.css","w")
 	proc = subprocess.Popen(["lessc","./src/view/style.less"],
@@ -116,8 +116,16 @@ def compileView():
 	proc.wait()
 	style.close()
 	print "done"
+	if minimise:
+		print "Minimising view...",
+		minimiseJSFile("./build/js/view.js")
+		print "done"
 
-
+def copyBuildDirTree():
+	print "Copying build directory tree...",
+	shutil.rmtree("./build", True)
+	shutil.copytree("./src/view/dirTree", "./build")
+	print "done"
 
 if __name__ == "__main__":
 	# lint and test
@@ -129,6 +137,7 @@ if __name__ == "__main__":
 			print "Some file(s) failed test. See build log for details."
 		else:
 			print "All tests passed! Congrats!"
+	copyBuildDirTree()
 	compileModel(("-m" in sys.argv))
 	compileView()
 	buildLog.close()

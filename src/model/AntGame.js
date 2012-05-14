@@ -35,7 +35,7 @@ function AntGame(redBrain, blackBrain, world) {
 	};
 
 	var getScore = function () {
-		score = {red:0,black:0};
+		var score = {red: 0, black: 0};
 		for (var row = 0; row < world.height; row++) {
 			for (var col = 0; col < world.width; col++) {
 				var cell = world.getCell(row, col);
