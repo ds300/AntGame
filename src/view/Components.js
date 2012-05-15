@@ -26,6 +26,7 @@ exports.hideAll = function () {
 		}
 	}
 	$("#ag-error").hide();
+	$("#loading-bg").hide();
 };
 
 exports.hide = function (elemString) {
@@ -37,7 +38,7 @@ exports.show = function (elemString) {
 };
 
 exports.on = function (evnt, callback) {
-	eventers[evnt] && eventers[event].click(callback);
+	eventers[evnt] && eventers[evnt].click(callback);
 };
 
 exports.error = function (header, body, onClose) {

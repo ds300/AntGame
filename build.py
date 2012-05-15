@@ -28,6 +28,13 @@ view_src_files = [
 	"Game.js"
 ]
 
+controller_src_files = [
+	"Init.js",
+	"Contest.js",
+	"Match.js",
+	"Menu.js"
+]
+
 lint_errors = []
 encountered_unit_test_errors = False
 
@@ -121,6 +128,17 @@ def compileView(minimise=False):
 		minimiseJSFile("./build/js/view.js")
 		print "done"
 
+def compileController(minimise=False):
+	print "Compiling controller...",
+	compileComponent(controller_src_files,
+		"./src/controller/",
+		"./build/js/controller.js")
+	print "done"
+	if minimise:
+		print "Minimising controller...",
+		minimiseJSFile("./build/js/controller.js")
+		print "done"
+
 def copyBuildDirTree():
 	print "Copying build directory tree...",
 	shutil.rmtree("./build", True)
@@ -140,4 +158,5 @@ if __name__ == "__main__":
 	copyBuildDirTree()
 	compileModel(("-m" in sys.argv))
 	compileView()
+	compileController();
 	buildLog.close()

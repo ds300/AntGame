@@ -5,14 +5,30 @@
 	<title>Ant Game</title>
 	<link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.css" />
 	<link rel="stylesheet" type="text/css" href="./style.css" />
+	<script type="text/javascript">
+	var loadedSomeMore = (function () {
+		var loaded = 0;
+		var numItemsToLoad = 7;
+		var barWidth = 100;
+		return function () {
+			loaded++;
+			document.getElementById("loading-bar-inner").style.width = barWidth*Math.min(Math.floor(loaded/numItemsToLoad),1) + "px";
+		};
+	})();
+	</script>
 </head>
 <body>
+
+	<div id="loading-bg">
+		<p>loading...</p>
+		<div id="loading-bar-outer"><div id="loading-bar-inner"></div></div>
+	</div>
 
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
 				<span class="brand">AntGame</span>
-				<ul class="nav ag-menu">
+				<ul class="nav ag-menu ag-singleMatch ag-Contest">
 					<li><a href="./tutorial.html">How to Play</a></li>
 				</ul>
 			</div>
@@ -32,7 +48,7 @@
 					</div>
 					<div class="span8">
 						<h1>
-							Hello, This is AntGame.
+							Hello. Yes this is AntGame.
 						</h1>
 						<p>
 							Two teams of ants, black vs red, compete in a bid to gather the most food from a treacherous terrain. Influence the behaviour of your ants by designing a brain which controls how they navigate, what they look for, and how they communicate with each other.
@@ -40,7 +56,7 @@
 						<div class="row">
 							<div class="span4">
 								<p>
-									<a class="btn btn-primary btn-large" id="ag-btn-singleMatch">
+									<a class="btn btn-primary btn-large ag-btn-singleMatch">
 										Single Match &raquo;
 									</a>
 								</p>
@@ -49,7 +65,7 @@
 								</p>
 							</div>
 							<div class="span4">
-								<p><a class="btn btn-primary btn-large" id="ag-btn-contest">Contest &raquo;</a></p>
+								<p><a class="btn btn-primary btn-large ag-btn-contest">Contest &raquo;</a></p>
 								<p>
 									Many brains, many worlds, contest rules, rankings.
 								</p>
@@ -68,11 +84,66 @@
 	<!-- END MAIN MENU DEF -->
 
 
+	<!-- SINGLE MATCH MENU DEF -->
 	<div class="ag-singleMatch container">
 		<div class="row">
 			<div class="span12 welcome">
-				stuff
+				<div class="row">
+					<div class="span4">
+						<div class="leftmost">
+							<h2>
+								<img src="./img/redant.png"/>
+								Red Brain
+							</h2>
+							<div class="well">
+								<a class="btn btn-primary pull-right" href="#">Pick &raquo;</a>
+								<h3 class="ag-sm-name" id="ag-sm-red-name">Stupid Brain</h3>
+							</div>
+						</div>
+					</div>
+					<div class="span4">
+						<h2>
+							<img src="./img/blackant.png"/>
+							Black Brain
+						</h2>
+						<div class="well">
+							<a class="btn btn-primary pull-right" href="#">Pick &raquo;</a>
+							<h3 class="ag-sm-name" id="ag-sm-black-name">Stupid Brain</h3>
+						</div>
+					</div>
+					<div class="span4">
+						<div class="rightmost">
+							<h2>
+								<img src="./img/hexagon.png"/>
+								World
+							</h2>
+							<div class="well">
+								<a class="btn btn-primary pull-right" href="#">Pick &raquo;</a>
+								<h3 class="ag-sm-name" id="ag-sm-world-name">Random</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr class="leftmost rightmost"/>
+				<div class="row">
+					<div class="span8 offset4">
+						<form class="form-inline">
+							<a class="btn btn-success pull-right rightmost" href="#">Compile &raquo;</a>
+							Go for
+							<input type="text" class="input-mini" value="300000" />
+							
+								rounds.
+							
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<label class="checkbox">
+								<input type="checkbox"> Run without visualisation
+							</label>
 
+						</form>
+						
+					</div>
+				</div>
 			</div>
 		</div>
 		<ul class="breadcrumb">
@@ -85,6 +156,7 @@
 			</li>
 		</ul>
 	</div>
+	<!-- END SINGLE MATCH MENU DEF -->
 
 
 
@@ -102,18 +174,33 @@
 
 	<div class="modal" id="ag-error">
 		<div class="modal-header">
-			<button class="close" data-dismiss="modal">×</button>
+			<button class="close" data-dismiss="modal">&times;</button>
 			<h3 id="ag-error-header"></h3>
 		</div>
 		<div class="modal-body" id="ag-error-body">
 		</div>
 	</div>
+	<script type="text/javascript">loadedSomeMore();</script>
 
+
+
+	<!-- LOAD JAVASCRIPT STUFFS -->
 	<script type="text/javascript" src="./js/jquery1.7.2.min.js"></script>
+	<script type="text/javascript">loadedSomeMore();</script>
+
 	<script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">loadedSomeMore();</script>
+
 	<script type="text/javascript" src="./bootstrap/js/bootstrap-modal.js"></script>
-	<script type="text/javascript" src="./bootstrap/js/bootstrap-dropdown.js"></script>
+	<script type="text/javascript">loadedSomeMore();</script>
+
 	<script type="text/javascript" src="./js/model.js"></script>
+	<script type="text/javascript">loadedSomeMore();</script>
+
 	<script type="text/javascript" src="./js/view.js"></script>
+	<script type="text/javascript">loadedSomeMore();</script>
+
+	<script type="text/javascript" src="./js/controller.js"></script>
+	<script type="text/javascript">loadedSomeMore();</script>
 </body>
 </html>
