@@ -3,10 +3,11 @@ $(document).ready(function () {
 	// 	activeContest = Contest();
 
 	// setup initial view config
+	view.init();
 	view.hideAll();
 	view.show("main_menu");
 
-	// setup static-behaviour buttons
+	// setup nav buttons
 	view.on("goto_main_menu", function () {
 		view.hideAll();
 		view.show("main_menu");

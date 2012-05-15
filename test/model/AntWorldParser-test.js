@@ -395,7 +395,7 @@ badHill[0].push(" . . + + + + + + + + . . .");
 badHill[0].push(". . . + + + + + + + . . . ");
 badHill[0] = {config: booleanify(badHill[0], "+"), topRow: 2};
 
-// bo+ starting on odd row
+// box starting on odd row
 badHill[1].push(". . . . . . . . . . . . . ")
 badHill[1].push(" . . . + + + + + + + . . .");
 badHill[1].push(". . . + + + + + + + + . . ");

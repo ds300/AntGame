@@ -1,4 +1,5 @@
 @background: #EEE;
+@body-top-padding: 50px;
 
 .border-radius (@radius: 7px) {
 	border-radius: @radius;
@@ -17,7 +18,7 @@
 }
 body {
 	background: @background;
-	padding-top: 50px;
+	padding-top: @body-top-padding;
 	height: 100%;
 }
 .breadcrumb {
@@ -46,9 +47,10 @@ body {
 
 #loading-bg {
 	position: absolute;
+	margin-top: -@body-top-padding;
 	width: 100%;
 	height: 100%;
-	z-index: 500000;
+	z-index: 1051;
 	background: @background;
 	text-align: center;
 }
@@ -68,4 +70,8 @@ body {
 
 .ag-sm-name {
 	color: #676767;
+}
+
+#ag-sm-rounds {
+	text-align: right;
 }
