@@ -3,13 +3,47 @@ var elements = {},
     errorModal,
     visToggle;
 
+var locations = {
+	root: {
+		prerequisites: [],
+		description: "Main Menu",
+		selector: ".ag-root"
+	},
+	single_match: {
+		prerequisites: ["root"],
+		description: "Single Match",
+		selector: ".ag-sm"
+	},
+	sm_pick_brain: {
+		prerequisites: ["root","single_match"],
+		description: "Pick Brain",
+		selector: ".ag-sm-pick-brain"
+	}
+}
+
+exports.goto = function (location) {
+	// if the location exists
+	if (locations[location]) {
+		// hide all others
+		for (var loc in locations) {
+			if (locations.hasOwnProperty(loc)) {
+				var s = locations[loc].selector;
+				$(s + ", " + s + "-bc").hide();	
+			}
+		}
+	}
+	$(locations[location].selector).show();
+	// construct breadcrumb trail
+	var preq = locations[location].prerequisites;
+	for (var i = 0, len = preq.length; i < len; i++) {
+		var s = locations[preq[i]].selector;
+		$(s + "-bc").show();
+	}
+}
+
 exports.init = function () {
 	// main menu elements
-	elements["main_menu"] = $(".ag-menu");
-	elements["single_match_setup"] = $(".ag-singleMatch");
-
-	errorModal = $("#ag-error");
-	errorModal.modal();
+	$("#loading-bg").hide();
 
 	visToggle = $(".ag-vis-toggle");
 
@@ -22,37 +56,12 @@ exports.init = function () {
 		visToggle.html(withVis ? "without" : "with");
 	});
 
-	// event emitting elements
-	eventers["goto_main_menu"] = $(".ag-btn-menu");
-	eventers["goto_single_match"] = $(".ag-btn-singleMatch");
+	// static event emitting elements
+	eventers["goto_main_menu"] = $(".ag-btn-root");
+	eventers["goto_single_match"] = $(".ag-btn-sm");
 	eventers["goto_contest"] = $(".ag-btn-contest");
-};
-
-var buttonCallback = function (callback) {
-	return function (evnt) {
-		evnt && evnt.preventDefault();
-		callback && callback();
-	};
-};
-
-exports.hideAll = function () {
-	for (var elems in elements) {
-		if (elements.hasOwnProperty(elems)) {
-			elements[elems].hide();
-		}
-	}
-	errorModal.modal("hide");
-	$("#loading-bg").hide();
-};
-
-
-
-exports.hide = function (elemString) {
-	elements[elemString] && elements[elemString].hide();
-};
-
-exports.show = function (elemString) {
-	elements[elemString] && elements[elemString].show();
+	eventers["sm_pick_red_brain"] = $("#ag-sm-pick-red");
+	eventers["sm_pick_black_brain"] = $("#ag-sm-pick-black");
 };
 
 exports.on = function (evnt, callback) {

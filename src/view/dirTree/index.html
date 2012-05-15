@@ -38,7 +38,7 @@
 
 
 	<!-- MAIN MENU DEF -->
-	<div class="ag-menu container">
+	<div class="ag-root container">
 		<div class="row">
 			<div class="span12 welcome">
 				<div class="row">
@@ -55,7 +55,7 @@
 						<div class="row">
 							<div class="span4">
 								<p>
-									<a class="btn btn-primary btn-large ag-btn-singleMatch">
+									<a class="btn btn-primary btn-large ag-btn-sm">
 										Single Match &raquo;
 									</a>
 								</p>
@@ -76,15 +76,12 @@
 
 			</div>
 		</div>
-		<ul class="breadcrumb">
-			<li class="active">Main Menu</li>
-		</ul>
 	</div>
 	<!-- END MAIN MENU DEF -->
 
 
 	<!-- SINGLE MATCH MENU DEF -->
-	<div class="ag-singleMatch container">
+	<div class="ag-sm container">
 		<div class="row">
 			<div class="span12 welcome">
 				<div class="row">
@@ -95,7 +92,7 @@
 								Red Brain
 							</h2>
 							<div class="well">
-								<a class="btn btn-primary pull-right" href="#">Pick &raquo;</a>
+								<a class="btn btn-primary pull-right" href="#" id="ag-sm-pick-red">Pick &raquo;</a>
 								<h3 class="ag-sm-name" id="ag-sm-red-name">Stupid Brain</h3>
 							</div>
 						</div>
@@ -106,7 +103,7 @@
 							Black Brain
 						</h2>
 						<div class="well">
-							<a class="btn btn-primary pull-right" href="#">Pick &raquo;</a>
+							<a class="btn btn-primary pull-right" href="#" id="ag-sm-pick-black">Pick &raquo;</a>
 							<h3 class="ag-sm-name" id="ag-sm-black-name">Stupid Brain</h3>
 						</div>
 					</div>
@@ -146,19 +143,64 @@
 				</div>
 			</div>
 		</div>
-		<ul class="breadcrumb">
-			<li>
-				<a href="#" class="ag-btn-menu">Main Menu</a>
-				<span class="divider">/</span>
-			</li>
-			<li class="active">
-				Single Match 
-			</li>
-		</ul>
 	</div>
 	<!-- END SINGLE MATCH MENU DEF -->
 
+	<!-- SINGLE MATCH PICK BRAIN DEF -->
+	<div class="ag-sm-pick-brain container">
+		<div class="row">
+			<div class="span12 welcome">
+				<div class="row">
+					<div class="span6">
+						<div class="leftmost">
+							<h2 class="pull-left">
+								Available Brains&nbsp;&nbsp;
+							</h2>
+							<a class="btn btn-success pull-right">
+								add 
+								<i class="icon-plus-sign icon-white"></i>
+							</a>
+						</div>
+					</div>
 
+					<div class="span6">
+						<div class="rightmost">
+							<h2>
+								<span id="ag-sm-selected-brain-name">
+								</span>
+								&nbsp;Source Code
+							</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span6">
+						<div class="leftmost well" style="padding: 8px 0;">
+							<ul class="nav nav-list">
+								<li>
+									<a href="#">something</a>
+								</li>
+								<li>
+									<a href="#">something else</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="span6">
+						<div class="rightmost">
+							<h2>
+								<span id="ag-sm-selected-brain-name">
+								</span>
+								&nbsp;Source Code
+							</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END SINGLE MATCH PICK BRAIN DEF -->
 
 
 	<div id="contestSetup">
@@ -170,15 +212,29 @@
 	<div id="loadBrain">
 	</div>
 
-	<div class="modal" id="ag-error">
-		<div class="modal-header">
-			<button class="close" data-dismiss="modal">&times;</button>
-			<h3 id="ag-error-header">Error</h3>
-		</div>
-		<div class="modal-body" id="ag-error-body">
-			An unexpected error has occurred
-		</div>
+	<!-- breadcrumbs everywhere, all up in my face -->
+	<div class="container">
+		<ul class="breadcrumb">
+			<li class="ag-root-bc">
+				<a href="#" class="ag-btn-root">Main Menu</a>
+				<span class="divider">/</span>
+			</li>
+			<li class="active ag-root">
+				Main Menu
+			</li>
+			<li class="ag-sm-bc">
+				<a href="#" class="ag-btn-sm">Single Match</a>
+				<span class="divider">/</span>
+			</li>
+			<li class="active ag-sm">
+				Single Match
+			</li>
+			<li class="active ag-sm-pick-brain">
+				Pick Brain
+			</li>
+		</ul>
 	</div>
+
 
 	<script type="text/javascript">loadedSomeMore();</script>
 
