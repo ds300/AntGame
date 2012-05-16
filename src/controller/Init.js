@@ -105,13 +105,9 @@ $(document).ready(function () {
 	});
 
 	view.on("brain_list_add", function () {
-		var brain = brains.push({
-			name: "Wilson",
-			preset: false,
-			source: "Flip 1 0 0"
-		});
-		refreshBrainList();
-		brainListHighlight(brains.length - 1);
+		view.text("brain_edit_title", "Add New Brain");
+		view.text("brain_edit_name", "Custom Brain " + (brains.length - 2));
+		view.brain_edit.show();
 	});
 
 	view.on("brain_list_delete", function (id, highlighted) {
@@ -127,6 +123,10 @@ $(document).ready(function () {
 			activeMatch.black_id = highlighted;
 		}
 		brainListHighlight(highlighted);
+	});
+
+	view.on("brain_edit_close", function () {
+		view.brain_edit.hide();
 	});
 
 });

@@ -8,7 +8,8 @@ var callbacks = {
 	brain_list_edit: function () {},
 	brain_list_delete: function () {},
 	brain_list_pick: function () {},
-	brain_list_select: function () {}
+	brain_list_select: function () {},
+	brain_edit_close: function () {}
 };
 
 exports.brain_list = (function () {
@@ -155,6 +156,7 @@ exports.init = function () {
 	$("#ag-sm-pick-red").click(function () { callbacks["sm_pick_red_brain"](); });
 	$("#ag-sm-pick-black").click(function () { callbacks["sm_pick_black_brain"](); });
 	$("#ag-bl-add").click(function () { callbacks["brain_list_add"](); });
+	$(".brain-edit-close").click(function () { callbacks["brain_edit_close"](); });
 };
 
 // sets a function to be called when an event occurrs
@@ -172,8 +174,18 @@ var textElems = {
 	sm_brain_black: function (text) { $("#ag-sm-black-name").html(text); },
 	brain_list_source: function (text) { 
 		$("#ag-bl-selected-source").html(text); 
-	}
+	},
+	brain_edit_title: function (text) { $("#brain-edit-title").html(text); },
+	brain_edit_name: function (text) { 
+		$("#brain-edit-name").attr("value", text);
+	},
+	brain_edit_code: function (text) { $("#brain-edit-code").html(text); }
 };
+
+exports.brain_edit = {
+	show: function () { $("#brain-edit").modal("show");	},
+	hide: function () { $("#brain-edit").modal("hide"); }
+}
 
 exports.text = function (elem, text) {
 	if (textElems[elem]) {
