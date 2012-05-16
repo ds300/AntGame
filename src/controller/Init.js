@@ -22,4 +22,15 @@ $(document).ready(function () {
 	view.on("sm_pick_black_brain", function () {
 		view.goto("sm_pick_brain")
 	});
+
+	view.on("brain_list_select", function (id) {
+		view.brain_list.highlight(id);
+	});
+
+	view.brain_list.add("Bananas", 4);
+
+	view.brain_list.add("Cavalry", 8);
+	view.brain_list.add("Smithers", 9);
+	view.brain_list.add("Michael Jackson", 7);
+	view.brain_list.add("Britney", 83);
 });
