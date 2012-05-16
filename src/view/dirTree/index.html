@@ -114,7 +114,7 @@
 								World
 							</h2>
 							<div class="well">
-								<a class="btn btn-primary pull-right" href="#">Pick &raquo;</a>
+								<a class="btn btn-primary pull-right" href="#" id="ag-sm-pick-world">Pick &raquo;</a>
 								<h4 class="ag-sm-name" id="ag-sm-world-name">Random</h4>
 							</div>
 						</div>
@@ -133,12 +133,13 @@
 							Run for&nbsp;&nbsp;
 							<input type="text" class="input-mini" value="300000" id="ag-sm-rounds"/>
 							&nbsp;&nbsp;rounds&nbsp;&nbsp;
-							<a class="btn btn-warning ag-vis-toggle" href="#">with</a>
+							<a class="btn btn-warning" id="ag-sm-vis-on" href="#">with</a>
+							<a class="btn btn-danger" id="ag-sm-vis-off" href="#" style="display: none;">without</a>
 							&nbsp;&nbsp;graphics
 						</form>
 					</div>
 					<div class="span4">
-						<a class="btn btn-success pull-right rightmost" href="#">Go &raquo;</a>
+						<a class="btn btn-success pull-right rightmost" href="#" id="ag-sm-go">Go &raquo;</a>
 					</div>
 				</div>
 			</div>
@@ -192,22 +193,22 @@
 	</div>
 	<!-- END SINGLE MATCH PICK BRAIN DEF -->
 
-	<div class="modal" id="brain-edit" style="display: none;">
+	<div class="modal" id="ag-brain-edit" style="display: none;">
 		<div class="modal-header">
-			<button class="close brain-edit-close">&times;</button>
-			<h3 id="brain-edit-title">Modal header</h3>
+			<button class="close ag-brain-edit-close">&times;</button>
+			<h3 id="ag-brain-edit-title">Modal header</h3>
 		</div>
 		<div class="modal-body">
 			<form class="form-vertical rightmost">
 				<p>Name</p>
-				<input type="text" id="brain-edit-name" class="large" />
+				<input type="text" id="ag-brain-edit-name" class="large" />
 				<p>Source Code</p>
-				<textarea id="brain-edit-code" rows="10"></textarea>
+				<textarea id="ag-brain-edit-code" rows="10"></textarea>
 			</form>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn brain-edit-close" class="btn">Cancel</a>
-			<a href="#" class="btn btn-success brain-edit-compile">Compile &raquo;</a>
+			<a href="#" class="btn ag-brain-edit-close" class="btn">Cancel</a>
+			<a href="#" class="btn btn-success ag-brain-edit-compile">Compile &raquo;</a>
 		</div>
 	</div>
 

@@ -62,19 +62,21 @@ function refreshBrainList() {
 
 function getSMPickBrainCallback(color) {
 	return function () {
-		view.on("brain_list_pick", function (id) {
+		view.brain_list.on("pick", function (id) {
 			activeMatch[color + "_id"] = id;
-			view.trigger("goto_single_match");
+			view.menu.trigger("goto_single_match");
 		});
 		refreshBrainList();
 		brainListHighlight(activeMatch[color + "_id"]);
-		view.goto("sm_pick_brain");
+		view.menu.goto("sm_pick_brain");
 	};
 }
 
 function brainListHighlight(id) {
-	view.brain_list.highlight(id);
-	view.text("brain_list_source", brains[id].source);
+	with (view.brain_list) {
+		highlight(id);
+		text("source", brains[id].source);
+	}
 }
 
 
@@ -84,50 +86,53 @@ $(document).ready(function () {
 
 	// setup initial view config
 	view.init();
-	view.goto("root");
+	with (view.menu) {
+		goto("root");
 
-	// setup nav buttons
-	view.on("goto_main_menu", function () {
-		view.goto("root");
-	});
+		on("goto_root", function () {
+			view.menu.goto("root");
+		});
 
-	view.on("goto_single_match", function () {
-		view.goto("single_match");
-		view.text("sm_brain_red", brains[activeMatch.red_id].name);
-		view.text("sm_brain_black", brains[activeMatch.black_id].name);
-	});
+		on("goto_single_match", function () {
+			view.menu.goto("single_match");
+			view.single_match.text("red_name", brains[activeMatch.red_id].name);
+			view.single_match.text("black_name", brains[activeMatch.black_id].name);
+		});
+	}
 
-	view.on("sm_pick_red_brain", getSMPickBrainCallback("red"));
-	view.on("sm_pick_black_brain", getSMPickBrainCallback("black"));
 
-	view.on("brain_list_select", function (id) {
-		brainListHighlight(id);
-	});
+	with (view.single_match) {
+		on("pick_red", getSMPickBrainCallback("red"));
+		on("pick_black", getSMPickBrainCallback("black"));
+	}
+	
+	var num_custom = 1;
+	with (view.brain_list) {
+		on("select", function (id) {
+			brainListHighlight(id);
+		});
 
-	view.on("brain_list_add", function () {
-		view.text("brain_edit_title", "Add New Brain");
-		view.text("brain_edit_name", "Custom Brain " + (brains.length - 2));
-		view.brain_edit.show();
-	});
+		on("add", function () {
+			view.brain_edit.text("title", "Add New Brain");
+			view.brain_edit.text("name", "Custom Brain " + num_custom++);
+			view.brain_edit.show();
+		});
 
-	view.on("brain_list_delete", function (id, highlighted) {
-		brains.splice(id, 1);
-		refreshBrainList();
-		if (id <= highlighted) {
-			highlighted--;
-		}
-		if (id === activeMatch.red_id) {
-			activeMatch.red_id = highlighted;
-		}
-		if (id === activeMatch.black_id) {
-			activeMatch.black_id = highlighted;
-		}
-		brainListHighlight(highlighted);
-	});
-
-	view.on("brain_edit_close", function () {
-		view.brain_edit.hide();
-	});
+		on("delete", function (id, highlighted) {
+			brains.splice(id, 1);
+			refreshBrainList();
+			if (id <= highlighted) {
+				highlighted--;
+			}
+			if (id === activeMatch.red_id) {
+				activeMatch.red_id = highlighted;
+			}
+			if (id === activeMatch.black_id) {
+				activeMatch.black_id = highlighted;
+			}
+			brainListHighlight(highlighted);
+		});
+	}
 
 });
 

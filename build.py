@@ -24,7 +24,12 @@ model_test_files = [
 ]
 
 view_src_files = [
-	"Components.js",
+	"LogicalGroup.js",
+	"Init.js",
+	"BrainList.js",
+	"BrainEditor.js",
+	"Menu.js",
+	"SingleMatch.js",
 	"Game.js"
 ]
 
