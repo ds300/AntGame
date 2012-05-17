@@ -35,9 +35,11 @@ view_src_files = [
 
 controller_src_files = [
 	"Init.js",
-	"Contest.js",
+	"Brains.js",
+	"BrainEdit.js",
 	"Match.js",
-	"Menu.js"
+	"Menu.js",
+	"BrainList.js"
 ]
 
 lint_errors = []

@@ -30,8 +30,8 @@ var events = [
 
 var textElems = {
 	source: {
-		get: function () { return $("#brain-edit-code").html(); },
-		set: function (text) { $("#brain-edit-code").html(text); }
+		get: function () { return $("#ag-bl-selected-source").html(); },
+		set: function (text) { $("#ag-bl-selected-source").html(text); }
 	}
 };
 
@@ -77,21 +77,23 @@ exports.brain_list.add = function (name, id, preset) {
 
 	var btns = $(btn_group).appendTo(a).hide();
 
+	var that = this;
+
 	if (!preset) {
 		var del = $(del_btn).appendTo(btns);
 		del.click(function (event) { 
 			event.stopPropagation();
-			this.callbacks["delete"](id, highlighted); 
+			that.callbacks["delete"](id, highlighted); 
 		});
 
 		var edit = $(edit_btn).appendTo(btns);
-		edit.click(function () { this.callbacks["edit"](id); });
+		edit.click(function () { that.callbacks["edit"](id); });
 	}
 
 	var pick = $(pick_btn).appendTo(btns);
 	pick.click(function (event) { 
 		event.stopPropagation();
-		this.callbacks["pick"](id); 
+		that.callbacks["pick"](id); 
 	});
 
 	li.hover(
@@ -103,7 +105,8 @@ exports.brain_list.add = function (name, id, preset) {
 		}
 	);
 
-	li.click(function () { this.callbacks["select"](id); });
+	
+	li.click(function () { that.callbacks["select"](id); });
 };
 
 exports.brain_list.highlight = function (id) {

@@ -35,8 +35,8 @@ var textElems = {
 		set: function (text) { $("#ag-brain-edit-name").attr("value", text); }
 	},
 	code: {
-		get: function () { return $("#ag-brain-edit-code").html(); },
-		set: function (text) { $("#ag-brain-edit-code").html(text); }
+		get: function () { return $("#ag-brain-edit-code").attr("value"); },
+		set: function (text) { $("#ag-brain-edit-code").attr("value", text); }
 	}
 };
 

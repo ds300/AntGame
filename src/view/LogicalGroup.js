@@ -13,7 +13,7 @@ function LogicalGroup(events, textElems) {
 
 	this.text = function (elem, text) {
 		if (this.textElems[elem]) {
-			if (text) {
+			if (typeof text === 'string') {
 				this.textElems[elem].set(text);
 			} else {
 				return this.textElems[elem].get();
@@ -30,7 +30,7 @@ function LogicalGroup(events, textElems) {
 		for (var i = this.events.length - 1; i >= 0; i--) {
 			this.events[i].binder((function (i) {
 				return function () {
-					that.callbacks[that.events[i].name]();
+					that.callbacks[that.events[i].name].apply(this, arguments);
 				};
 			})(i));
 		};

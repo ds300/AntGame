@@ -17,15 +17,16 @@ var MATCH = (function () {
 
 
 	function _validateRounds(str) {
-		view.single_match.text("rounds", str.replace(/D/g, ""));
+		view.single_match.text("rounds", str.replace(/\D/g, ""));
 	};
 
 	function _getPickCallback(color) {
 		return function () {
 			view.menu.goto("sm_pick_brain");
+			BRAIN_LIST.refresh();
 			BRAIN_LIST.highlight(_match[color + "_id"]);
 			view.brain_list.on("pick", function (id) { 
-				_match[color + "_id"] = brain_id;
+				_match[color + "_id"] = id;
 				go();
 			});
 		};
@@ -48,7 +49,21 @@ var MATCH = (function () {
 
 	return {
 		go: go,
-		init: init
+		init: init,
+		redId: function (id) { 
+			if (id === undefined) {
+				return _match.red_id; 
+			} else {
+				_match.red_id = id;
+			}
+		},
+		blackId: function (id) { 
+			if (id === undefined) {
+				return _match.black_id; 
+			} else {
+				_match.black_id = id;
+			}
+		}
 	};
 
 })();
