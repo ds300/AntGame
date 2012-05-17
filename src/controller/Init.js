@@ -1,62 +1,16 @@
-var brains = [];
 
-brains.push({
-	name: "Chealsea",
-	preset: true,
-	source: 
-		"Flip 1 6 1" + "\n" +
-		"Flip 6 2 2" + "\n" +
-		"Flip 5 2 3" + "\n" +
-		"Flip 4 9 4" + "\n" +
-		"Flip 3 1 5" + "\n" +
-		"Flip 2 1 2" + "\n" +
-		"Flip 2 7 8" + "\n" +
-		"Turn Left 0" + "\n" +
-		"Turn Right 0"
-});
-
-brains.push({
-	name: "Bolton Wanderers from the north coast of the citadel",
-	preset: true,
-	source: 
-		"Flip 1 6 1" + "\n" +
-		"Flip 6 2 2" + "\n" +
-		"Flip 5 2 3" + "\n" +
-		"Flip 4 9 4" + "\n" +
-		"Flip 3 1 5" + "\n" +
-		"Flip 2 1 2" + "\n" +
-		"Flip 2 7 8" + "\n" +
-		"Flip 2 7 8" + "\n" +
-		"Turn Left 0" + "\n" +
-		"Turn Right 0"
-});
-
-brains.push({
-	name: "Civic Duty",
-	preset: true,
-	source: 
-		"Flip 1 6 1" + "\n" +
-		"Flip 6 2 2" + "\n" +
-		"Flip 5 2 3" + "\n" +
-		"Flip 4 9 4" + "\n" +
-		"Flip 3 1 5" + "\n" +
-		"Flip 2 1 2" + "\n" +
-		"Flip 2 7 8" + "\n" +
-		"Flip 2 7 8" + "\n" +
-		"Turn Left 0" + "\n" +
-		"Turn Right 0"
-});
 
 var activeMatch = {
 	red_id: 0,
 	black_id: 1,
-
+	world_id: 0,
+	game: undefined
 }
 
 function refreshBrainList() {
 	view.brain_list.clear();
 	for (var i = brains.length-1; i >= 0; i--) {
-		view.brain_list.add(brains[i].name,i,brains[i].preset);
+		view.brain_list.add(brains[i].name, i, brains[i].preset);
 	}
 }
 
@@ -90,11 +44,11 @@ $(document).ready(function () {
 		goto("root");
 
 		on("goto_root", function () {
-			view.menu.goto("root");
+			goto("root");
 		});
 
 		on("goto_single_match", function () {
-			view.menu.goto("single_match");
+			goto("single_match");
 			view.single_match.text("red_name", brains[activeMatch.red_id].name);
 			view.single_match.text("black_name", brains[activeMatch.black_id].name);
 		});

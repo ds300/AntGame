@@ -30,7 +30,7 @@ var events = [
 
 var textElems = {
 	source: {
-		get: function () {},
+		get: function () { return $("#brain-edit-code").html(); },
 		set: function (text) { $("#brain-edit-code").html(text); }
 	}
 };

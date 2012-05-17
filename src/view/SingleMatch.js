@@ -59,19 +59,19 @@ var events = [
 
 var textElems = {
 	red_name: {
-		get: function () {$("#ag-sm-red-name").html(); },
+		get: function () { return $("#ag-sm-red-name").html(); },
 		set: function (text) { $("#ag-sm-red-name").html(text); }
 	},
 	black_name: {
-		get: function () { $("#ag-sm-black-name").html(); },
+		get: function () { return $("#ag-sm-black-name").html(); },
 		set: function (text) { $("#ag-sm-black-name").html(text); }
 	},
 	world_name: {
-		get: function () { $("#ag-sm-world-name").html(); },
+		get: function () { return $("#ag-sm-world-name").html(); },
 		set: function (text) { $("#ag-sm-world-name").html(text); }
 	},
 	rounds: {
-		get: function () { $("#ag-sm-rounds").attr("value"); },
+		get: function () { return $("#ag-sm-rounds").attr("value"); },
 		set: function (text) { $("#ag-sm-rounds").attr("value", text); }
 	}
 };

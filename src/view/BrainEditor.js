@@ -27,15 +27,15 @@ var events = [
 
 var textElems = {
 	title: {
-		get: function () { $("#ag-brain-edit-title").html(); },
+		get: function () { return $("#ag-brain-edit-title").html(); },
 		set: function (text) { $("#ag-brain-edit-title").html(text); }
 	},
 	name: {
-		get: function () { $("#ag-brain-edit-name").attr("value"); },
+		get: function () { return $("#ag-brain-edit-name").attr("value"); },
 		set: function (text) { $("#ag-brain-edit-name").attr("value", text); }
 	},
 	code: {
-		get: function () { $("#ag-brain-edit-code").html(); },
+		get: function () { return $("#ag-brain-edit-code").html(); },
 		set: function (text) { $("#ag-brain-edit-code").html(text); }
 	}
 };
