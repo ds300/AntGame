@@ -5,6 +5,8 @@ $(document).ready(function () {
 	MATCH.init();
 	MENU.init();
 	BRAIN_EDIT.init();
+	WORLD_LIST.init();
+	WORLD_EDIT.init();
 
 });
 

@@ -131,7 +131,7 @@
 					<div class="span6">
 						<form class="form-inline">
 							Run for&nbsp;&nbsp;
-							<input type="text" class="input-mini" value="300000" id="ag-sm-rounds"/>
+							<input type="text" class="input-mini" value="300000" id="ag-sm-rounds" maxlength="6"/>
 							&nbsp;&nbsp;rounds&nbsp;&nbsp;
 							<a class="btn btn-warning" id="ag-sm-vis-on" href="#">with</a>
 							<a class="btn btn-danger" id="ag-sm-vis-off" href="#" style="display: none;">without</a>
@@ -193,22 +193,67 @@
 	</div>
 	<!-- END SINGLE MATCH PICK BRAIN DEF -->
 
-	<div class="modal" id="ag-brain-edit" style="display: none;">
+	<!-- SINGLE MATCH PICK WORLD DEF -->
+	<div class="ag-wl container">
+		<div class="row">
+			<div class="span12 welcome">
+				<div class="row" style="padding-bottom: 10px;">
+					<div class="span6">
+						<div class="leftmost">
+							<h3 class="pull-left">
+								Available Worlds&nbsp;&nbsp;
+							</h3>
+							<a class="btn btn-primary pull-right" id="ag-wl-add">
+								add 
+								<i class="icon-plus-sign icon-white"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="span6">
+						<div class="rightmost">
+							<h3>
+								Preview
+							</h3>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span6">
+						<div class="leftmost well" style="padding: 8px 0;">
+							<ul class="nav nav-list" id="ag-wl-list">
+						
+							</ul>
+						</div>
+					</div>
+
+					<div class="span6">
+						<div class="rightmost">
+							<canvas id="ag-wl-thumb"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END SINGLE MATCH PICK WORLD DEF -->
+
+	<div class="modal" id="ag-edit" style="display: none;">
 		<div class="modal-header">
-			<button class="close ag-brain-edit-close">&times;</button>
-			<h3 id="ag-brain-edit-title">Modal header</h3>
+			<button class="close ag-edit-close">&times;</button>
+			<h3 id="ag-edit-title">Modal header</h3>
 		</div>
 		<div class="modal-body">
 			<form class="form-vertical rightmost">
 				<p>Name</p>
-				<input type="text" id="ag-brain-edit-name" class="large" />
+				<input type="text" id="ag-edit-name" class="large" maxlength="30"/>
 				<p>Source Code</p>
-				<textarea id="ag-brain-edit-code" rows="10"></textarea>
+				<textarea id="ag-edit-code" rows="10"></textarea>
 			</form>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn ag-brain-edit-close" class="btn">Cancel</a>
-			<a href="#" class="btn btn-success" id="ag-brain-edit-compile">Compile &raquo;</a>
+			<a href="#" class="btn ag-edit-close" class="btn">Cancel</a>
+			<a href="#" class="btn btn-success" id="ag-edit-compile">Compile &raquo;</a>
 		</div>
 	</div>
 
@@ -239,6 +284,9 @@
 				Single Match
 			</li>
 			<li class="active ag-bl">
+				Pick Brain
+			</li>
+			<li class="active ag-wl">
 				Pick Brain
 			</li>
 		</ul>

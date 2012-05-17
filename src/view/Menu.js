@@ -40,6 +40,11 @@ var locations = {
 		prerequisites: ["root","single_match"],
 		description: "Pick Brain",
 		selector: ".ag-bl"
+	},
+	sm_pick_world: {
+		prerequisites: ["root","single_match"],
+		description: "Pick World",
+		selector: ".ag-wl"
 	}
 };
 

@@ -1,4 +1,4 @@
-var LogicalGroup = LogicalGroup || function () {};
+var getItemList = getItemList || function () {};
 
 (function () {
 
@@ -6,7 +6,7 @@ var events = [
 	{
 		name: "add",
 		binder: function (callback) {
-			$("#ag-bl-add").click(callback);
+			$("#ag-wl-add").click(callback);
 		}
 	},
 	// these next four events are bound dynamically
@@ -28,14 +28,9 @@ var events = [
 	}
 ];
 
-var textElems = {
-	source: {
-		get: function () { return $("#ag-bl-selected-source").html(); },
-		set: function (text) { $("#ag-bl-selected-source").html(text); }
-	}
-};
-
-exports.brain_list = getItemList(events, textElems, "bl");
-
+exports.world_list = getItemList(events, {}, "wl");
 
 })();
+
+
+

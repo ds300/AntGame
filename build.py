@@ -25,21 +25,28 @@ model_test_files = [
 
 view_src_files = [
 	"LogicalGroup.js",
-	"Init.js",
+	"ItemList.js",
 	"BrainList.js",
-	"BrainEditor.js",
+	"WorldList.js",
+	"Editor.js",
 	"Menu.js",
 	"SingleMatch.js",
-	"Game.js"
+	"Game.js",
+	"WorldThumbnail.js",
+	"Init.js"
 ]
 
 controller_src_files = [
-	"Init.js",
 	"Brains.js",
+	"Worlds.js",
 	"BrainEdit.js",
 	"Match.js",
 	"Menu.js",
-	"BrainList.js"
+	"ListHandler.js",
+	"BrainList.js",
+	"WorldList.js",
+	"WorldEdit.js",
+	"Init.js"
 ]
 
 lint_errors = []

@@ -13,6 +13,7 @@ var MATCH = (function () {
 		view.menu.goto("single_match");
 		view.single_match.text("red_name", BRAINS[_match.red_id].name);
 		view.single_match.text("black_name", BRAINS[_match.black_id].name);
+		view.single_match.text("world_name", WORLDS[_match.world_id].name);
 	};
 
 
@@ -37,6 +38,15 @@ var MATCH = (function () {
 		with (view.single_match) {
 			on("pick_red", _getPickCallback("red"));
 			on("pick_black", _getPickCallback("black"));
+			on("pick_world", function () {
+				view.menu.goto("sm_pick_world");
+				WORLD_LIST.refresh();
+				WORLD_LIST.highlight(_match.world_id);
+				view.world_list.on("pick", function (id) {
+					_match.world_id = id;
+					go();
+				});
+			});
 			on("rounds_change", _validateRounds);
 			on("vis_off", function () {
 				_match.vis = false;
@@ -51,17 +61,24 @@ var MATCH = (function () {
 		go: go,
 		init: init,
 		redId: function (id) { 
-			if (id === undefined) {
-				return _match.red_id; 
-			} else {
+			if (typeof id === "number") {
 				_match.red_id = id;
+			} else {
+				return _match.red_id;
 			}
 		},
 		blackId: function (id) { 
-			if (id === undefined) {
-				return _match.black_id; 
-			} else {
+			if (typeof id === "number") {
 				_match.black_id = id;
+			} else {
+				return _match.black_id;
+			}
+		},
+		worldId: function (id) {
+			if (typeof id === "number") {
+				_match.world_id = id;
+			} else {
+				return _match.world_id;
 			}
 		}
 	};
