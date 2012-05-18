@@ -39,13 +39,12 @@ view_src_files = [
 controller_src_files = [
 	"Brains.js",
 	"Worlds.js",
-	"BrainEdit.js",
+	"Editor.js",
 	"Match.js",
 	"Menu.js",
 	"ListHandler.js",
 	"BrainList.js",
 	"WorldList.js",
-	"WorldEdit.js",
 	"Init.js"
 ]
 

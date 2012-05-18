@@ -4,9 +4,8 @@ $(document).ready(function () {
 	BRAIN_LIST.init();
 	MATCH.init();
 	MENU.init();
-	BRAIN_EDIT.init();
+	EDIT.init();
 	WORLD_LIST.init();
-	WORLD_EDIT.init();
 
 });
 

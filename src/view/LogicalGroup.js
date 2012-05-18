@@ -4,11 +4,16 @@ function LogicalGroup(events, textElems) {
 	this.textElems = textElems;
 
 	for (var i = events.length - 1; i >= 0; i--) {
-		this.callbacks[events[i].name] = function () {};
+		this.callbacks[events[i].name] = [];
 	};
 
-	this.on = function (evnt, callback) {
-		this.callbacks[evnt] = callback || this.callbacks[evnt] || function () {};
+	this.on = function (evnt, callback, overwrite) {
+		if (Array.isArray(this.callbacks[evnt]) && typeof callback === "function") {
+			if (overwrite) {
+				this.callbacks[evnt] = [];
+			}
+			this.callbacks[evnt].push(callback);
+		}
 	};
 
 	this.text = function (elem, text) {
@@ -21,18 +26,27 @@ function LogicalGroup(events, textElems) {
 		}
 	};
 
-	this.trigger = function (evnt) {
-		this.callbacks[evnt] && this.callbacks[evnt]();
+	this.trigger = function (evnt, argsArray) {
+		if (Array.isArray(this.callbacks[evnt])) {
+			// iterate over callbacks and call them!
+			for (var i = this.callbacks[evnt].length - 1; i >= 0; i--) {
+				this.callbacks[evnt][i].apply(this, argsArray);
+			};
+		}
 	};
 
 	this.init = function () {
 		var that = this;
 		for (var i = this.events.length - 1; i >= 0; i--) {
-			this.events[i].binder((function (i) {
+			var evnt = this.events[i].name;
+			this.events[i].binder((function (evnt) {
 				return function () {
-					that.callbacks[that.events[i].name].apply(this, arguments);
+					// iterate over callbacks and call them!
+					for (var i = that.callbacks[evnt].length - 1; i >= 0; i--) {
+						that.callbacks[evnt][i].apply(this, arguments);
+					};
 				};
-			})(i));
+			})(evnt));
 		};
 	};
 }

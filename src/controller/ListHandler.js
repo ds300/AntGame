@@ -1,10 +1,5 @@
-function getListHandler(list, resources) {
+function getListHandler(list, resources, initCallback) {
 	var _highlighted = 0;
-
-	var highlight = function (id) {
-		view[list].highlight(id);
-		_highlighted = id;
-	};
 
 	var _excludes = [];
 
@@ -15,7 +10,26 @@ function getListHandler(list, resources) {
 				view[list].add(resources[i].name, i, resources[i].preset);
 			}
 		}
-		highlight(_highlighted);
+		view[list].trigger("select", [_highlighted]);
+	};
+
+	var add = function (obj) {
+		resources.push(obj);
+		var i = resources.length - 1;
+		view[list].add(resources[i].name, i , resources[i].preset);
+		view[list].trigger("select", [i]);
+	};
+
+	// return new highlighted
+	var remove = function (id, callback) {
+		resources.splice(id, 1);
+		if (id <= _highlighted) {
+			do { 
+				_highlighted--; 
+			} while (_highlighted >= 0 && _excludes.indexOf(_highlighted) !== -1);
+		}
+		refresh();
+		if (typeof callback === "function") { callback(_highlighted); }
 	};
 
 	var dontShowId = function (id, reload) {
@@ -35,16 +49,20 @@ function getListHandler(list, resources) {
 		}
 	};
 
+	var init = function () {
+		view[list].on("select", function (id) {
+			view[list].highlight(id);
+			_highlighted = id;
+		});
+
+		if (typeof initCallback === "function") { initCallback.apply(this); }
+	};
+
 	return {
-		_highlighted: function (val) {
-			if (typeof val === "number") {
-				_highlighted = val;
-			} else {
-				return _highlighted;
-			}
-		},
-		highlight: highlight,
+		add: add,
+		remove: remove,
 		dontShowId: dontShowId,
+		init: init,
 		showId: showId,
 		refresh: refresh
 	};

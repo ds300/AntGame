@@ -44,17 +44,17 @@ function getItemList (events, textElems, baseElem) {
 			var del = $(del_btn).appendTo(btns);
 			del.click(function (event) { 
 				event.stopPropagation();
-				that.callbacks["delete"](id, highlighted); 
+				that.trigger("delete", [id, highlighted]); 
 			});
 
 			var edit = $(edit_btn).appendTo(btns);
-			edit.click(function () { that.callbacks["edit"](id); });
+			edit.click(function () { that.trigger("edit", [id]); });
 		}
 
 		var pick = $(pick_btn).appendTo(btns);
 		pick.click(function (event) { 
 			event.stopPropagation();
-			that.callbacks["pick"](id); 
+			that.trigger("pick", [id]); 
 		});
 
 		li.hover(
@@ -67,7 +67,7 @@ function getItemList (events, textElems, baseElem) {
 		);
 
 		
-		li.click(function () { that.callbacks["select"](id); });
+		li.click(function () { that.trigger("select", [id]); });
 	};
 
 	list.highlight = function (id) {

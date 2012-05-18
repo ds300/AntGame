@@ -25,11 +25,11 @@ var MATCH = (function () {
 		return function () {
 			view.menu.goto("sm_pick_brain");
 			BRAIN_LIST.refresh();
-			BRAIN_LIST.highlight(_match[color + "_id"]);
+			view.brain_list.trigger("select", [_match[color + "_id"]]);
 			view.brain_list.on("pick", function (id) { 
 				_match[color + "_id"] = id;
 				go();
-			});
+			}, true);
 		};
 	};
 
@@ -39,9 +39,9 @@ var MATCH = (function () {
 			on("pick_red", _getPickCallback("red"));
 			on("pick_black", _getPickCallback("black"));
 			on("pick_world", function () {
-				view.menu.goto("sm_pick_world");
+				WORLD_LIST.go("sm");
 				WORLD_LIST.refresh();
-				WORLD_LIST.highlight(_match.world_id);
+				view.world_list.trigger("select", [_match.world_id]);
 				view.world_list.on("pick", function (id) {
 					_match.world_id = id;
 					go();

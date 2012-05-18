@@ -9,6 +9,12 @@ var events = [
 			$("#ag-wl-add").click(callback);
 		}
 	},
+	{
+		name: "generate",
+		binder: function (callback) {
+			$("#ag-wl-gen").click(callback);
+		}
+	},
 	// these next four events are bound dynamically
 	{
 		name: "edit",
@@ -29,6 +35,11 @@ var events = [
 ];
 
 exports.world_list = getItemList(events, {}, "wl");
+
+exports.world_list.thumb = function (canvas) {
+	$("#ag-wl-thumb").html("");
+	$("#ag-wl-thumb").append(canvas);
+};
 
 })();
 

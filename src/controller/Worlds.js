@@ -3,6 +3,7 @@ var WORLDS = [];
 WORLDS.push({
 	name: "Big world",
 	preset: true,
+	contest: true,
 	source: 
 		"150\n" +
 		"150\n" +
@@ -161,6 +162,7 @@ WORLDS.push({
 WORLDS.push({
 	name: "Tiny World",
 	preset: true,
+	contest: false,
 	source:
 		"10\n" +
 		"10\n" +

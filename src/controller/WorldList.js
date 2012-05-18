@@ -1,47 +1,98 @@
 var WORLD_LIST = (function () {
-	var handler = getListHandler("world_list", WORLDS);
-	handler.init = function () {
+	var contest = false;
+	
+	function _compileWorld() {
+		try {
+			var source = view.edit.text("code");
+			var parsed = model.parseAntWorld(source, contest);
+			var worldIsContestLegal = true;
+			if (!contest) {
+				try {
+					model.parseAntWorld(source, true);
+				} catch (err) {
+					worldIsContestLegal = false;
+				}
+			}
+			var world = {
+				name: view.edit.text("name").trim() || "Untitled World",
+				source: source,
+				preset: false,
+				contest: worldIsContestLegal,
+				thumb: view.getWorldThumbnail(parsed)
+			};
+			view.edit.hide();
+			return world;
+		} catch (err) {
+			window.alert(err.message);
+		}
+	}
+
+	var init = function () {
 		var that = this;
+
 		view.world_list.on("select", function (id) {
-			that.highlight(id);
-			// thumbnail shit
+			view.world_list.thumb(WORLDS[id].thumb);
 		});
 
 		view.world_list.on("add", function () {
-			console.log("monkey?");
-			WORLD_EDIT.go("Add New", function (result) {
-				if (result.name.trim() === "") {
-					result.name = "Untitiled World";
-				}
-				WORLDS.push(result);
-				that.refresh();
-			});
+			EDIT.go("Add New World");
+			view.edit.on("compile", function () {
+				var result = _compileWorld();
+				if (result) { that.add(result); }
+			}, true);
+		});
+
+		var numWorldsGenerated = 0;
+		view.world_list.on("generate", function () {
+			var source = model.generateRandomWorld();
+			var w = {
+				name: "Random World " + (numWorldsGenerated++),
+				preset: false,
+				contest: true,
+				source: source,
+				thumb: view.getWorldThumbnail(model.parseAntWorld(source))
+			};
+			that.add(w);
 		});
 
 		view.world_list.on("edit", function (id) {
-			WORLD_EDIT.go("Edit", function (result) {
-				WORLDS[id] = result;
-				that.refresh();
-			});
+			EDIT.go("Edit World");
+			view.edit.on("compile", function () {
+				var result = _compileWorld();
+				if (result) {
+					WORLDS[id] = result;
+					that.refresh();
+				}
+			}, true);
 			view.edit.text("name", WORLDS[id].name);
 			view.edit.text("code", WORLDS[id].source);
 		});
 
 		view.world_list.on("delete", function (id) {
-			WORLDS.splice(id, 1);
-
-			var h = that._highlighted();
-			
-			if (id <= h) {
-				do { 
-					that._highlighted(--h); 
-				} while (h >= 0 && _excludes.indexOf(h) !== -1);
-			}
-			if (id === MATCH.worldId()) {
-				MATCH.worldId(h);
-			}
-			that.refresh();
+			that.remove(id, function (highlighted) {
+				if (id === MATCH.worldId()) {
+					MATCH.worldId(highlighted);
+				}
+			});
 		});
 	};
+
+	var handler = getListHandler("world_list", WORLDS, init);
+	handler.go = function (from) {
+		contest = from === "c";
+		view.menu.goto(from + "_pick_world");
+
+		if (contest) {
+			for (var i = WORLDS.length - 1; i >= 0; i--) {
+				if (WORLDS[i].contest = false) {
+					this.dontShowId(i);
+				}
+			}
+		}
+
+		this.refresh();
+	};
+
 	return handler;
+	
 })();

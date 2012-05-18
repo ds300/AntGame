@@ -1,49 +1,66 @@
 var BRAIN_LIST = (function () {
-	var handler = getListHandler("brain_list", BRAINS);
-	handler.init = function () {
+
+	function _compileBrain() {
+		try {
+			var source = view.edit.text("code");
+			model.parseAntBrain(source);
+			var brain = {
+				name: view.edit.text("name").trim() || "Untitled Brain",
+				source: source,
+				preset: false
+			};
+			view.edit.hide();
+			return brain;
+		} catch (err) {
+			window.alert(err.message);
+		}
+	}
+
+	var init = function () {
 		var that = this;
 		view.brain_list.on("select", function (id) {
-			that.highlight(id);
 			view.brain_list.text("source", BRAINS[id].source);
 		});
 
+		
+
 		view.brain_list.on("add", function () {
-			BRAIN_EDIT.go("Add New", function (result) {
-				if (result.name.trim() === "") {
-					result.name = "Untitiled Brain";
-				}
-				BRAINS.push(result);
-				that.refresh();
-			});
-		});
+			EDIT.go("Add New Brain");
+			view.edit.on("compile", function () { 
+				var result = _compileBrain();
+				if (result) { that.add(result); }
+			}, true);
+		}); 
 
 		view.brain_list.on("edit", function (id) {
-			BRAIN_EDIT.go("Edit", function (result) {
-				BRAINS[id] = result;
-				that.refresh();
-			});
+			EDIT.go("Edit Brain");
 			view.edit.text("name", BRAINS[id].name);
 			view.edit.text("code", BRAINS[id].source);
+			view.edit.on("compile", function () { 
+				var result = _compileBrain();
+				if (result) { 
+					BRAINS[id] = result;
+					that.refresh();
+				}
+			}, true);
 		});
 
 		view.brain_list.on("delete", function (id) {
-			BRAINS.splice(id, 1);
-
-			var h = that._highlighted();
-			
-			if (id <= h) {
-				do { 
-					that._highlighted(--h); 
-				} while (h >= 0 && _excludes.indexOf(h) !== -1);
-			}
-			if (id === MATCH.redId()) {
-				MATCH.redId(h);
-			}
-			if (id === MATCH.blackId()) {
-				MATCH.blackId(h);
-			}
-			that.refresh();
+			that.remove(id, function (highlighted) {
+				if (id === MATCH.redId()) {
+					MATCH.redId(highlighted);
+				}
+				if (id === MATCH.blackId()) {
+					MATCH.blackId(highlighted);
+				}
+			});
 		});
 	};
+	var handler =  getListHandler("brain_list", BRAINS, init);
+
+	handler.go = function (from) {
+		view.menu.goto(from + "_pick_brain");
+	};
+
 	return handler;
 })();
