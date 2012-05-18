@@ -33,7 +33,7 @@ function getItemList (events, textElems, baseElem) {
 
 		// attach the html elements to the DOM and set up events & callbacks
 
-		var li = $(list_item).appendTo("#ag-" + baseElem + "-list");
+		var li = $(list_item).prependTo("#ag-" + baseElem + "-list");
 		var a = $(world_name).appendTo(li);
 
 		var btns = $(btn_group).appendTo(a).hide();

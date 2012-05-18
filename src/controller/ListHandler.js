@@ -5,7 +5,7 @@ function getListHandler(list, resources, initCallback) {
 
 	var refresh = function () {
 		view[list].clear();
-		for (var i = resources.length - 1; i >= 0; i--) {
+		for (var i = 0, len = resources.length; i < len; i++) {
 			if (_excludes.indexOf(i) === -1) {
 				view[list].add(resources[i].name, i, resources[i].preset);
 			}
