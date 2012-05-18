@@ -6,7 +6,8 @@ $(document).ready(function () {
 	MENU.init();
 	EDIT.init();
 	WORLD_LIST.init();
-	CONTEST.init();
+	// CONTEST.init();
+	CONTEST_SETUP.init();
 
 });
 

@@ -1,77 +1,57 @@
 var CONTEST = (function () {
-
-	// this holds the metadata for the match to be played
-	var _contest = {
-		brains: [],
-		worlds: [],
-		game: null,
-		vis: true
-	};
-
-	var go = function () {
-		view.menu.goto("contest");
-		_refreshList("brains");
-		_refreshList("worlds");
-	};
-
-	function _refreshList(component) {
-		if (_contest[component].length === 0) {
-			view.contest[component].sayEmpty();
-			return;
+	function getFixtures(brains, worlds) {
+		var fixtures = [];
+		var numBrains = brains.length;
+		var numWorlds = worlds.length;
+		for (var i = 0; i < numBrains; i++) {
+			for (var j = i + 1; j < numBrains; j++) {
+				for (var k = 0; k < numWorlds; k++) {
+					fixtures.push({
+						red: i,
+						black: j,
+						world: k,
+						outcome: -1
+					});
+					fixtures.push({
+						red: j,
+						black: i,
+						world: k,
+						outcome: -1
+					});
+				}
+			}
 		}
-
-		var resources = component === "brains" ? BRAINS : WORLDS;
-		var v = view.contest[component];
-		v.clear();
-		for (var i = _contest[component].length - 1; i >= 0; i--) {
-			var id = _contest[component][i];
-			v.add(resources[id].name, id);
-		};
+		return fixtures; // them's a lot of fixtures!
 	}
 
-	var init = function () {
-		// hook up things
+	var contest = {};
 
-		function initList(component) {
-			var clist, vlist;
-			if (component === "brains") {
-				clist = BRAIN_LIST;
-				vlist = view.brain_list;
-			} else {
-				clist = WORLD_LIST;
-				vlist = view.world_list
-			}
-			view.contest[component].on("add", function () {
-				clist.go("c", true);
-				for (var i = _contest[component].length - 1; i >= 0; i--) {
-					clist.dontShowId(_contest[component][i]);
-				}
-				clist.refresh();
-				vlist.on("pick", function (id) {
-					if (_contest[component].indexOf(id) === -1) {
-						_contest[component].push(id);
-						clist.dontShowId(id, true, function () { go(); });
-					}
-				}, true);
+	function setup(brains, worlds) {
+		// we've just got a list of ids. Let's copy the objects 
+		// over so if they get deleted elsewhere, we still have them.
+		var newBrains = [];
+		for (var i = brains.length - 1; i >= 0; i--) {
+			var brain = BRAINS[brains[i]];
+			newBrains.push({
+				name: brain.name,
+				source: brain.source,
+				score: 0,
+				fixtures: 0
 			});
+		};
 
-			view.contest[component].on("dismiss", function (id) {
-				var i = _contest[component].indexOf(id);
-				if (i > -1) {
-					_contest[component].splice(i, 1);
-					_refreshList(component);
-				}
+		var newWorlds = [];
+		for (var i = worlds.length - 1; i >= 0; i--) {
+			var world = WORLDS[worlds[i]];
+			newWorlds.push({
+				name: world.name,
+				source: world.source,
+				red_food: 0,
+				black_food: 0
 			});
-		}
+		};
 
-		initList("brains");
-		initList("worlds");
-	};
-
-	return {
-		go: go,
-		init: init
-	};
-
+		contest.brains = newBrains;
+		contest.worlds = newWorlds;
+	}
 })();
-	
