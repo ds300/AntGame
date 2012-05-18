@@ -31,7 +31,7 @@ var WORLD_LIST = (function () {
 		var that = this;
 
 		view.world_list.on("select", function (id) {
-			view.world_list.thumb(WORLDS[id].thumb);
+			WORLDS[id] && view.world_list.thumb(WORLDS[id].thumb);
 		});
 
 		view.world_list.on("add", function () {
@@ -81,10 +81,11 @@ var WORLD_LIST = (function () {
 	handler.go = function (from) {
 		contest = from === "c";
 		view.menu.goto(from + "_pick_world");
+		this.showId("all");
 
 		if (contest) {
 			for (var i = WORLDS.length - 1; i >= 0; i--) {
-				if (WORLDS[i].contest = false) {
+				if (WORLDS[i].contest === false) {
 					this.dontShowId(i);
 				}
 			}

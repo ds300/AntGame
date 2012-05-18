@@ -84,6 +84,10 @@ function getItemList (events, textElems, baseElem) {
 		$(".ag-" + baseElem + "-item[id='" + id + "']").remove();
 	};
 
+	list.sayEmpty = function (id) {
+		$("#ag-" + baseElem + "-list").html('<li class="nav-header">empty</li>');
+	};
+
 	return list;
 }
 

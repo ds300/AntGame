@@ -36,6 +36,11 @@ var locations = {
 		description: "Single Match",
 		selector: ".ag-sm"
 	},
+	contest: {
+		prerequisites: ["root"],
+		description: "Contest",
+		selector: ".ag-c"
+	},
 	sm_pick_brain: {
 		prerequisites: ["root","single_match"],
 		description: "Pick Brain",
@@ -44,6 +49,16 @@ var locations = {
 	sm_pick_world: {
 		prerequisites: ["root","single_match"],
 		description: "Pick World",
+		selector: ".ag-wl"
+	},
+	c_pick_brain: {
+		prerequisites: ["root","contest"],
+		description: "Pick Brains",
+		selector: ".ag-bl"
+	},
+	c_pick_world: {
+		prerequisites: ["root","contest"],
+		description: "Pick Worlds",
 		selector: ".ag-wl"
 	}
 };

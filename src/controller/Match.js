@@ -23,8 +23,7 @@ var MATCH = (function () {
 
 	function _getPickCallback(color) {
 		return function () {
-			view.menu.goto("sm_pick_brain");
-			BRAIN_LIST.refresh();
+			BRAIN_LIST.go("sm");
 			view.brain_list.trigger("select", [_match[color + "_id"]]);
 			view.brain_list.on("pick", function (id) { 
 				_match[color + "_id"] = id;
@@ -45,7 +44,7 @@ var MATCH = (function () {
 				view.world_list.on("pick", function (id) {
 					_match.world_id = id;
 					go();
-				});
+				}, true);
 			});
 			on("rounds_change", _validateRounds);
 			on("vis_off", function () {

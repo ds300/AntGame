@@ -19,7 +19,8 @@ var BRAIN_LIST = (function () {
 	var init = function () {
 		var that = this;
 		view.brain_list.on("select", function (id) {
-			view.brain_list.text("source", BRAINS[id].source);
+			var text = !!BRAINS[id] ? BRAINS[id].source : "";
+			view.brain_list.text("source", text);
 		});
 
 		
@@ -60,6 +61,7 @@ var BRAIN_LIST = (function () {
 
 	handler.go = function (from) {
 		view.menu.goto(from + "_pick_brain");
+		this.showId("all");
 	};
 
 	return handler;
