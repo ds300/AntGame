@@ -36,19 +36,34 @@ function AntGame(redBrain, blackBrain, world) {
 
 	var getScore = function () {
 		var score = {
-			red: 0, 
-			black: 0
+			red: {
+				food: 0,
+				deaths: 0
+			},
+			black: {
+				food: 0,
+				deaths: 0
+			}
 		};
+
 		for (var row = 0; row < world.height; row++) {
 			for (var col = 0; col < world.width; col++) {
 				var cell = world.getCell(row, col);
 				if (cell.type === "black hill") {
-					score.black += cell.getFood();
+					score.black.food += cell.getFood();
 				} else if (cell.type === "red hill") {
-					score.red += cell.getFood();
+					score.red.food += cell.getFood();
 				}
 			}
 		}
+
+		for (var i = ants.length - 1; i >= 0; i--) {
+			if (ants[i].alive === false) {
+				score[ants[i].color].deaths += 1;
+			}
+		}
+
+		return score;
 	};
 
 	return {

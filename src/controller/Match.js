@@ -54,23 +54,21 @@ var MATCH = (function () {
 				_match.vis = true;
 			});
 			on("go", function () {
-				view.menu.goto("sm_run_sans");
-				var rng = model.RandomNumberGenerator();
 				RUN_SANS.go(
 					BRAINS[_match.red_id],
 					BRAINS[_match.black_id],
 					WORLDS[_match.world_id],
 					text("rounds"),
 					function (results) {
-						console.log("i'm all done");
-						go();
+						showResults(results);
+						on("results_close", function () {
+							go();
+						}, true);
 					},
 					function () {
 						go();
 					}
 				);
-
-				
 			}, true);
 		}
 	};

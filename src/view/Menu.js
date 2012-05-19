@@ -36,8 +36,8 @@ var locations = {
 		description: "Single Match",
 		selector: ".ag-sm"
 	},
-	sm_run_sans: {
-		prerequisites: ["root", "single_match"],
+	run_sans: {
+		prerequisites: [],
 		description: "Run Without Graphics",
 		selector: ".ag-run-sans"
 	},

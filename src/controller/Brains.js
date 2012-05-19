@@ -23,7 +23,7 @@ BRAINS.push({
 });
 
 BRAINS.push({
-	name: "Bolton Wanderers from the north coast of the citadel",
+	name: "Bolton Wanderers",
 	preset: true,
 	source: 
 		"Sense Ahead 1 3 Food" + "\n" +

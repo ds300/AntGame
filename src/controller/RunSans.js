@@ -17,41 +17,47 @@ var RUN_SANS = (function () {
 
 		view.run_sans.text("red_name", red.name);
 		view.run_sans.text("black_name", black.name);
+		view.run_sans.text("world_name", world.name);
 
 		view.run_sans.on("cancel", function () {
-			clearTimeout(timeout);
+			
 			tearDown();
 			onCancel();
 		});
-		view.menu.goto("sm_run_sans");
+		view.menu.goto("run_sans");
 		view.menu.hideBreadcrumbs();
 		run(game, rounds, onFinish);
 	};
 
 	var timeout;
+	var interval;
 
 	function run(game, rounds, onFinish) {
 		var i = 0;
+		interval = setInterval(updateProgressBar, 200);
+		function updateProgressBar() {
+			view.run_sans.text(
+				"progress",
+				Math.floor(100 / rounds * i) + "%"
+			);
+		}
 		function doSomeRounds() {
-			var numToRun = Math.min(500, rounds - i);
+			var numToRun = Math.min(1000, rounds - i);
 			if (numToRun > 0) {
 				game.run(numToRun);
 				i += numToRun;
-				view.run_sans.text(
-					"progress",
-					Math.floor(100 / rounds * i) + "%"
-				);
 				timeout = setTimeout(doSomeRounds, 0);
 			} else {
-				// gather stats
 				tearDown();
-				onFinish();
+				onFinish(game.getScore());
 			}
 		}
 		doSomeRounds();
 	}
 
 	function tearDown() {
+		clearTimeout(timeout);
+		clearInterval(interval);
 		view.menu.showBreadcrumbs();
 		view.run_sans.text("progress", "0%");
 	}

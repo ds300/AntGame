@@ -18,6 +18,10 @@ var textElems = {
 		get: function () { return $("#ag-run-sans-black").text(); },
 		set: function (text) { $("#ag-run-sans-black").text(text); }
 	},
+	world_name: {
+		get: function () { return $("#ag-run-sans-world").text(); },
+		set: function (text) { $("#ag-run-sans-world").text(text); }
+	},
 	progress: {
 		get: function () {},
 		set: function (percent) {
