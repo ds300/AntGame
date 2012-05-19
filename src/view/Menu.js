@@ -94,5 +94,13 @@ exports.menu.goto = function (location) {
 	}
 };
 
+exports.menu.hideBreadcrumbs = function () {
+	$("#ag-bread").hide();
+};
+
+exports.menu.showBreadcrumbs = function () {
+	$("#ag-bread").show();
+};
+
 
 })();

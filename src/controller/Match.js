@@ -52,31 +52,25 @@ var MATCH = (function () {
 			});
 			on("vis_on", function () {
 				_match.vis = true;
-			}, true);
+			});
 			on("go", function () {
 				view.menu.goto("sm_run_sans");
 				var rng = model.RandomNumberGenerator();
-				var game = model.AntGame(
-					model.AntBrain(model.parseAntBrain(BRAINS[_match.red_id].source), "red", rng),
-					model.AntBrain(model.parseAntBrain(BRAINS[_match.black_id].source), "black", rng),
-					model.AntWorld(model.parseAntWorld(WORLDS[_match.world_id].source)));
-				var rounds = parseInt(text("rounds"));
-				var i = 0;
-				function doSomeRounds() {
-					var numToRun = Math.min(500, rounds - i);
-					if (numToRun > 0) {
-						game.run(numToRun);
-						i += numToRun;
-						view.run_sans.text(
-							"progress",
-							Math.floor(100 / rounds * i) + "%"
-						);
-						setTimeout(doSomeRounds, 5);
-					} else {
-						console.log("game over");
+				RUN_SANS.go(
+					BRAINS[_match.red_id],
+					BRAINS[_match.black_id],
+					WORLDS[_match.world_id],
+					text("rounds"),
+					function (results) {
+						console.log("i'm all done");
+						go();
+					},
+					function () {
+						go();
 					}
-				}
-				doSomeRounds();
+				);
+
+				
 			}, true);
 		}
 	};

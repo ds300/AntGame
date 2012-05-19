@@ -106,7 +106,7 @@ function AntBrain(states, color, rng) {
 				if (cell.isAvailable()) {
 					cell.moveAntHere(ant);
 					ant.state = state.st1;
-					ant.resting = 14;
+					ant.rest();
 					ant.checkForAdjacentDeaths();
 				} else {
 					ant.state = state.st2;

@@ -10,12 +10,13 @@ function Ant(id, color, brain, world) {
 	this.dir = 0;
 	this.resting = 0;
 	this.food = 0;
+	this.alive = true;
 
 	this.kill = function () {
 		var cell = world.getCell(this.row, this.col);
 		cell.depositFood(3);
 		cell.removeAnt();
-		// remove from ants
+		this.alive = false;
 		this.step = function () {};
 	};
 
@@ -62,13 +63,22 @@ function Ant(id, color, brain, world) {
 		return world.getCell(this.row, this.col);
 	};
 
-	this.step = function () {
-		if (this.resting > 0) {
-			this.resting--;
-		} else {
-			brain[this.state](this);
-		}
+	this.rest = function () {
+		this.resting = 14;
+		this.step = function () {
+			if (--this.resting === 0) {
+				this.step = execute(this);
+			}
+		};
 	};
+
+	var execute = function (ant) {
+		return function () {
+			brain[ant.state](ant);
+		};
+	};
+
+	this.step = execute(this);
 
 	this.toString = function () {
 		return this.color + " ant of id " + this.id + ", dir " + 

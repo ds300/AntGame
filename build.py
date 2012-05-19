@@ -46,6 +46,7 @@ controller_src_files = [
 	"Match.js",
 	"Contest.js",
 	"ContestSetup.js",
+	"RunSans.js",
 	"Menu.js",
 	"ListHandler.js",
 	"BrainList.js",
