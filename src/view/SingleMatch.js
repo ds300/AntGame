@@ -38,9 +38,9 @@ var events = [
 	{
 		name: "vis_off",
 		binder: function (callback) {
-			$("#ag-sm-vis-on").click(function () {
-				$("#ag-sm-vis-on").hide();
-				$("#ag-sm-vis-off").show();
+			$(".ag-vis-on").click(function () {
+				$(".ag-vis-on").hide();
+				$(".ag-vis-off").show();
 				callback("off");
 			});
 		}
@@ -48,9 +48,9 @@ var events = [
 	{
 		name: "vis_on",
 		binder: function (callback) {
-			$("#ag-sm-vis-off").click(function () {
-				$("#ag-sm-vis-off").hide();
-				$("#ag-sm-vis-on").show();
+			$(".ag-vis-off").click(function () {
+				$(".ag-vis-off").hide();
+				$(".ag-vis-on").show();
 				callback("on");
 			});
 		}

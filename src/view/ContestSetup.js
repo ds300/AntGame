@@ -68,7 +68,6 @@ function getContestList (baseElem) {
 	return list;
 }
 
-exports.contest = exports.contest || {};
 exports.contest.worlds = getContestList("worlds");
 exports.contest.brains = getContestList("brains");
 

@@ -9,7 +9,7 @@ var CONTEST_SETUP = (function () {
 	};
 
 	var go = function () {
-		view.menu.goto("contest");
+		view.menu.goto("contest_setup");
 		_refreshList("brains");
 		_refreshList("worlds");
 	};
@@ -66,6 +66,10 @@ var CONTEST_SETUP = (function () {
 
 		initList("brains");
 		initList("worlds");
+
+		view.contest.on("go", function () {
+			CONTEST.go(_contest.brains, _contest.worlds);
+		});
 	};
 
 	return {
