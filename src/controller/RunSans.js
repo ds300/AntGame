@@ -20,10 +20,10 @@ var RUN_SANS = (function () {
 		view.run_sans.text("world_name", world.name);
 
 		view.run_sans.on("cancel", function () {
-			
 			tearDown();
 			onCancel();
-		});
+		}, true);
+		
 		view.menu.goto("run_sans");
 		view.menu.hideBreadcrumbs();
 		run(game, rounds, onFinish);

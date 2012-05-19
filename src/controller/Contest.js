@@ -153,7 +153,7 @@ var CONTEST = (function () {
 			contest.worlds[f.world],
 			30000,
 			onFinish,
-			go
+			function () { go(); } 
 		);
 	}
 
