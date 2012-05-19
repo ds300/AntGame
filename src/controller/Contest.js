@@ -73,7 +73,7 @@ var CONTEST = (function () {
 			ranked.push(brains[i]);
 		};
 		ranked.sort(function (a, b) {
-			return a.score - b.score;
+			return b.score - a.score;
 		});
 		return ranked;
 	}
@@ -85,25 +85,27 @@ var CONTEST = (function () {
 	function printFixtures() {
 		var played = [];
 		var remaining = [];
-		var numFixtures = contest.fixtures.length;
-		for (var i = 0; i < numFixtures; i++) {
+		for (var i = contest.fixtures.length - 1; i >= 0; i--) {
 			var f = contest.fixtures[i];
-			if (f.outcome === -1) {
-				remaining.push({
-					id: i,
-					red_name: contest.brains[f.red].name,
-					black_name: contest.brains[f.black].name,
-					world_name: contest.worlds[f.world].name
-				});
-			} else {
-				played.push({
-					outcome: f.outcome,
-					red_name: contest.brains[f.red].name,
-					black_name: contest.brains[f.black].name,
-					world_name: contest.worlds[f.world].name
-				});
-			}
+			remaining.unshift({
+				id: i,
+				red_name: contest.brains[f.red].name,
+				black_name: contest.brains[f.black].name,
+				world_name: contest.worlds[f.world].name
+			});
 		}
+
+		for (var i = contest.played_fixtures.length - 1; i >= 0; i--) {
+			var f = contest.played_fixtures[i];
+			played.push({
+				outcome: f.outcome,
+				red_name: contest.brains[f.red].name,
+				black_name: contest.brains[f.black].name,
+				world_name: contest.worlds[f.world].name
+			});
+		};
+
+		
 		view.contest.populateRemainingFixtures(remaining);
 		view.contest.populatePlayedFixtures(played);
 		if (remaining.length === 0) {
@@ -122,13 +124,58 @@ var CONTEST = (function () {
 		view.menu.goto("contest");
 	};
 
+	function handleResults(results, fixtureId) {
+		var f = contest.fixtures[fixtureId];
+		if (results.red.food > results.black.food) {
+			contest.brains[f.red].score += 2;
+			f.outcome = 0;
+		} else if (results.black.food > results.red.food) {
+			contest.brains[f.black].score += 2;
+			f.outcome = 2;
+		} else {
+			contest.brains[f.red].score += 1;
+			contest.brains[f.black].score += 1;
+			f.outcome = 1;
+		}
+		contest.brains[f.red].played += 1;
+		contest.brains[f.black].played += 1;
+		contest.worlds[f.world].red_food += results.red.food;
+		contest.worlds[f.world].black_food += results.black.food;
+		contest.fixtures.splice(fixtureId, 1);
+		contest.played_fixtures.push(f);
+	}
+
+	function run_sans(id, onFinish) {
+		var f = contest.fixtures[id];
+		RUN_SANS.go(
+			contest.brains[f.red],
+			contest.brains[f.black],
+			contest.worlds[f.world],
+			30000,
+			onFinish,
+			go
+		);
+	}
+
 	var init = function () {
 		view.contest.on("play_all", function () {
-
+			(function playAll(){
+				if (contest.fixtures.length > 0) {
+					run_sans(0, function (results) {
+						handleResults(results, 0);
+						playAll();
+					});	
+				} else {
+					go();
+				}
+			})();
 		});
 
 		view.contest.on("play", function (id) {
-
+			run_sans(id, function (results) {
+				handleResults(results, id);
+				go();
+			});
 		});
 
 		view.contest.on("played_fixtures", function () {

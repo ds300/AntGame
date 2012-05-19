@@ -169,6 +169,7 @@ exports.contest.populatePlayedFixtures = function (fixtures) {
 		var f = fixtures[i];
 		var row = $("<tr></tr>").appendTo(t);
 		var red_name = getColoredName("red", f.red_name, f.outcome);
+		var black_name = getColoredName("black", f.black_name, f.outcome);
 		$("<td>" + red_name + "</td>").appendTo(row);
 		$("<td>" + black_name + "</td>").appendTo(row);
 		$("<td>" + f.world_name + "</td>").appendTo(row);
