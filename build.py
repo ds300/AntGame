@@ -35,7 +35,8 @@ view_src_files = [
 	"SingleMatch.js",
 	"Game.js",
 	"WorldThumbnail.js",
-	"Init.js"
+	"RunSans.js",
+	"Init.js",
 ]
 
 controller_src_files = [

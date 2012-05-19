@@ -20,7 +20,7 @@ var events = [
 		binder: function (callback) {
 			$(".ag-btn-contest").click(callback);
 		}
-	},
+	}
 ];
 
 exports.menu = new LogicalGroup(events, {});
@@ -35,6 +35,11 @@ var locations = {
 		prerequisites: ["root"],
 		description: "Single Match",
 		selector: ".ag-sm"
+	},
+	sm_run_sans: {
+		prerequisites: ["root", "single_match"],
+		description: "Run Without Graphics",
+		selector: ".ag-run-sans"
 	},
 	contest_setup: {
 		prerequisites: ["root"],

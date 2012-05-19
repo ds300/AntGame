@@ -32,7 +32,7 @@ var events = [
 	{
 		name: "go",
 		binder: function (callback) {
-			$("#ag-sm-go").click(callback);
+			$("#ag-sm-run").click(callback);
 		}
 	},
 	{

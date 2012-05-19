@@ -4,9 +4,9 @@ exports.init = function () {
 	this.brain_list.init();
 	this.world_list.init();
 	this.edit.init();
-	this.single_match.init();
 	this.contest.init();
 	this.contest.brains.init();
 	this.contest.worlds.init();
+	this.run_sans.init();
 	$("#loading-bg").hide();
 };

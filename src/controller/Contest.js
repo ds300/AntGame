@@ -2,6 +2,7 @@ var CONTEST = (function () {
 	var go = function (brains, worlds) {
 
 	};
+
 	function getFixtures(brains, worlds) {
 		var fixtures = [];
 		var numBrains = brains.length;
@@ -62,6 +63,7 @@ var CONTEST = (function () {
 		contest.brains = newBrains;
 		contest.worlds = newWorlds;
 		contest.fixtures = getFixtures(newBrains, newWorlds);
+		contest.played_fixtures = [];
 	}
 
 	function getRankedBrains(brains) {
@@ -81,7 +83,6 @@ var CONTEST = (function () {
 	}
 
 	function printFixtures() {
-		console.log("printFixtures", contest.fixtures);
 		var played = [];
 		var remaining = [];
 		var numFixtures = contest.fixtures.length;
@@ -113,7 +114,9 @@ var CONTEST = (function () {
 	}
 
 	var go = function (brains, worlds) {
-		setup(brains, worlds);
+		if (brains && worlds) {
+			setup(brains, worlds);
+		}
 		printRankings();
 		printFixtures();
 		view.menu.goto("contest");
@@ -121,6 +124,10 @@ var CONTEST = (function () {
 
 	var init = function () {
 		view.contest.on("play_all", function () {
+
+		});
+
+		view.contest.on("play", function (id) {
 
 		});
 

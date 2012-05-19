@@ -29,6 +29,7 @@ function LogicalGroup(events, textElems) {
 	this.trigger = function (evnt, argsArray) {
 		if (Array.isArray(this.callbacks[evnt])) {
 			// iterate over callbacks and call them!
+
 			for (var i = this.callbacks[evnt].length - 1; i >= 0; i--) {
 				this.callbacks[evnt][i].apply(this, argsArray);
 			};

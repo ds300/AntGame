@@ -6,8 +6,6 @@ function getListHandler(list, resources, initCallback) {
 	var refresh = function () {
 		if (_excludes.length === resources.length) {
 			view[list].sayEmpty();
-			console.log("_excludes", _excludes);
-			console.log("resources", resources);
 			return;
 		}
 		view[list].clear();
@@ -62,7 +60,6 @@ function getListHandler(list, resources, initCallback) {
 	};
 
 	var showId = function (id) {
-		console.log("trying to reshow id",id);
 		if (id === "all") {
 			_excludes = [];
 			refresh();

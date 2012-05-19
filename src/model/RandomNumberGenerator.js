@@ -12,3 +12,5 @@ function RandomNumberGenerator() {
 		}
 	};
 }
+
+exports.RandomNumberGenerator = RandomNumberGenerator;

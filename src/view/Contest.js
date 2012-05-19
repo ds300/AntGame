@@ -111,7 +111,6 @@ exports.contest.populateRemainingFixtures = function (fixtures) {
 		return;
 	}
 
-	console.log("fixtures", fixtures);
 	for (var i = 0; i < numFixtures; i++) {
 		var row = $("<tr></tr>").appendTo(t);
 		$("<td>" + fixtures[i].red_name + "</td>").appendTo(row);
@@ -166,7 +165,6 @@ exports.contest.populatePlayedFixtures = function (fixtures) {
 		return;
 	}
 
-	console.log("fixtures", fixtures);
 	for (var i = 0; i < numFixtures; i++) {
 		var f = fixtures[i];
 		var row = $("<tr></tr>").appendTo(t);
