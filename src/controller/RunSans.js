@@ -51,10 +51,16 @@ var RUN_SANS = (function () {
 			}
 		}
 		window.addEventListener('message', doSomeRounds, false);
+		removeEventListener = function () {
+			window.removeEventListener('message', doSomeRounds, false);
+		};
 		doSomeRounds();
 	}
 
+	var removeEventListener = function () {};
+
 	function tearDown() {
+		removeEventListener();
 		view.menu.showBreadcrumbs();
 		view.run_sans.text("progress", "0%");
 	}

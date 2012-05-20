@@ -41,6 +41,11 @@ var locations = {
 		description: "Run Without Graphics",
 		selector: ".ag-run-sans"
 	},
+	run: {
+		prerequisites: [],
+		description: "Run With Graphics",
+		selector: ".ag-run"
+	},
 	contest_setup: {
 		prerequisites: ["root"],
 		description: "Contest Setup",

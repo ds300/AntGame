@@ -32,6 +32,11 @@ var MATCH = (function () {
 		};
 	};
 
+	var run = function () {
+		var f = _match.vis ? RUN : RUN_SANS;
+		f.go
+	}
+
 	var init = function () {
 		// hook up things
 		with (view.single_match) {
@@ -54,7 +59,8 @@ var MATCH = (function () {
 				_match.vis = true;
 			});
 			on("go", function () {
-				RUN_SANS.go(
+				var f = _match.vis ? RUN : RUN_SANS;
+				f.go(
 					BRAINS[_match.red_id],
 					BRAINS[_match.black_id],
 					WORLDS[_match.world_id],

@@ -25,7 +25,7 @@ var textElems = {
 	progress: {
 		get: function () {},
 		set: function (percent) {
-			$("#ag-run-sans-progress").css("width", percent);
+			$("#ag-run-sans-progress").attr("style", "width: " + percent);
 		}
 	}
 };
