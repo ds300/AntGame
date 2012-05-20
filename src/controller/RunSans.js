@@ -23,18 +23,15 @@ var RUN_SANS = (function () {
 			tearDown();
 			onCancel();
 		}, true);
-		
+
 		view.menu.goto("run_sans");
 		view.menu.hideBreadcrumbs();
 		run(game, rounds, onFinish);
 	};
 
-	var timeout;
-	var interval;
 
 	function run(game, rounds, onFinish) {
 		var i = 0;
-		interval = setInterval(updateProgressBar, 200);
 		function updateProgressBar() {
 			view.run_sans.text(
 				"progress",
@@ -42,22 +39,22 @@ var RUN_SANS = (function () {
 			);
 		}
 		function doSomeRounds() {
-			var numToRun = Math.min(1000, rounds - i);
+			var numToRun = Math.min(500, rounds - i);
 			if (numToRun > 0) {
 				game.run(numToRun);
 				i += numToRun;
-				timeout = setTimeout(doSomeRounds, 0);
+				updateProgressBar();
+				window.postMessage('','*');
 			} else {
 				tearDown();
 				onFinish(game.getScore());
 			}
 		}
+		window.addEventListener('message', doSomeRounds, false);
 		doSomeRounds();
 	}
 
 	function tearDown() {
-		clearTimeout(timeout);
-		clearInterval(interval);
 		view.menu.showBreadcrumbs();
 		view.run_sans.text("progress", "0%");
 	}
