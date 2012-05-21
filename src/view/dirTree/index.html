@@ -436,27 +436,28 @@
 
 
 	<!--  RUN  DEF -->
-	<div class="ag-run container">
-		<div class="row">
-			<div class="span12 welcome" id="ag-run-anchor">
-				<div class="row">
-					<div class="span12" style="text-align: center;">
-						<div style="overflow: hidden; position: relative">
-							<div style="float: left; position: relative; left: 50%">
-								<div style="float: left; position: relative; left: -50%">
-									<canvas id="ag-run-canv-base"></canvas>
-									<div style="position: absolute; left: 0; top: 0;">
-										<canvas id="ag-run-canv-obj"></canvas>
-									</div>
-							
-								</div>
-							</div>
-						</div>
-						
+	<div class="ag-run" id="ag-run-container">
+
+		<div style="overflow: hidden; position: relative">
+			<div style="float: left; position: relative; left: 50%">
+				<div style="float: left; position: relative; left: -50%">
+					<canvas id="ag-run-canv-base"></canvas>
+					<div style="position: absolute; left: 0; top: 0;">
+						<canvas id="ag-run-canv-marker"></canvas>
+					</div>
+					<div style="position: absolute; left: 0; top: 0;">
+						<canvas id="ag-run-canv-food-odd"></canvas>
+					</div>
+					<div style="position: absolute; left: 0; top: 0;">
+						<canvas id="ag-run-canv-food-even"></canvas>
+					</div>
+					<div style="position: absolute; left: 0; top: 0;">
+						<canvas id="ag-run-canv-ants"></canvas>
 					</div>
 				</div>
 			</div>
 		</div>
+
 	</div>
 	<!-- END RUN DEF -->
 
