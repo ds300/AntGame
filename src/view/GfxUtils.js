@@ -8,7 +8,7 @@ var getFoodCanvas = function (dx, numFood) {
 	var dy = dx * Math.tan(Math.PI / 6);
 	canv.height =  Math.ceil(4 * dy)
 	var ctx = canv.getContext("2d");
-	var radius = dx / 5 * numFood;
+	var radius = dx / 5 * numFood * 0.87;
 	ctx.fillStyle = "#008000";
 	ctx.beginPath();
 	ctx.arc(canv.width / 2, canv.height / 2, radius, 0, Math.PI * 2, true);

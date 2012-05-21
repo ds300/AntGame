@@ -15,12 +15,20 @@ var spriteWidth;
 var spriteHeight;
 
 var hexTopLefts;
+var markerPositions;
 
 var dx; // half the width of a hexagon
 var dy; // quarter the height of a hexagon
 
 var canvasWidth;
 var canvasHeight;
+
+var markerColors = {
+	red : ["#bc7f65","#d47c62","#e28b72","#e19996","#e28b8e","#d9a0a1"],
+	black : ["#a6c4b7","#97b3bc","#979dbc","#a6b7b7","#838cba","#867ca4"]
+};
+
+var markerSize;
 
 exports.game.setup = function (grid) {
 
@@ -54,15 +62,56 @@ exports.game.setup = function (grid) {
 	// pre-compute the top-left corners of hexagons
 	hexTopLefts = [];
 	dy = dx * Math.tan(Math.PI / 6);
-	for (var row = 0; row < grid.width; row++) {
+	for (var row = 0; row < grid.height; row++) {
 		hexTopLefts.push([]);
-		for (var col = 0; col < grid.height; col++) {
+		for (var col = 0; col < grid.width; col++) {
 			var x = 2 * dx * col;
 			if (row % 2 === 1) { x += dx; }
 			hexTopLefts[row][col] = {
-				x: Math.round(x),
-				y: Math.round(3 * dy * row)
+				x: x,
+				y: 3 * dy * row
 			}
+		}
+	}
+
+	// pre-compute marker positions
+	markerSize = Math.ceil(dx / 3);
+	markerPositions = [];
+	for (var row = 0; row < grid.height; row++) {
+		markerPositions.push([]);
+		for (var col = 0; col < grid.width; col++) {
+			markerPositions[row].push({red: [], black: []});
+			// get the center of the hexagon we're lookin' at
+			var center = {
+				x: hexTopLefts[row][col].x + dx,
+				y: hexTopLefts[row][col].y + (2 * dy)
+			};
+			var offsets = {"red": 1, "black": -1};
+			for (var color in offsets) {
+				for (var k = 0; k < 6; k++) {
+					// find their center positions
+					var x = center.x + (Math.abs(Math.abs(k - 2.5) - 2.5) / 2.5) * 0.8 * dx * offsets[color];
+					var y = center.y + (k - 2.5) / 2.5 * 2 * dy;
+					// subtract half of marker size to get them in the right place
+					x -= Math.ceil(markerSize / 2);
+					y -= Math.ceil(markerSize / 2);
+					// integerize for speed get
+					x = Math.round(x);
+					y = Math.round(y);
+					markerPositions[row][col][color][k] = {x: x, y: y};
+				}
+			}
+		}
+	}
+
+
+	// integerize hex positions for speed get
+
+	for (var row = 0; row < grid.height; row++) {
+		for (var col = 0; col < grid.width; col++) {
+			var htl = hexTopLefts[row][col];
+			htl.x = Math.round(htl.x);
+			htl.y = Math.round(htl.y);
 		}
 	}
 
@@ -125,6 +174,19 @@ var newFrame = function () {
 
 exports.game.newFrame = newFrame;
 
+var mpos;
+var mark = function (row, col, color, marker) {
+	mctx.fillStyle = markerColors[color][marker];
+	mpos = markerPositions[row][col][color][marker];
+	mctx.fillRect(mpos.x, mpos.y, markerSize, markerSize);
+};
+var unmark = function (row, col, color, marker) {
+	mpos = markerPositions[row][col][color][marker];
+	mctx.clearRect(mpos.x, mpos.y, markerSize, markerSize);
+};
+
+exports.game.mark = mark;
+exports.game.unmark = unmark;
 
 
 

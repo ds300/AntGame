@@ -1,4 +1,4 @@
-function AntBrain(states, color, rng, foodCallback) {
+function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback) {
 	var otherColor = color === "red" ? "black" : "red";
 	var senseConditionEvaluators = {
 		"Friend": function (senseCell) {
@@ -59,12 +59,14 @@ function AntBrain(states, color, rng, foodCallback) {
 			return function (ant) {
 				ant.getCurrentCell().addMarker(ant.color, state.marker);
 				ant.state = state.st;
+				markCallback && markCallback(ant.row, ant.col, ant.color, state.marker);
 			};
 		},
 		"Unmark": function (state) {
 			return function (ant) {
 				ant.getCurrentCell().removeMarker(ant.color, state.marker);
 				ant.state = state.st;
+				unmarkCallback && unmarkCallback(ant.row, ant.col, ant.color, state.marker);
 			};
 		},
 		"PickUp": function (state) {

@@ -9,13 +9,17 @@ var RUN = (function () {
 			model.parseAntBrain(red.source), 
 			"red",
 			rng,
-			view.game.drawFood
+			view.game.drawFood,
+			view.game.mark,
+			view.game.unmark
 		);
 		var blackBrain = model.AntBrain(
 			model.parseAntBrain(black.source),
 			"black",
 			rng,
-			view.game.drawFood
+			view.game.drawFood,
+			view.game.mark,
+			view.game.unmark
 		);
 		var antworld = model.AntWorld(model.parseAntWorld(world.source));
 		var game = model.AntGame(redBrain, blackBrain, antworld);
