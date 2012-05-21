@@ -179,7 +179,7 @@ WORLDS.push({
 });
 
 for (var i = WORLDS.length - 1; i >= 0; i--) {
-	WORLDS[i].thumb = view.getWorldThumbnail(
+	WORLDS[i].thumb = view.game.gfx_utils.getWorldThumbnail(
 		model.parseAntWorld(WORLDS[i].source)
 	);
 };

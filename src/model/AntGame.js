@@ -66,9 +66,20 @@ function AntGame(redBrain, blackBrain, world) {
 		return score;
 	};
 
+	var ant;
+	var withAnts = function (callback) {
+		for (var i = ants.length - 1; i >= 0; i--) {
+			ant = ants[i];
+			if (ant.alive) {
+				callback(ant.row, ant.col, ant.dir, ant.color);
+			}
+		}
+	};
+
 	return {
 		run: run,
-		getScore: getScore
+		getScore: getScore,
+		withAnts: withAnts
 	};
 }
 exports.AntGame = AntGame;

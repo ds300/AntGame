@@ -34,7 +34,7 @@ view_src_files = [
 	"Menu.js",
 	"SingleMatch.js",
 	"Game.js",
-	"WorldThumbnail.js",
+	"GfxUtils.js",
 	"RunSans.js",
 	"Init.js",
 ]

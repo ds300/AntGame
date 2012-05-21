@@ -18,7 +18,7 @@ var WORLD_LIST = (function () {
 				source: source,
 				preset: false,
 				contest: worldIsContestLegal,
-				thumb: view.getWorldThumbnail(parsed)
+				thumb: view.game.gfx_utils.getWorldThumbnail(parsed)
 			};
 			view.edit.hide();
 			return world;
@@ -50,7 +50,7 @@ var WORLD_LIST = (function () {
 				preset: false,
 				contest: true,
 				source: source,
-				thumb: view.getWorldThumbnail(model.parseAntWorld(source))
+				thumb: view.game.gfx_utils.getWorldThumbnail(model.parseAntWorld(source))
 			};
 			that.add(w);
 		});
