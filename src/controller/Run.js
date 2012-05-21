@@ -8,12 +8,14 @@ var RUN = (function () {
 		var redBrain = model.AntBrain(
 			model.parseAntBrain(red.source), 
 			"red",
-			rng
+			rng,
+			view.game.drawFood
 		);
 		var blackBrain = model.AntBrain(
 			model.parseAntBrain(black.source),
 			"black",
-			rng
+			rng,
+			view.game.drawFood
 		);
 		var antworld = model.AntWorld(model.parseAntWorld(world.source));
 		var game = model.AntGame(redBrain, blackBrain, antworld);
@@ -31,7 +33,7 @@ var RUN = (function () {
 			game.withAnts(view.game.drawAnt);
 		}
 		function doSomeRounds() {
-			var numToRun = Math.min(1, rounds - i);
+			var numToRun = Math.min(50, rounds - i);
 			if (numToRun > 0) {
 				game.run(numToRun);
 				i += numToRun;

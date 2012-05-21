@@ -1,4 +1,4 @@
-function AntBrain(states, color, rng) {
+function AntBrain(states, color, rng, foodCallback) {
 	var otherColor = color === "red" ? "black" : "red";
 	var senseConditionEvaluators = {
 		"Friend": function (senseCell) {
@@ -68,22 +68,27 @@ function AntBrain(states, color, rng) {
 			};
 		},
 		"PickUp": function (state) {
+			var cell;
 			return function (ant) {
-				var cell = ant.getCurrentCell();
+				cell = ant.getCurrentCell();
 				if (cell.hasFood() && !ant.hasFood()) {
 					cell.removeFood();
 					ant.food = 1;
 					ant.state = state.st1;
+					foodCallback && foodCallback(cell.row, cell.col, cell.getFood());
 				} else {
 					ant.state = state.st2;
 				}
 			};
 		},
 		"Drop": function (state) {
+			var cell;
 			return function (ant) {
 				if (ant.food === 1) {
-					ant.getCurrentCell().depositFood();
+					cell = ant.getCurrentCell();
+					cell.depositFood();
 					ant.food = 0;
+					foodCallback && foodCallback(cell.row, cell.col, cell.getFood());
 				}
 				ant.state = state.st;
 			};
@@ -101,8 +106,9 @@ function AntBrain(states, color, rng) {
 			};
 		},
 		"Move": function (state) {
+			var cell;
 			return function (ant) {
-				var cell = ant.getAdjacentCell(ant.dir);
+				cell = ant.getAdjacentCell(ant.dir);
 				if (cell.isAvailable()) {
 					cell.moveAntHere(ant);
 					ant.state = state.st1;

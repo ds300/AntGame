@@ -23,11 +23,9 @@ var octx; // obj context
 
 var maxZoom;
 
-var foodsQueue = [];
-var foodsQueuePointer;
-var foods; // array sized same as grid holds current food value of every cell.
+var foodChangeQueue = [];
 
-var marker
+var markerChangeQueue = [];
 
 
 exports.game.setup = function (grid) {
@@ -81,6 +79,7 @@ exports.game.setup = function (grid) {
 		
 		zoomLevels.push({
 			dx: idx,
+			dy: idy,
 			world_canv: world_canvas,
 			foods: foods,
 			food_canvs: [a, b],
@@ -146,9 +145,18 @@ exports.game.setup = function (grid) {
 
     // ok
     refreshWorld();
+    updateCellDimens();
+
+    for (var row = 0; row < grid.height; row++) {
+    	for (var col = 0; col < grid.width; col++) {
+    		if (grid.cells[row][col].type === "f") {
+    			drawFood(row, col, grid.cells[row][col].quantity);
+    		}
+    	}
+    }
 };
 
-var topleft;
+var topleft, cellWidth, cellHeight;
 
 var drawAnt = function (row, col, dir, color) {
 	topleft = czl.hexTopLefts[row][col];
@@ -156,6 +164,21 @@ var drawAnt = function (row, col, dir, color) {
 };
 
 exports.game.drawAnt = drawAnt;
+
+var drawFood = function (row, col, num) {
+	for (var i = 0; i <= maxZoom; i++) {
+		var zl = zoomLevels[i];
+		topleft = zl.hexTopLefts[row][col];
+		var ctx = zl.food_ctxs[row % 2];
+		ctx.clearRect(topleft.x, topleft.y, zl.dx * 2, zl.dy * 4);
+		if (num > 0) {
+			ctx.drawImage(zl.foods[num > 4 ? 4 : num], topleft.x, topleft.y);
+		}
+	}
+	
+};
+
+exports.game.drawFood = drawFood;
 
 var newFrame = function () {
 	octx.clearRect(0, 0, ocanv.width, ocanv.height);
@@ -173,6 +196,10 @@ function zoom(inout, pageX, pageY) {
 	pzl = czl;
 	currentzl = Math.min(Math.max(currentzl + inout, 0), maxZoom);
 	czl = zoomLevels[currentzl];
+
+	if (pzl === czl) {
+		return;
+	}
 
 	var newWidth = czl.world_canv.width;
 	var newHeight = czl.world_canv.height;
@@ -200,17 +227,23 @@ function zoom(inout, pageX, pageY) {
 	
 	// copy markers and food
 
-	czl.marker_ctx.clearRect(0, 0, newWidth, newHeight);
-	czl.food_ctxs[0].clearRect(0, 0, newWidth, newHeight);
-	czl.food_ctxs[1].clearRect(0, 0, newWidth, newHeight);
+	// czl.marker_ctx.clearRect(0, 0, newWidth, newHeight);
+	// czl.food_ctxs[0].clearRect(0, 0, newWidth, newHeight);
+	// czl.food_ctxs[1].clearRect(0, 0, newWidth, newHeight);
 
-	czl.marker_ctx.drawImage(pzl.marker_canv, 0, 0, newWidth, newHeight);
-	czl.food_ctxs[0].drawImage(pzl.food_canvs[0], 0, 0, newWidth, newHeight);
-	czl.food_ctxs[1].drawImage(pzl.food_canvs[1], 0, 0, newWidth, newHeight);
+	// czl.marker_ctx.drawImage(pzl.marker_canv, 0, 0, newWidth, newHeight);
+	// czl.food_ctxs[0].drawImage(pzl.food_canvs[0], 0, 0, newWidth, newHeight);
+	// czl.food_ctxs[1].drawImage(pzl.food_canvs[1], 0, 0, newWidth, newHeight);
 
 	refreshWorld();
 	newFrame();
 
+	updateCellDimens();
+}
+
+function updateCellDimens() {
+	cellWidth = 2 * czl.dx;
+	cellHeight = 4 * czl.dy;
 }
 
 // this function recurses up the DOM tree to find out where 
@@ -231,12 +264,12 @@ function getOffset(elem) {
 
 
 
-function refreshWorld () {
+function refreshWorld() {
 	bctx.drawImage(czl.world_canv, xoff, yoff);
 	newFrame();
 }
 
-function startDrag (e) {
+function startDrag(e) {
 	var x = e.pageX;
 	var y = e.pageY;
 	window.onmousemove = function (e) {
