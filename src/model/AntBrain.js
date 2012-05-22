@@ -108,11 +108,14 @@ function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback
 			};
 		},
 		"Move": function (state) {
-			var cell;
+			var ncell;
+			var ccell;
 			return function (ant) {
-				cell = ant.getAdjacentCell(ant.dir);
-				if (cell.isAvailable()) {
-					cell.moveAntHere(ant);
+				ccell = ant.getCurrentCell();
+				ncell = ant.getAdjacentCell(ant.dir);
+				if (ncell.isAvailable()) {
+					ncell.setAnt(ant);
+					ccell.removeAnt();
 					ant.state = state.st1;
 					ant.rest();
 					ant.checkForAdjacentDeaths();

@@ -29,8 +29,12 @@ function WorldCell(cell, row, col) {
 	var ant = null,
 		food = cell.quantity || 0,
 		markers = {
-			red: [],
-			black: []
+			red: [false, false, false, false, false, false],
+			black: [false, false, false, false, false, false]
+		},
+		markerCounts = {
+			red: 0,
+			black: 0
 		};
 
 	
@@ -48,18 +52,22 @@ function WorldCell(cell, row, col) {
 		// then color of hill if hill
 		if (type !== "clear") { s += type + "; "; }
 		// then red markers
-		if (markers.red.length > 0) {
+		if (markerCounts.red > 0) {
 			s += "red marks: ";
 			for (var i = 0; i < markers.red.length; i++) {
-				s += markers.red[i];
+				if (markers.red[i]) {
+					s += i;
+				}
 			}
 			s += "; ";
 		}
 		// black markers
-		if (markers.black.length > 0) {
+		if (markerCounts.black > 0) {
 			s += "black marks: ";
 			for (var i = 0; i < markers.black.length; i++) {
-				s += markers.black[i];
+				if (markers.black[i]) {
+					s += i;
+				}
 			}
 			s += "; ";
 		}
@@ -69,22 +77,22 @@ function WorldCell(cell, row, col) {
 	};
 
 	var addMarker = function (color, num) {
-		if (markers[color].indexOf(num) === -1) {
-			markers[color].push(num);
-			markers[color].sort();
+		if (!markers[color][num]) {
+			markers[color][num] = true;
+			markerCounts[color]++;
 		}
 	};
 	var hasMarker = function (color, num) {
 		if (typeof num === 'undefined') {
-			return markers[color].length > 0;
+			return markerCounts[color] > 0;
 		} else {
-			return markers[color].indexOf(num) > -1;
+			return markers[color][num];
 		}
 	};
 	var removeMarker = function (color, num) {
-		var i = markers[color].indexOf(num);
-		if (i > -1) {
-			markers[color].splice(i, 1);
+		if (markers[color][num]) {
+			markers[color][num] = false;
+			markerCounts[color]--;
 		}
 	};
 	var containsAntOfColor = function (color) {
@@ -105,12 +113,6 @@ function WorldCell(cell, row, col) {
 		if (hasFood()) { food--; }
 	};
 	var isAvailable = function () { return !ant; };
-	var moveAntHere = function (newAnt) {
-		// not sure about these semantics
-		var oldCell = newAnt.getCurrentCell();
-		oldCell.removeAnt();
-		setAnt(newAnt);
-	};
 	var removeAnt = function () { ant = null; };
 	var setAnt = function (newAnt) {
 		ant = newAnt;
@@ -136,7 +138,6 @@ function WorldCell(cell, row, col) {
 		getFood: getFood,
 		removeFood: removeFood,
 		isAvailable: isAvailable,
-		moveAntHere: moveAntHere,
 		removeAnt: removeAnt,
 		setAnt: setAnt
 	};

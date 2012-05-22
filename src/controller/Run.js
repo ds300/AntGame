@@ -1,6 +1,6 @@
 var RUN = (function () {
 
-	var speed = 5;
+	var speed = 3;
 
 	var go = function (red, black, world, rounds, onFinish, onCancel) {
 		view.game.setup(model.parseAntWorld(world.source));
@@ -44,7 +44,7 @@ var RUN = (function () {
 		view.menu.hideBreadcrumbs();
 		run(game, rounds, onFinish);
 
-		view.game.text("speed", speed);
+		view.game.text("speed", speed + "");
 		view.game.text("red_name", red.name);
 		view.game.text("black_name", black.name);
 
@@ -57,13 +57,18 @@ var RUN = (function () {
 			view.game.newFrame();
 			game.withAnts(view.game.drawAnt);
 		}
+		var timeout;
 		function doSomeRounds() {
 			var numToRun = Math.min(10 * speed, rounds - i);
 			if (numToRun > 0) {
 				game.run(numToRun);
 				i += numToRun;
 				updateProgressBar();
-				window.postMessage('','*');
+				if (speed < 6) {
+					timeout = setTimeout(doSomeRounds, 30);
+				} else {
+					window.postMessage('','*');
+				}
 			} else {
 				tearDown();
 				onFinish(game.getScore());
@@ -71,6 +76,7 @@ var RUN = (function () {
 		}
 		window.addEventListener('message', doSomeRounds, false);
 		removeEventListener = function () {
+			clearTimeout(timeout);
 			window.removeEventListener('message', doSomeRounds, false);
 		};
 		doSomeRounds();

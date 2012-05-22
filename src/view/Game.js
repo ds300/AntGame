@@ -81,17 +81,7 @@ exports.game.setup = function (grid) {
 
 	var pageWidth = viewport().width - 18;
 
-	var bcanv = document.getElementById("ag-run-canv-base");
-	for (var i = 0; i < 1000000; i++) {
-		bcanv.width = pageWidth;
-		bcanv.height = 2000;
-		var pageWidth2 = document.body.offsetWidth;
-		if (pageWidth2 < pageWidth) {
-			pageWidth = pageWidth2;
-			console.log("done in " + i);
-			break;
-		}
-	}
+	
 
 	// find initial dx
 	dx = pageWidth / (2 * grid.width + 1);
@@ -178,6 +168,7 @@ exports.game.setup = function (grid) {
 	var world_sprite = this.gfx_utils.getWorldCanvas(dx, grid, false);
 
 	
+	var bcanv = document.getElementById("ag-run-canv-base");
 	var mcanv = document.getElementById("ag-run-canv-marker");
 	var fcanv0 = document.getElementById("ag-run-canv-food-even");
 	var fcanv1 = document.getElementById("ag-run-canv-food-odd");
