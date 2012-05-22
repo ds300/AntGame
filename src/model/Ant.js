@@ -25,9 +25,11 @@ function Ant(id, color, brain, world) {
 		return this.food === 1; 
 	};
 
+	var count, d;
+
 	this.checkForDeath = function () {
-		var count = 0;
-		for (var d = 0; d < 6; d++) {
+		count = 0;
+		for (d = 0; d < 6; d++) {
 			if (!world.getAdjacentCell(this.row, this.col, d).containsAntOfColor(this.otherColor)) {
 				count++;
 				if (count > 1) {
@@ -38,21 +40,29 @@ function Ant(id, color, brain, world) {
 		this.kill();
 	};
 
+	var adjCells = [null, null, null, null, null, null];
+	var enemies = [null, null, null, null, null, null];
+	var enemyPointer = -1;
+	var i = 0;
+
 	this.checkForAdjacentDeaths = function () {
-		var adjCells = world.getAllAdjacentCells(this.row, this.col);
-		var enemies = [];
-		for (var i = 0; i < adjCells.length; i++) {
-			if (adjCells[i].containsAntOfColor(this.otherColor)) {
-				enemies.push(adjCells[i].getAnt());
+		enemyPointer = -1;
+		d = 6;
+		while (d--) {
+			adjCells[d] = world.getAdjacentCell(this.row, this.col, d);
+			if (adjCells[d].containsAntOfColor(this.otherColor)) {
+				enemies[++enemyPointer] = adjCells[d].getAnt();
 			}
 		}
-		if (enemies.length > 4) {
+		if (enemyPointer > 3) {
 			this.kill();
 		} else {
-			for (var i = 0; i < enemies.length; i++) {
-				enemies[i].checkForDeath();
+			enemyPointer++;
+			while (enemyPointer--) {
+				enemies[enemyPointer].checkForDeath();
 			}
 		}
+		
 	};
 
 	this.getAdjacentCell = function (dir) {
@@ -67,18 +77,16 @@ function Ant(id, color, brain, world) {
 		this.resting = 14;
 		this.step = function () {
 			if (--this.resting === 0) {
-				this.step = execute(this);
+				this.step = execute;
 			}
 		};
 	};
 
-	var execute = function (ant) {
-		return function () {
-			brain[ant.state](ant);
-		};
+	var execute = function () {
+		brain[this.state](this);
 	};
 
-	this.step = execute(this);
+	this.step = execute;
 
 	this.toString = function () {
 		return this.color + " ant of id " + this.id + ", dir " + 
