@@ -1,5 +1,7 @@
 var RUN = (function () {
 
+	var speed = 5;
+
 	var go = function (red, black, world, rounds, onFinish, onCancel) {
 		view.game.setup(model.parseAntWorld(world.source));
 		view.menu.goto("run");
@@ -24,9 +26,28 @@ var RUN = (function () {
 		var antworld = model.AntWorld(model.parseAntWorld(world.source));
 		var game = model.AntGame(redBrain, blackBrain, antworld);
 
+		view.game.on("speed_up", function () {
+			speed = Math.min(speed + 1, 10);
+			view.game.text("speed", speed + "");
+		}, true);
+
+		view.game.on("speed_down", function () {
+			speed = Math.max(speed - 1, 1);
+			view.game.text("speed", speed + "");
+		}, true);
+
+		view.game.on("cancel", function () {
+			tearDown();
+			onCancel();
+		}, true);
 
 		view.menu.hideBreadcrumbs();
 		run(game, rounds, onFinish);
+
+		view.game.text("speed", speed);
+		view.game.text("red_name", red.name);
+		view.game.text("black_name", black.name);
+
 
 	};
 
@@ -37,7 +58,7 @@ var RUN = (function () {
 			game.withAnts(view.game.drawAnt);
 		}
 		function doSomeRounds() {
-			var numToRun = Math.min(50, rounds - i);
+			var numToRun = Math.min(10 * speed, rounds - i);
 			if (numToRun > 0) {
 				game.run(numToRun);
 				i += numToRun;
@@ -57,6 +78,10 @@ var RUN = (function () {
 
 	var removeEventListener = function () {};
 
+	function tearDown() {
+		removeEventListener();
+		view.menu.showBreadcrumbs();
+	}
 
 	return {
 		go: go

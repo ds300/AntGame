@@ -1,8 +1,5 @@
 var CONTEST = (function () {
-	var go = function (brains, worlds) {
-
-	};
-
+	var vis = true;
 	function getFixtures(brains, worlds) {
 		var fixtures = [];
 		var numBrains = brains.length;
@@ -151,7 +148,19 @@ var CONTEST = (function () {
 			contest.brains[f.red],
 			contest.brains[f.black],
 			contest.worlds[f.world],
-			30000,
+			300000,
+			onFinish,
+			function () { go(); } 
+		);
+	}
+
+	function run(id, onFinish) {
+		var f = contest.fixtures[id];
+		RUN.go(
+			contest.brains[f.red],
+			contest.brains[f.black],
+			contest.worlds[f.world],
+			300000,
 			onFinish,
 			function () { go(); } 
 		);
@@ -159,9 +168,10 @@ var CONTEST = (function () {
 
 	var init = function () {
 		view.contest.on("play_all", function () {
-			(function playAll(){
+			(function playAll() {
+				var func = vis ? run : run_sans;
 				if (contest.fixtures.length > 0) {
-					run_sans(0, function (results) {
+					func(0, function (results) {
 						handleResults(results, 0);
 						playAll();
 					});	
@@ -171,11 +181,20 @@ var CONTEST = (function () {
 			})();
 		});
 
+
 		view.contest.on("play", function (id) {
-			run_sans(id, function (results) {
+			var func = vis ? run : run_sans;
+			func(id, function (results) {
 				handleResults(results, id);
 				go();
 			});
+		});
+
+		view.contest.on("vis_off", function () {
+			vis = false;
+		});
+		view.contest.on("vis_on", function () {
+			vis = true;
 		});
 
 		view.contest.on("played_fixtures", function () {

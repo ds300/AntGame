@@ -8,5 +8,6 @@ exports.init = function () {
 	this.contest.brains.init();
 	this.contest.worlds.init();
 	this.run_sans.init();
+	this.game.init();
 	$("#loading-bg").hide();
 };

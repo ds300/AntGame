@@ -101,10 +101,12 @@ exports.menu.goto = function (location) {
 
 exports.menu.hideBreadcrumbs = function () {
 	$("#ag-bread").hide();
+	$("#ag-navbar").hide();
 };
 
 exports.menu.showBreadcrumbs = function () {
 	$("#ag-bread").show();
+	$("#ag-navbar").show();
 };
 
 

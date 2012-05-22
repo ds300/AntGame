@@ -1,6 +1,42 @@
 (function () {
 
-exports.game = {};
+var events = [
+	{
+		name: "cancel",
+		binder: function (callback) {
+			$("#ag-run-cancel").click(callback);
+		}
+	},
+	{
+		name: "speed_up",
+		binder: function (callback) {
+			$("#ag-run-speed-up").click(callback);
+		}
+	},
+	{
+		name: "speed_down",
+		binder: function (callback) {
+			$("#ag-run-speed-down").click(callback);
+		}
+	}
+];
+
+var textElems = {
+	red_name: {
+		get: function () {},
+		set: function (text) { $("#ag-run-red-name").text(text); }
+	},
+	black_name: {
+		get: function () {},
+		set: function (text) { $("#ag-run-black-name").text(text); }
+	},
+	speed: {
+		get: function () {},
+		set: function (text) { $("#ag-run-speed").text(text); }
+	}
+};
+
+exports.game = new LogicalGroup(events, textElems);
 
 var maxDx = 14; // one half of the maximum horizontal width of a hexagon
 
@@ -30,9 +66,32 @@ var markerColors = {
 
 var markerSize;
 
+function viewport()
+{
+	var e = window
+	, a = 'inner';
+	if (!( 'innerWidth' in window)){
+		a = 'client';
+		e = document.documentElement || document.body;
+	}
+	return { width : e[ a+'Width' ] , height : e[ a+'Height' ] }
+}
+
 exports.game.setup = function (grid) {
 
-	var pageWidth = document.body.offsetWidth - 17;
+	var pageWidth = viewport().width - 18;
+
+	var bcanv = document.getElementById("ag-run-canv-base");
+	for (var i = 0; i < 1000000; i++) {
+		bcanv.width = pageWidth;
+		bcanv.height = 2000;
+		var pageWidth2 = document.body.offsetWidth;
+		if (pageWidth2 < pageWidth) {
+			pageWidth = pageWidth2;
+			console.log("done in " + i);
+			break;
+		}
+	}
 
 	// find initial dx
 	dx = pageWidth / (2 * grid.width + 1);
@@ -118,7 +177,7 @@ exports.game.setup = function (grid) {
 	// pre-render world sprite
 	var world_sprite = this.gfx_utils.getWorldCanvas(dx, grid, false);
 
-	var bcanv = document.getElementById("ag-run-canv-base");
+	
 	var mcanv = document.getElementById("ag-run-canv-marker");
 	var fcanv0 = document.getElementById("ag-run-canv-food-even");
 	var fcanv1 = document.getElementById("ag-run-canv-food-odd");
