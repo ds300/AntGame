@@ -9,12 +9,16 @@ var getFoodCanvas = function (dx, numFood) {
 	canv.height =  Math.ceil(4 * dy)
 	var ctx = canv.getContext("2d");
 	var radius = dx / 5 * numFood * 0.87;
+	drawFoodCircle(ctx, canv.width / 2, canv.height / 2, radius)
+	return canv;
+};
+
+var drawFoodCircle = function (ctx, x, y, radius) {
 	ctx.fillStyle = "#008000";
 	ctx.beginPath();
-	ctx.arc(canv.width / 2, canv.height / 2, radius, 0, Math.PI * 2, true);
+	ctx.arc(x, y, radius, 0, Math.PI * 2, true);
 	ctx.closePath();
 	ctx.fill(); 
-	return canv;
 };
 
 var getWorldCanvas = function (dx, grid, drawFood) {
@@ -81,7 +85,7 @@ var getWorldThumbnail = function (grid) {
 
 
 
-var getAntCanvas = function (dx, d, color) {
+var getAntCanvas = function (dx, d, color, food) {
 	var dy = dx * Math.tan(Math.PI / 6);
 	var width = Math.ceil(dx * 2);
 	var height = Math.ceil(dy * 4);
@@ -93,6 +97,23 @@ var getAntCanvas = function (dx, d, color) {
 	var ctx = canv.getContext("2d");
 
 	drawAntFunctions[d](ctx, 0.2 * dx, color);
+	if (food === 1) {
+		if (d === 2) {
+			d = 4;
+		} else if (d === 4) {
+			d = 2;
+		}
+		var x = dx * 0.75,
+		    y = 0,
+		    theta = d * Math.PI / 3;
+		// rotate point
+		x = (Math.cos(theta) * x) - (Math.sin(theta) * y);
+		y = (Math.sin(theta) * x) + (Math.cos(theta) * y);
+		// translate point
+		x += dx;
+		y += 2 * dy;
+		drawFoodCircle(ctx, x, y, 0.3 * dx);
+	}
 	return canv;
 };
 

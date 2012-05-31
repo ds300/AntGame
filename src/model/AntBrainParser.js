@@ -144,8 +144,8 @@ function parseAntBrain(code) {
 				throw new BrainParseError(msg, i + 1);
 			}
 		}
-		if (states.length > 1000) {
-			throw new BrainParseError("Too many states. Limit is 1000.", i + 1);
+		if (states.length > 10000) {
+			throw new BrainParseError("Too many states. Limit is 9999.", i + 1);
 		}
 	}
 
