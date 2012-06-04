@@ -30,15 +30,15 @@ var goodBrain = [
 ];
 
 var expectedGoodBrain = [
-	{type: "Flip", p: 6, st1: 5, st2: 1},
-	{type: "Turn", dir: "Right", st: 0},
-	{type: "Drop", st: 1},
-	{type: "PickUp", st1: 2, st2: 7},
-	{type: "Unmark", marker: 3, st: 5},
-	{type: "Mark", marker: 3, st: 4},
-	{type: "Sense", dir: "LeftAhead", st1: 0, st2: 3, condition: "Rock", marker: -1},
-	{type: "Sense", dir: "RightAhead", st1: 2, st2: 8, condition: "Marker", marker: 4},
-	{type: "Move", st1: 1, st2: 2}
+	{type: "flip", p: 6, st1: 5, st2: 1},
+	{type: "turn", dir: "right", st: 0},
+	{type: "drop", st: 1},
+	{type: "pickup", st1: 2, st2: 7},
+	{type: "unmark", marker: 3, st: 5},
+	{type: "mark", marker: 3, st: 4},
+	{type: "sense", dir: "leftahead", st1: 0, st2: 3, condition: "rock", marker: -1},
+	{type: "sense", dir: "rightahead", st1: 2, st2: 8, condition: "marker", marker: 4},
+	{type: "move", st1: 1, st2: 2}
 ];
 
 // we want to test with windows, mac and unix newlines, so...

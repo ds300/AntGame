@@ -24,19 +24,19 @@ exports.test_only._parseInt = _parseInt;
 var instrParsers = {};
 
 // Sense instructions
-instrParsers['Se'] = function (line) {
-	var match = line.match(/^Sense (Ahead|LeftAhead|RightAhead|Here) (\d+) (\d+) (Friend|Foe|FriendWithFood|FoeWithFood|Food|Rock|FoeMarker|Home|FoeHome|Marker \d)$/);
+instrParsers['se'] = function (line) {
+	var match = line.match(/^sense (ahead|leftahead|rightahead|here) (\d+) (\d+) (friend|foe|friendwithfood|foewithfood|food|rock|foemarker|home|foehome|marker \d)$/);
 	if (match) {
 		var condition = match[4];
 		var marker = -1;
 		// if the sense condition is 'Marker', we need to extract the
 		// relevant marker id
-		if (condition.indexOf("Marker") === 0) {
+		if (condition.indexOf("marker") === 0) {
 			marker = _parseInt(condition.substr(7, 1));
-			condition = "Marker";
+			condition = "marker";
 		}
 		return {
-			type: "Sense",
+			type: "sense",
 			dir: match[1],
 			condition: condition,
 			marker: marker,
@@ -47,8 +47,8 @@ instrParsers['Se'] = function (line) {
 };
 
 // Mark/Unmark instructions
-instrParsers['Un'] = instrParsers['Ma'] = function (line) {
-	var match = line.match(/^(Mark|Unmark) (\d+) (\d+)$/);
+instrParsers['un'] = instrParsers['ma'] = function (line) {
+	var match = line.match(/^(mark|unmark) (\d+) (\d+)$/);
 	if (match) {
 		return {
 			type: match[1],
@@ -59,8 +59,8 @@ instrParsers['Un'] = instrParsers['Ma'] = function (line) {
 };
 
 // PickUp/Move instructions
-instrParsers['Pi'] = instrParsers['Mo'] = function (line) {
-	var match = line.match(/^(PickUp|Move) (\d+) (\d+)$/);
+instrParsers['pi'] = instrParsers['mo'] = function (line) {
+	var match = line.match(/^(pickup|move) (\d+) (\d+)$/);
 	if (match) {
 		return {
 			type: match[1],
@@ -71,22 +71,22 @@ instrParsers['Pi'] = instrParsers['Mo'] = function (line) {
 };
 
 // Drop instructions
-instrParsers['Dr'] = function (line) {
-	var match = line.match(/^Drop (\d+)$/);
+instrParsers['dr'] = function (line) {
+	var match = line.match(/^drop (\d+)$/);
 	if (match) {
 		return {
-			type: "Drop",
+			type: "drop",
 			st: _parseInt(match[1])
 		};
 	}
 };
 
 // Turn instructions
-instrParsers['Tu'] = function (line) {
-	var match = line.match(/^Turn (Left|Right) (\d+)$/);
+instrParsers['tu'] = function (line) {
+	var match = line.match(/^turn (left|right) (\d+)$/);
 	if (match) {
 		return {
-			type: "Turn",
+			type: "turn",
 			dir: match[1],
 			st: _parseInt(match[2])
 		};
@@ -94,11 +94,11 @@ instrParsers['Tu'] = function (line) {
 };
 
 // Flip instructions
-instrParsers['Fl'] = function (line) {
-	var match = line.match(/^Flip (\d+) (\d+) (\d+)$/);
+instrParsers['fl'] = function (line) {
+	var match = line.match(/^flip (\d+) (\d+) (\d+)$/);
 	if (match) {
 		return { 
-			type: "Flip",
+			type: "flip",
 			p: _parseInt(match[1]),
 			st1: _parseInt(match[2]),
 			st2: _parseInt(match[3])
@@ -128,7 +128,7 @@ function parseAntBrain(code) {
 
 	// remove comments and trim
 	for (var i = lines.length - 1; i >= 0; i--) {
-		lines[i] = lines[i].sub(/;.*$/, "").trim();
+		lines[i] = lines[i].replace(/;.*$/, "").trim().toLowerCase();
 	}
 
 	// convert lines to states

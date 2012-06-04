@@ -1,50 +1,50 @@
 function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback) {
 	var otherColor = color === "red" ? "black" : "red";
 	var senseConditionEvaluators = {
-		"Friend": function (senseCell) {
+		"friend": function (senseCell) {
 			return senseCell.containsAntOfColor(color); 
 		},
-		"Foe": function (senseCell) {
+		"foe": function (senseCell) {
 			return senseCell.containsAntOfColor(otherColor); 
 		},
-		"FriendWithFood": function (senseCell) {
+		"friendwithfood": function (senseCell) {
 			return senseCell.containsAntOfColorWithFood(color); 
 		},
-		"FoeWithFood": function (senseCell) {
+		"foewithfood": function (senseCell) {
 			return senseCell.containsAntOfColorWithFood(otherColor); 
 		},
-		"Food": function (senseCell) {
+		"food": function (senseCell) {
 			return senseCell.hasFood(); 
 		},
-		"Rock": function (senseCell) {
+		"rock": function (senseCell) {
 			return senseCell.type === "rock"; 
 		},
-		"Marker": function (senseCell, marker) {
+		"marker": function (senseCell, marker) {
 			return senseCell.hasMarker(color, marker); 
 		},
-		"FoeMarker": function (senseCell) {
+		"foemarker": function (senseCell) {
 			return senseCell.hasMarker(otherColor);
 		},
-		"Home": function (senseCell) {
+		"home": function (senseCell) {
 			return senseCell.type === color + " hill"; 
 		},
-		"FoeHome": function (senseCell) {
+		"foehome": function (senseCell) {
 			return senseCell.type === otherColor + " hill"; 
 		}
 	};
 
 	var senseCellFinders = {
-		"Here": function (ant) { return ant.getCurrentCell(); },
-		"Ahead": function (ant) { return ant.getAdjacentCell(ant.dir); },
-		"LeftAhead": function (ant) {
+		"here": function (ant) { return ant.getCurrentCell(); },
+		"ahead": function (ant) { return ant.getAdjacentCell(ant.dir); },
+		"leftahead": function (ant) {
 			return ant.getAdjacentCell((ant.dir + 5) % 6); 
 		},
-		"RightAhead": function (ant) {
+		"rightahead": function (ant) {
 			return ant.getAdjacentCell((ant.dir + 1) % 6); 
 		}
 	};
 	var instructions = {
-		"Sense": function (state) {
+		"sense": function (state) {
 			var getSenseCell = senseCellFinders[state.dir];
 			var senseSuccess = senseConditionEvaluators[state.condition];
 			return function (ant) {
@@ -55,21 +55,21 @@ function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback
 				}
 			};
 		},
-		"Mark": function (state) {
+		"mark": function (state) {
 			return function (ant) {
 				ant.getCurrentCell().addMarker(ant.color, state.marker);
 				ant.state = state.st;
 				markCallback && markCallback(ant.row, ant.col, ant.color, state.marker);
 			};
 		},
-		"Unmark": function (state) {
+		"unmark": function (state) {
 			return function (ant) {
 				ant.getCurrentCell().removeMarker(ant.color, state.marker);
 				ant.state = state.st;
 				unmarkCallback && unmarkCallback(ant.row, ant.col, ant.color, state.marker);
 			};
 		},
-		"PickUp": function (state) {
+		"pickup": function (state) {
 			var cell;
 			return function (ant) {
 				cell = ant.getCurrentCell();
@@ -83,7 +83,7 @@ function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback
 				}
 			};
 		},
-		"Drop": function (state) {
+		"drop": function (state) {
 			var cell;
 			return function (ant) {
 				if (ant.food === 1) {
@@ -95,9 +95,9 @@ function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback
 				ant.state = state.st;
 			};
 		},
-		"Turn": function (state) {
+		"turn": function (state) {
 			var turnAnt;
-			if (state.dir === "Left") {
+			if (state.dir === "left") {
 				turnAnt = function (ant) { ant.dir = (ant.dir + 5) % 6; };
 			} else {
 				turnAnt = function (ant) { ant.dir = (ant.dir + 1) % 6; };
@@ -107,7 +107,7 @@ function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback
 				ant.state = state.st;
 			};
 		},
-		"Move": function (state) {
+		"move": function (state) {
 			var ncell;
 			var ccell;
 			return function (ant) {
@@ -124,7 +124,7 @@ function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback
 				}
 			};
 		},
-		"Flip": function (state) {
+		"flip": function (state) {
 			return function (ant) {
 				if (rng.next(state.p) === 0) {
 					ant.state = state.st1;
