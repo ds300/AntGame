@@ -25,7 +25,7 @@ var instrParsers = {};
 
 // Sense instructions
 instrParsers['Se'] = function (line) {
-	var match = line.trim().match(/^Sense (Ahead|LeftAhead|RightAhead|Here) (\d+) (\d+) (Friend|Foe|FriendWithFood|FoeWithFood|Food|Rock|FoeMarker|Home|FoeHome|Marker \d)$/);
+	var match = line.match(/^Sense (Ahead|LeftAhead|RightAhead|Here) (\d+) (\d+) (Friend|Foe|FriendWithFood|FoeWithFood|Food|Rock|FoeMarker|Home|FoeHome|Marker \d)$/);
 	if (match) {
 		var condition = match[4];
 		var marker = -1;
@@ -48,7 +48,7 @@ instrParsers['Se'] = function (line) {
 
 // Mark/Unmark instructions
 instrParsers['Un'] = instrParsers['Ma'] = function (line) {
-	var match = line.trim().match(/^(Mark|Unmark) (\d+) (\d+)$/);
+	var match = line.match(/^(Mark|Unmark) (\d+) (\d+)$/);
 	if (match) {
 		return {
 			type: match[1],
@@ -60,7 +60,7 @@ instrParsers['Un'] = instrParsers['Ma'] = function (line) {
 
 // PickUp/Move instructions
 instrParsers['Pi'] = instrParsers['Mo'] = function (line) {
-	var match = line.trim().match(/^(PickUp|Move) (\d+) (\d+)$/);
+	var match = line.match(/^(PickUp|Move) (\d+) (\d+)$/);
 	if (match) {
 		return {
 			type: match[1],
@@ -72,7 +72,7 @@ instrParsers['Pi'] = instrParsers['Mo'] = function (line) {
 
 // Drop instructions
 instrParsers['Dr'] = function (line) {
-	var match = line.trim().match(/^Drop (\d+)$/);
+	var match = line.match(/^Drop (\d+)$/);
 	if (match) {
 		return {
 			type: "Drop",
@@ -83,7 +83,7 @@ instrParsers['Dr'] = function (line) {
 
 // Turn instructions
 instrParsers['Tu'] = function (line) {
-	var match = line.trim().match(/^Turn (Left|Right) (\d+)$/);
+	var match = line.match(/^Turn (Left|Right) (\d+)$/);
 	if (match) {
 		return {
 			type: "Turn",
@@ -95,7 +95,7 @@ instrParsers['Tu'] = function (line) {
 
 // Flip instructions
 instrParsers['Fl'] = function (line) {
-	var match = line.trim().match(/^Flip (\d+) (\d+) (\d+)$/);
+	var match = line.match(/^Flip (\d+) (\d+) (\d+)$/);
 	if (match) {
 		return { 
 			type: "Flip",
@@ -107,7 +107,7 @@ instrParsers['Fl'] = function (line) {
 };
 
 function _parseLine(line) {
-	var firstTwoChars = line.trim().substr(0, 2);
+	var firstTwoChars = line.substr(0, 2);
 	return instrParsers[firstTwoChars] && instrParsers[firstTwoChars](line);
 }
 
@@ -125,6 +125,11 @@ function parseAntBrain(code) {
 	// split into lines
 	var lines = code.split(/\n/g);
 	var numLines = lines.length;
+
+	// remove comments and trim
+	for (var i = lines.length - 1; i >= 0; i--) {
+		lines[i] = lines[i].sub(/;.*$/, "").trim();
+	}
 
 	// convert lines to states
 	var states = [];

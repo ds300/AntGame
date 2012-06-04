@@ -17,11 +17,11 @@ exports["Test that _parseInt strips zeroes properly"] = function (test) {
 var goodBrain = [
 	"", // empty lines to see if they get ignored
 	"Flip 6 5 1",
-	"Turn Right 0",
+	"Turn Right 0 ; this is a comment",
 	"Drop 1",
 	"",
 	"PickUp 2 7",
-	"Unmark 3 5",
+	"Unmark 3 5    ;this is also a comment",
 	"Mark 3 4",
 	"Sense LeftAhead 0 3 Rock",
 	"Sense RightAhead 2 8 Marker 4",

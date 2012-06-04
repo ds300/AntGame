@@ -59,7 +59,7 @@ var RUN = (function () {
 		}
 		var timeout;
 		function doSomeRounds() {
-			var numToRun = Math.min(10 * speed, rounds - i);
+			var numToRun = Math.min(Math.max(11 * speed-1, 1), rounds - i);
 			if (numToRun > 0) {
 				game.run(numToRun);
 				i += numToRun;
