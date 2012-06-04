@@ -201,9 +201,11 @@ exports.game.setup = function (grid) {
 
 var topleft;
 
-var drawAnt = function (row, col, dir, color, food) {
-	topleft = hexTopLefts[row][col];
-	actx.drawImage(antSprites[color][food][dir], topleft.x, topleft.y);
+var drawAnt = function (ant) {
+	if (ant.alive) {
+		topleft = hexTopLefts[ant.cell.row][ant.cell.col];
+		actx.drawImage(antSprites[ant.color][ant.food][ant.dir], topleft.x, topleft.y);
+	}
 };
 
 exports.game.drawAnt = drawAnt;

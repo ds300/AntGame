@@ -150,7 +150,7 @@ function parseAntBrain(code) {
 			}
 		}
 		if (states.length > 10000) {
-			throw new BrainParseError("Too many states. Limit is 9999.", i + 1);
+			throw new BrainParseError("Too many states. Limit is 10000.", i + 1);
 		}
 	}
 
@@ -161,7 +161,9 @@ function parseAntBrain(code) {
 	// we need to check if there are too many states or if there are any
 	// instructions which point to nonexistent states or any marker ids > 5
 	var highestStateIndex = states.length - 1;
+	// iterate over states
 	for (var i = 0; i <= highestStateIndex; i++) {
+		// get maximum state referenced by this instruction
 		var x = states[i].st || 0;
 		var y = states[i].st1 || 0;
 		var z = states[i].st2 || 0;

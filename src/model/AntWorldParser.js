@@ -55,13 +55,13 @@ function parseAntWorld(code, contestRules) {
 		throw new Error("The ant world must be enclosed by rock.");
 	}
 	if (!_gridContains(grid, "+")) {
-		throw new Error("The ant wold must contain at least one red hill");
+		throw new Error("The ant world must contain at least one red hill");
 	}
 	if (!_gridContains(grid, "-")) {
-		throw new Error("The ant wold must contain at least one black hill");
+		throw new Error("The ant world must contain at least one black hill");
 	}
 	if (!_gridContains(grid, "f")) {
-		throw new Error("The ant wold must contain at least one source of food");
+		throw new Error("The ant world must contain at least one source of food");
 	}
 
 	if (contestRules) {
@@ -123,6 +123,13 @@ function parseAntWorld(code, contestRules) {
 
 exports.parseAntWorld = parseAntWorld;
 
+/**
+ * private function to parse a single line
+ * @param line The text of the particular line
+ * @param oddLine Should be true if the number of the line is odd
+ * @supposedWidth The expected number of elements on the line
+ * @returns a list of objects indicating the types of cells on the line
+ */
 function _parseGridLine(line, oddLine, supposedWidth) {
 	if (oddLine) { // we're expecting a space at the start
 		if (line.substr(0, 1) !== " ") {
@@ -165,7 +172,12 @@ function _parseGridLine(line, oddLine, supposedWidth) {
 }
 exports.test_only._parseGridLine = _parseGridLine;
 
-// checks that there are no gaps around the edges of the grid
+/**
+ * private function to check that there are no gaps around the edges of the
+ * grid
+ * @param grid The grid
+ * @returns true if no gaps, false otherwise
+ */
 function _isSurroundedByRock(grid) {
 	// check top and bottom row
 	for (var col = 0; col < grid.width; col++) {
@@ -185,7 +197,12 @@ function _isSurroundedByRock(grid) {
 }
 exports.test_only._isSurroundedByRock = _isSurroundedByRock;
 
-// searches the grid for a specific cell type
+/**
+ * private function to search the grid for a particular cell type
+ * @param grid The grid
+ * @param targetType the type to search for
+ * @returns true if target type found, false otherwise
+ */
 function _gridContains(grid, targetType) {
 	for (var row = 0; row < grid.height; row++) {
 		for (var col = 0; col < grid.width; col++) {
@@ -197,9 +214,19 @@ function _gridContains(grid, targetType) {
 }
 exports.test_only._gridContains = _gridContains;
 
-// returns a list of 2D arrays which represent the shape of elements of the
-// specified target type
-// an element is a contiguous region of one particular type
+/*****************************************************************************/
+/******* OK. Shit gets a bit crazy from here on in. Hold onto your hat *******/
+/*****************************************************************************/
+
+/**
+ * Private function
+ * Returns a list of 2D arrays which represent the shape of elements of the
+ * specified target type. An 'element' here is a contiguous region of one
+ * particular cell type.
+ * @param grid The grid
+ * @param targetType
+ * @returns a list of elements
+ */
 function _getElements(grid, targetType) {
 	var elements = [];
 	var visitedCells = [];
@@ -228,8 +255,13 @@ function _getElements(grid, targetType) {
 exports.test_only._getElements = _getElements;
 
 
-// returns a 2D array of boolean values representing the 
-// shape of an element
+/**
+ * Private function
+ * Takes a list of coordinates and places them in a 2D boolean array, or "box",
+ * bounding them in the process.
+ * @coords the coordinates to bound and box
+ * @returns the box
+ */
 function _getElementBox(coords) {
 	// find min and max rows and cols
 	var minRow = coords[0].row,
@@ -237,8 +269,7 @@ function _getElementBox(coords) {
 		minCol = coords[0].col,
 		maxCol = coords[0].col;
 
-	var len = coords.length;
-	for (var i = 0; i < len; i++) {
+	for (var i = 0, len = coords.length; i < len; i++) {
 		var c = coords[i];
 		if (c.row > maxRow) { maxRow = c.row; }
 		else if (c.row < minRow) { minRow = c.row; }
@@ -270,19 +301,39 @@ function _getElementBox(coords) {
 exports.test_only._getElementBox = _getElementBox;
 
 
-// gets all the coordinates which comprise an element
+/**
+ * private function
+ * Gets all the coordinates which comrpise an element by taking the coords of a
+ * starting cell, and recrusing outwards towards the bounds of the element.
+ * As a secondary goal, this function checks whether or not ant hills are 
+ * directly next to rocks or other ant hills. Yeah it's kinda ugly to mix 
+ * functionality like that, but this was a perfect place to just drop in the code
+ * and I couldn't figure out how to neatly abstract the recursive exploration
+ * stuff. Plus its private so whatever.
+ * @param grid The grid
+ * @param row The row of the starting cell
+ * @param col The column of the starting cell
+ */
 function _getElementCoords(grid, row, col) {
 	var targetType = grid.cells[row][col].type;
 	var visitedCells = [];
 	var elementCoords = [];
+
+	/**
+	 * do the recursive exploration
+	 */
 	function visitCell(row, col) {
+		// if there is a cell here and we haven't seen it before
 		if (row >= 0 && row < grid.height && 
 		    col >= 0 && col < grid.width &&
 		    visitedCells.indexOf(grid.cells[row][col]) === -1) {
-			// this is a valid cell we haven't seen before
+
+			// push this cell to visitedCells
 			visitedCells.push(grid.cells[row][col]);
+
 			if (grid.cells[row][col].type === targetType) {
-				// this cell is part of the element
+				// this cell is part of the element so note its
+				// coords
 				elementCoords.push({row: row, col: col});
 				// explore this cell's adjacent cells
 				for (var dir = 0; dir < 6; dir++) {
@@ -317,8 +368,14 @@ function _getElementCoords(grid, row, col) {
 }
 exports.test_only._getElementCoords = _getElementCoords;
 
-// gets the coordinates of the cell adjacent to the cell at
-// (row, col) in the specified direction
+/**
+ * private function
+ * Gets the coords of the cell adjacent to the cell at (row, col) in the
+ * specified direction
+ * @param row The row of the starting cell
+ * @param col The column of the starting cell
+ * @param direction The direction
+ */
 function _getAdjacentCoord(row, col, direction) {
 	direction = Math.abs(direction) % 6;
 	var odd = row % 2 === 1;
@@ -352,6 +409,11 @@ function _getAdjacentCoord(row, col, direction) {
 }
 exports.test_only._getAdjacentCoord = _getAdjacentCoord;
 
+/*****************************************************************************/
+/******* Stuffs to check for things being the right shape and whatnot ********/
+/************************* shit gets even crazier ****************************/
+/*****************************************************************************/
+
 // food must be in 5x5 grid
 // there are three possible configs, each with two possible manifestations
 //   x x x x x    if top    xxxxx     if top   xxxxx  
@@ -381,18 +443,37 @@ exports.test_only._getAdjacentCoord = _getAdjacentCoord;
 // touch each other. d'oh!
 // so i've opted for an ugly, brute force way of doing it
 var foodOverlays = [[[], [], []], [[], [], []]];
+
+/**** EVEN ONES FIRST ****/
+// xxxxx  
+// xxxxx  
+//  xxxxx 
+//  xxxxx 
+//   xxxxx
 foodOverlays[0][0].push([true, true, true, true, true, false, false]);
 foodOverlays[0][0].push([true, true, true, true, true, false, false]);
 foodOverlays[0][0].push([false, true, true, true, true, true, false]);
 foodOverlays[0][0].push([false, true, true, true, true, true, false]);
 foodOverlays[0][0].push([false, false, true, true, true, true, true]);
-
+//   xxxxx
+//  xxxxx 
+//  xxxxx 
+// xxxxx  
+// xxxxx  
 foodOverlays[0][1].push([false, false, true, true, true, true, true]);
 foodOverlays[0][1].push([false, true, true, true, true, true, false]);
 foodOverlays[0][1].push([false, true, true, true, true, true, false]);
 foodOverlays[0][1].push([true, true, true, true, true, false, false]);
 foodOverlays[0][1].push([true, true, true, true, true, false, false]);
-
+//   x  
+//  xx  
+//  xxx 
+// xxxx 
+// xxxxx
+// xxxx 
+//  xxx 
+//  xx  
+//   x  
 foodOverlays[0][2].push([false, false, true, false, false]);
 foodOverlays[0][2].push([false, true, true, false, false]);
 foodOverlays[0][2].push([false, true, true, true, false]);
@@ -403,18 +484,36 @@ foodOverlays[0][2].push([false, true, true, true, false]);
 foodOverlays[0][2].push([false, true, true, false, false]);
 foodOverlays[0][2].push([false, false, true, false, false]);
 
+/**** NOW ODD ONES ****/
+// xxxxx  
+//  xxxxx 
+//  xxxxx 
+//   xxxxx
+//   xxxxx
 foodOverlays[1][0].push([true, true, true, true, true, false, false]);
 foodOverlays[1][0].push([false, true, true, true, true, true, false]);
 foodOverlays[1][0].push([false, true, true, true, true, true, false]);
 foodOverlays[1][0].push([false, false, true, true, true, true, true]);
 foodOverlays[1][0].push([false, false, true, true, true, true, true]);
-
+//   xxxxx
+//   xxxxx
+//  xxxxx 
+//  xxxxx 
+// xxxxx  
 foodOverlays[1][1].push([false, false, true, true, true, true, true]);
 foodOverlays[1][1].push([false, false, true, true, true, true, true]);
 foodOverlays[1][1].push([false, true, true, true, true, true, false]);
 foodOverlays[1][1].push([false, true, true, true, true, true, false]);
 foodOverlays[1][1].push([true, true, true, true, true, false, false]);
-
+//   x  
+//   xx 
+//  xxx 
+//  xxxx
+// xxxxx
+//  xxxx
+//  xxx 
+//   xx 
+//   x  
 foodOverlays[1][2].push([false, false, true, false, false]);
 foodOverlays[1][2].push([false, false, true, true, false]);
 foodOverlays[1][2].push([false, true, true, true, false]);
@@ -425,6 +524,13 @@ foodOverlays[1][2].push([false, true, true, true, false]);
 foodOverlays[1][2].push([false, false, true, true, false]);
 foodOverlays[1][2].push([false, false, true, false, false]);
 
+/**
+ * private function
+ * determines whether a "box" (boolean grid) represents shapes which are legal
+ * food blobs.
+ * @param box
+ * @returns true if shapes are legal, false otherwise
+ */
 function _containsLegalFoodBlobs(box) {
 	var newBox = box;
 	var lastGoodBox = box;
@@ -455,6 +561,14 @@ function _containsLegalFoodBlobs(box) {
 }
 exports.test_only._containsLegalFoodBlobs = _containsLegalFoodBlobs;
 
+/**
+ * private function
+ * attempts to overlay a shape onto the box. if it succeeds, the matched area
+ * is falsified and the box is cropped before being returned
+ * @param box The box
+ * @param overlay The shape to attempt to overlay
+ * @returns cropped box on success, undefined on failure.
+ */
 function _attemptBoxIntersection(box, overlay) {
 	box = _cloneBox(box);
 	var config = box.config;
@@ -501,6 +615,12 @@ function _attemptBoxIntersection(box, overlay) {
 }
 exports.test_only._attemptBoxIntersection = _attemptBoxIntersection;
 
+/**
+ * private function
+ * clones a box
+ * @param box The box to clone
+ * @returns the clone
+ */
 function _cloneBox(box) {
 	var newConfig = [];
 	for (var i = 0; i < box.config.length; i++) {
@@ -513,11 +633,20 @@ function _cloneBox(box) {
 }
 exports.test_only._cloneBox = _cloneBox;
 
+/**
+ * private function
+ * crops a box such that there is no padding of falses
+ * @param box The box to crop
+ * @returns a copy of the box but cropped
+ */
 function _cropBox(box) {
 	box = _cloneBox(box);
+	// returns true if box contains stuff
 	function boxHasDimensions() {
 		return box.config.length > 0 && box.config[0].length > 0;
 	}
+	// returns true if a particular column of the box is empty
+	// @param n The column id
 	function colIsEmpty(n) {
 		for (var row = 0; row < box.config.length; row++) {
 			if (box.config[row][n]) {
@@ -526,6 +655,8 @@ function _cropBox(box) {
 		}
 		return true;
 	}
+	// returns true if a particular row of the box is empty
+	// @param n The row id
 	function rowIsEmpty(n) {
 		for (var col = 0; col < box.config[n].length; col++) {
 			if (box.config[n][col]) {
@@ -534,17 +665,23 @@ function _cropBox(box) {
 		}
 		return true;
 	}
+	// deletes a column from the box
+	// @param n The id of the column to delete
 	function deleteCol(n) {
 		for (var row = 0; row < box.config.length; row++) {
 			box.config[row].splice(n, 1);
 		}
 	}
+	// deletes a row from the box
+	// @param n The id of the row to delete
 	function deleteRow(n) {
 		box.config.splice(n, 1);
 	}
+	// now this following stuff is hella easy to read
 	while (boxHasDimensions() && rowIsEmpty(0)) {
 		deleteRow(0);
-		box.topRow++;
+		box.topRow++; // boxes need to know the id of the top row for odd/even
+		              // row distinction
 	}
 	while (boxHasDimensions() && rowIsEmpty(box.config.length - 1)) {
 		deleteRow(box.config.length - 1);
@@ -577,12 +714,25 @@ exports.test_only._cropBox = _cropBox;
 //        x x x x x x x                                   
 // I can do this one algorithmically
 
+/**
+ * private function
+ * determines if the shape in the box represents a legal hill
+ * @param box The box
+ * @returns true if legal hill, false otherwise
+ */
 function _isLegalHill(box) {
+	// we can check the dimensions of the box first
 	if (box.config.length !== 13 ||
 		box.config[0].length !== 13) {
 		return false;
 	}
+	// decides if a particular row is legal
+	// @param n The row to check
 	function isLegalRow(n) {
+		// yeah... this stuff is a bit hard to read.
+		// it basically figures out how many cells should be on the given row,
+		// and at which index they should first appear, then checks if they are
+		// all there.
 		var numCellsOnRow = 13 - Math.abs(n - 6);
 		var firstIndex = Math.floor(Math.abs(n - 6) / 2);
 		if (box.topRow % 2 === 1 && n % 2 === 1) {
@@ -614,3 +764,5 @@ function _isLegalHill(box) {
 	return true;
 }
 exports.test_only._isLegalHill = _isLegalHill;
+
+// that was pretty difficult

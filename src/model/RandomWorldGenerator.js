@@ -1,15 +1,20 @@
 exports.test_only = exports.test_only || {};
 
-// generates random worlds fit for contests
+/**
+ * Generates pseudo-random worlds in the form of source code
+ * @returns the source code of a pseudo-random world which is contest legal
+ */
 function generateRandomWorld() {
-	// make blank grid
+	// make blank grid with rocks around the edges
 	var grid = [];
 	grid[0] = [];
 	grid[149] = [];
+	// do top and bottom rows first. full of them rocks!
 	for (var i = 0; i < 150; i++) {
 		grid[0].push("#");
 		grid[149].push("#");
 	}
+	// now all the other rows
 	for (var i = 1; i < 149; i++) {
 		grid[i] = [];
 		grid[i].push("#");
@@ -27,13 +32,24 @@ function generateRandomWorld() {
 
 	var randCol, randRow;
 	var safetyCounter = 10000;
-	// hills next
+
+
+	// the bits of code that look the bit below this do two things:
+	//     1. Get some random coords
+	//     2. Try to put something at those coords
+	// They do this until they succeed, or until the safety counter gets to 0.
+	// if that happens, a recursive call is made in the hopes that it won't 
+	// happen again
+
+	
+	// red hill	
 	do {
 		if (!(safetyCounter--)) { return generateRandomWorld(); }
 		randCol = Math.floor(Math.random() * 150);
 		randRow = Math.floor(Math.random() * 150);
 	} while (!_superimpose(grid, hillShape, randRow, randCol, "+"));
 
+	// black hill
 	do {
 		if (!(safetyCounter--)) { return generateRandomWorld(); }
 		randCol = Math.floor(Math.random() * 150);
@@ -62,11 +78,19 @@ function generateRandomWorld() {
 }
 exports.generateRandomWorld = generateRandomWorld;
 
+/**
+ * private function
+ * Draws a random rock shape onto the grid
+ * @param grid The grid
+ */
 function _drawRandomRock(grid) {
 	var shape = rockShapes[Math.floor(Math.random() * rockShapes.length)];
 	var row, col;
 	var paintDirection = Math.floor(Math.random() * 6);
+	var paintOperations = 30 + Math.floor(Math.random() * 50);
 	var lastTurn = -1;
+
+	// chooses the next paint direction at random
 	var setNextDirection = function () {
 		// 10% chance of turning.
 		if (Math.random() > 0.9) {
@@ -78,6 +102,9 @@ function _drawRandomRock(grid) {
 			paintDirection = (paintDirection + 6) % 6;
 		}
 	};
+
+	// moves the paintbrush in the current direction with respect to 
+	// odd and even rows
 	var moveToNextPosition = function () {
 		if (paintDirection === 0 || paintDirection === 3) {
 			col += paintDirection === 0 ? 1 : -1;
@@ -92,7 +119,6 @@ function _drawRandomRock(grid) {
 		}
 		row += paintDirection < 3 ? 1 : -1;
 	};
-	var paintOperations = 30 + Math.floor(Math.random() * 50);
 
 	// find initial position
 	do {
@@ -108,8 +134,8 @@ function _drawRandomRock(grid) {
 	} while (_superimpose(grid, shape, row, col, "t") && --paintOperations);
 
 	
-
-	// now replace "t"s with "#"s.
+	// we had to use "t" for "temp" instead of hashes when painting so...
+	// replace "t"s with "#"s.
 	for (row = 0; row < 150; row++) {
 		for (col = 0; col < 150; col++) {
 			if (grid[row][col] === "t") {
@@ -121,6 +147,16 @@ function _drawRandomRock(grid) {
 	// all done.
 }
 
+/**
+ * private funciton
+ * attempts to superimpose a shape onto the grid
+ * @param grid The grid
+ * @param shape The shape
+ * @param row The row at which to position the top of the shape
+ * @param col The column at which to position the left edge of the shape
+ * @param type The type of cell to place if a superimposition is possible.
+ *        Think of it like a color of paint.
+ */
 function _superimpose(grid, shape, row, col, type) {
 	var oddRow = row % 2 === 1;
 	// check that there's enough room on the grid
@@ -131,7 +167,7 @@ function _superimpose(grid, shape, row, col, type) {
 		return false;
 	}
 
-	// first check that we can superimpose
+	// check that there's nothing of import underneath
 	for (var r = 0; r < shape.length; r++) {
 		var d = ((r % 2 === 1) && !oddRow) ? -1 : 0;
 		for (var c = 0; c < shape[0].length; c++) {
@@ -154,6 +190,9 @@ function _superimpose(grid, shape, row, col, type) {
 	return true;
 }
 exports.test_only._superimpose = _superimpose;
+
+// in the following shapes, the "*"s act as padding so that we don't get things
+// next to each other that shouldn't be next to each other.
 
 var hillShape = [
 	[".", ".", ".", "*", "*", "*", "*", "*", "*", "*", "*", ".", ".", ".", "."],

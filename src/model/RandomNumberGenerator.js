@@ -1,4 +1,5 @@
 /**
+ * RandomNumberGenerator
  * A simple pseudo-random number generator object
  */
 function RandomNumberGenerator() {
