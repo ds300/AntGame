@@ -4,18 +4,16 @@ function Ant(id, color, brain, world) {
 	this.color = color;
 	this.otherColor = color === "red" ? "black" : "red";
 	this.id = id;
-	this.row = 0;
-	this.col = 0;
 	this.state = 0;
 	this.dir = 0;
 	this.resting = 0;
 	this.food = 0;
 	this.alive = true;
+	this.cell = null;
 
 	this.kill = function () {
-		var cell = world.getCell(this.row, this.col);
-		cell.depositFood(3);
-		cell.removeAnt();
+		this.cell.depositFood(3);
+		this.cell.removeAnt();
 		this.alive = false;
 		this.step = function () {};
 	};
@@ -30,7 +28,7 @@ function Ant(id, color, brain, world) {
 	this.checkForDeath = function () {
 		count = 0;
 		for (d = 0; d < 6; d++) {
-			if (!world.getAdjacentCell(this.row, this.col, d).containsAntOfColor(this.otherColor)) {
+			if (!this.cell.adjacentCells[d].containsAntOfColor(this.otherColor)) {
 				count++;
 				if (count > 1) {
 					return;
@@ -40,7 +38,6 @@ function Ant(id, color, brain, world) {
 		this.kill();
 	};
 
-	var adjCells = [null, null, null, null, null, null];
 	var enemies = [null, null, null, null, null, null];
 	var enemyPointer = -1;
 	var i = 0;
@@ -49,9 +46,8 @@ function Ant(id, color, brain, world) {
 		enemyPointer = -1;
 		d = 6;
 		while (d--) {
-			adjCells[d] = world.getAdjacentCell(this.row, this.col, d);
-			if (adjCells[d].containsAntOfColor(this.otherColor)) {
-				enemies[++enemyPointer] = adjCells[d].getAnt();
+			if (this.cell.adjacentCells[d].containsAntOfColor(this.otherColor)) {
+				enemies[++enemyPointer] = this.cell.adjacentCells[d].getAnt();
 			}
 		}
 		if (enemyPointer > 3) {
@@ -66,11 +62,7 @@ function Ant(id, color, brain, world) {
 	};
 
 	this.getAdjacentCell = function (dir) {
-		return world.getAdjacentCell(this.row, this.col, dir);
-	};
-
-	this.getCurrentCell = function () {
-		return world.getCell(this.row, this.col);
+		return this.cell.adjacentCells[dir];
 	};
 
 	this.rest = function () {

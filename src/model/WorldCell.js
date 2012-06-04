@@ -116,8 +116,7 @@ function WorldCell(cell, row, col) {
 	var removeAnt = function () { ant = null; };
 	var setAnt = function (newAnt) {
 		ant = newAnt;
-		ant.row = row;
-		ant.col = col;
+		ant.cell = this;
 	};
 	var getAnt = function () { return ant; };
 	var getFood = function () { return food; };

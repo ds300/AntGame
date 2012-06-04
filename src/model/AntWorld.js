@@ -12,6 +12,7 @@ function AntWorld(parsedGrid) {
 		}
 	}
 
+
 	function toString() {
 		var s = "";
 		for (var row = 0; row < height; row++) {
@@ -33,7 +34,11 @@ function AntWorld(parsedGrid) {
 	];
 	
 	function getAdjacentCell(row, col, dir) {
-		return adjacentGetters[dir](row, col);
+		try {
+			return adjacentGetters[dir](row, col);
+		} catch (err) {
+			return null;
+		}
 	}
 
 	function getAllAdjacentCells(row, col) {
@@ -47,6 +52,15 @@ function AntWorld(parsedGrid) {
 	function getCell(row, col) {
 		return grid[row][col];
 	}
+
+
+	// assign adjacent cells
+	for (var row = 0; row < height; row++) {
+		for (var col = 0; col < width; col++) {
+			grid[row][col].adjacentCells = getAllAdjacentCells(row, col);
+		}
+	}
+
 	return {
 		width: width,
 		height: height,

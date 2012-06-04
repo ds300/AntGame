@@ -34,13 +34,13 @@ function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback
 	};
 
 	var senseCellFinders = {
-		"here": function (ant) { return ant.getCurrentCell(); },
-		"ahead": function (ant) { return ant.getAdjacentCell(ant.dir); },
+		"here": function (ant) { return ant.cell; },
+		"ahead": function (ant) { return ant.cell.adjacentCells[ant.dir]; },
 		"leftahead": function (ant) {
-			return ant.getAdjacentCell((ant.dir + 5) % 6); 
+			return ant.cell.adjacentCells[(ant.dir + 5) % 6];
 		},
 		"rightahead": function (ant) {
-			return ant.getAdjacentCell((ant.dir + 1) % 6); 
+			return ant.cell.adjacentCells[(ant.dir + 1) % 6]; 
 		}
 	};
 	var instructions = {
@@ -57,40 +57,36 @@ function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback
 		},
 		"mark": function (state) {
 			return function (ant) {
-				ant.getCurrentCell().addMarker(ant.color, state.marker);
+				ant.cell.addMarker(ant.color, state.marker);
 				ant.state = state.st;
-				markCallback && markCallback(ant.row, ant.col, ant.color, state.marker);
+				markCallback && markCallback(ant.cell.row, ant.cell.col, ant.color, state.marker);
 			};
 		},
 		"unmark": function (state) {
 			return function (ant) {
-				ant.getCurrentCell().removeMarker(ant.color, state.marker);
+				ant.cell.removeMarker(ant.color, state.marker);
 				ant.state = state.st;
-				unmarkCallback && unmarkCallback(ant.row, ant.col, ant.color, state.marker);
+				unmarkCallback && unmarkCallback(ant.cell.row, ant.cell.col, ant.color, state.marker);
 			};
 		},
 		"pickup": function (state) {
-			var cell;
 			return function (ant) {
-				cell = ant.getCurrentCell();
-				if (cell.hasFood() && !ant.hasFood()) {
-					cell.removeFood();
+				if (ant.cell.hasFood() && !ant.hasFood()) {
+					ant.cell.removeFood();
 					ant.food = 1;
 					ant.state = state.st1;
-					foodCallback && foodCallback(cell.row, cell.col, cell.getFood());
+					foodCallback && foodCallback(ant.cell.row, ant.cell.col, ant.cell.getFood());
 				} else {
 					ant.state = state.st2;
 				}
 			};
 		},
 		"drop": function (state) {
-			var cell;
 			return function (ant) {
 				if (ant.food === 1) {
-					cell = ant.getCurrentCell();
-					cell.depositFood();
+					ant.cell.depositFood();
 					ant.food = 0;
-					foodCallback && foodCallback(cell.row, cell.col, cell.getFood());
+					foodCallback && foodCallback(ant.cell.row, ant.cell.col, ant.cell.getFood());
 				}
 				ant.state = state.st;
 			};
@@ -109,13 +105,11 @@ function AntBrain(states, color, rng, foodCallback, markCallback, unmarkCallback
 		},
 		"move": function (state) {
 			var ncell;
-			var ccell;
 			return function (ant) {
-				ccell = ant.getCurrentCell();
-				ncell = ant.getAdjacentCell(ant.dir);
+				ncell = ant.cell.adjacentCells[ant.dir];
 				if (ncell.isAvailable()) {
+					ant.cell.removeAnt();
 					ncell.setAnt(ant);
-					ccell.removeAnt();
 					ant.state = state.st1;
 					ant.rest();
 					ant.checkForAdjacentDeaths();
