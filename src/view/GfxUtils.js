@@ -1,7 +1,19 @@
 exports.game = exports.game || {};
 
+/**
+ * gfx utils
+ * These functions pre-render the base graphical components of the game.
+ * i.e. food, ants, and the world itself. Markers are simple so are handled
+ * elsewhere.
+ */
 exports.game.gfx_utils = (function () {
 
+/**
+ * creates a food sprite
+ * @param dx One half the width of a hexagon in the world
+ * @param numFood The amount of food this sprite should convey
+ * @returns a food sprite
+ */
 var getFoodCanvas = function (dx, numFood) {
 	var canv = document.createElement('canvas');
 	canv.width = Math.ceil(2 * dx);
@@ -13,6 +25,14 @@ var getFoodCanvas = function (dx, numFood) {
 	return canv;
 };
 
+/**
+ * private function
+ * draws a food circle in a given context at the given size and location
+ * @param ctx The canvas 2D context
+ * @param x The x-coord of the center of the circle
+ * @param y The y-coord of the center of the circle
+ * @param radius The radius of the circle
+ */
 var drawFoodCircle = function (ctx, x, y, radius) {
 	ctx.fillStyle = "#008000";
 	ctx.beginPath();
@@ -21,21 +41,37 @@ var drawFoodCircle = function (ctx, x, y, radius) {
 	ctx.fill(); 
 };
 
+/**
+ * creates a sprite of the given world
+ * @param dx One half the width of a hexagon in the world
+ * @param grid The world grid (i.e. the result of a call to parseAntWorld)
+ * @param drawFood boolean flag to specify whether or not cells containing food
+ *        should be drawn as such
+ * @returns The world sprite
+ */
 var getWorldCanvas = function (dx, grid, drawFood) {
+	// get world dimensions
 	var width = Math.ceil((grid.width * 2 * dx) + dx);
 	var dy = dx * Math.tan(Math.PI / 6);
-	var twody = 2 * dy;
-	var twodx = 2 * dx;
-
-	// get canvas height;
 	var height = Math.ceil(dy * ((3 * grid.height) + 1));
 
+	// create canvas
 	var canv = document.createElement('canvas');
 	canv.width = width;
 	canv.height = height;
-
 	var ctx = canv.getContext("2d");
 
+	// pre-compute these for speed
+	var twodx = 2 * dx;
+	var twody = 2 * dy;
+
+	/**
+	 * private function
+	 * draws a hexagon of the specified color into the context
+	 * @param row The row of the hexagon
+	 * @param col The column of the hexagon
+	 * @param color The color of the hexagon
+	 */
 	function drawHex(row, col, color) {
 		var x = col * (2 * dx);
 		if (row % 2 === 1) { x += dx; } // account for odd rows
@@ -51,6 +87,7 @@ var getWorldCanvas = function (dx, grid, drawFood) {
 		ctx.fill();
 	}
 
+	// colors of various cell types
 	var colors = {
 		"#": "#555555",
 		"f": "#008000",
@@ -59,24 +96,31 @@ var getWorldCanvas = function (dx, grid, drawFood) {
 		"-": "#978f79"
 	};
 
+	// don't bother drawing food if not asked to
 	if (!drawFood) {
 		colors["f"] = colors["."];
 	}
 
+	// fill the world in with rock color to begin
 	ctx.fillStyle = colors["#"];
 	ctx.fillRect(0, 0, width, height);
 
+	// iterate over grid cells and draw them onto context
 	for (var row = 0; row < grid.height; row++) {
 		for (var col = 0; col < grid.width; col++) {
 			drawHex(row, col, colors[grid.cells[row][col].type]);
 		}
 	}
 
-
 	return canv;
 };
 
 
+/**
+ * draws the world with a width of 420px
+ * @param grid The grid
+ * @returns The thumbnail sprite
+ */
 var getWorldThumbnail = function (grid) {
 	// get hexagon dimensions
 	var dx = 420 / ((2 * grid.width) + 1);
@@ -84,20 +128,32 @@ var getWorldThumbnail = function (grid) {
 };
 
 
-
+/**
+ * draws an ant sprite
+ * @param dx One half the width of a hexagon in the world
+ * @param d The direction in which the ant is facing
+ * @color The color of the ant
+ * @food 1 if the ant is carrying food, 0 otherwise
+ * @returns The desired ant sprite
+ */
 var getAntCanvas = function (dx, d, color, food) {
+	// get sprite dimensions
 	var dy = dx * Math.tan(Math.PI / 6);
 	var width = Math.ceil(dx * 2);
 	var height = Math.ceil(dy * 4);
 
+	// create canvas
 	var canv = document.createElement("canvas");
 	canv.width = width;
 	canv.height = height;
-
 	var ctx = canv.getContext("2d");
 
+	// draw the ant
 	drawAntFunctions[d](ctx, 0.2 * dx, color);
+	
+	// if food, draw food
 	if (food === 1) {
+		// for some reason, the rotation stuff below gets 2 and 4 mixed up
 		if (d === 2) {
 			d = 4;
 		} else if (d === 4) {
@@ -117,6 +173,20 @@ var getAntCanvas = function (dx, d, color, food) {
 	return canv;
 };
 
+
+/**
+ * private functions
+ * These draw ants at specific rotations, as indicated by the index of the
+ * function in the list. I made the ant image in adobe illustrator, and then
+ * converted the saved SVG file into these functions using an online tool
+ * which can be found here: http://www.professorcloud.com/svg-to-canvas/
+ * The output of that tool includes a ton of cruft, though. Also there is
+ * no option for scaling, so I made significant modifications
+ * to these functions.
+ * @param ctx The 2d canvas context
+ * @param scale The scale at which to draw the ant
+ * @param color The color of the ant to draw
+ */
 var drawAntFunctions = [];
 
 drawAntFunctions[0] = function(ctx, scale, color) {

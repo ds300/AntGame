@@ -4,18 +4,21 @@ var LogicalGroup = LogicalGroup || function () {};
 	
 var events = [
 	{
+		// any button which takes the user to the root of the main menu
 		name: "goto_root",
 		binder: function (callback) {
 			$(".ag-btn-root").click(callback);
 		}
 	},
 	{
+		// any button which takes the user to the single match setup screen
 		name: "goto_single_match",
 		binder: function (callback) {
 			$(".ag-btn-sm").click(callback);
 		}
 	},
 	{
+		// any button which takes the user to the contest setup screen
 		name: "goto_contest",
 		binder: function (callback) {
 			$(".ag-btn-contest").click(callback);
@@ -25,6 +28,8 @@ var events = [
 
 exports.menu = new LogicalGroup(events, {});
 
+// these 'locations' are used to show and hide DOM elements in accordance with
+// when they should be shown and hidden.
 var locations = {
 	root: {
 		prerequisites: [],
@@ -78,6 +83,10 @@ var locations = {
 	}
 };
 
+/**
+ * navigates to the specified menu location
+ * @param location The location
+ */
 exports.menu.goto = function (location) {
 	// if the location exists
 	if (locations[location]) {
@@ -99,11 +108,17 @@ exports.menu.goto = function (location) {
 	}
 };
 
+/**
+ * hides the navigation stuff
+ */
 exports.menu.hideBreadcrumbs = function () {
 	$("#ag-bread").hide();
 	$("#ag-navbar").hide();
 };
 
+/**
+ * shows the navigation stuff 
+ */
 exports.menu.showBreadcrumbs = function () {
 	$("#ag-bread").show();
 	$("#ag-navbar").show();

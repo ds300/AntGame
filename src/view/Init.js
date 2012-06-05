@@ -1,3 +1,6 @@
+/**
+ * initialises the view components
+ */
 exports.init = function () {
 	this.menu.init();
 	this.single_match.init();
