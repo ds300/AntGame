@@ -1,3 +1,6 @@
+/**
+ * These are the builtin brains
+ */
 var BRAINS = [];
 
 BRAINS.push({

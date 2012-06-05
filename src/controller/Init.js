@@ -1,3 +1,8 @@
+/**
+ * When the document is ready, according to jquery, we initialise the
+ * controller submodules.
+ */
+
 $(document).ready(function () {
 	
 	view.init();

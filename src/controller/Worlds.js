@@ -1,3 +1,7 @@
+/**
+ * These are the builtin worlds
+ */
+
 var WORLDS = [];
 
 WORLDS.push({
