@@ -5,7 +5,8 @@ In order to build this you will need the following things installed and in your 
 
 * node.js (latest stable)
 * nodeunit (from npm (node package manager; ships with the latest node builds))
-* jshint (from npm)
+* lessc (from npm)
+* jsmin (from npm)
 * python (latest 2.x release)
 
 You also need to unpack the file ./test/debug/dump.all.gz to run the behaviour test.
@@ -14,7 +15,7 @@ in the root directory, run:
 
     python build.py
 
-add the -s flag to skip tests
+add the -s flag to skip tests, use the -m flag to minimize js output
 
-It doesn't do much at the moment, because I've only just begun.
+The folder ./build will be created with all of the relevant files
 

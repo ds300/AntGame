@@ -55,7 +55,7 @@ controller_src_files = [
 	"Init.js"
 ]
 
-lint_errors = []
+encountered_lint_errors = False
 encountered_unit_test_errors = False
 
 def runTests(path):
@@ -70,26 +70,6 @@ def runTests(path):
 	if return_code != 0:
 		encountered_unit_test_errors=True
 	print "done"
-
-
-def lintFiles(path):
-	"""Runs jshint to check the syntax of the file for goodness"""
-	print "linting:",path,"...",
-	global lint_errors, buildLog
-	try:
-		subprocess.check_output(["jshint",path],shell=True)
-	except subprocess.CalledProcessError as error:
-		buildLog.write(path+" Lint Errors:\n\n"+error.output)
-		output_lines = (re.findall(r'(.*)\n',error.output))
-		lint_errors.extend(output_lines[:-2])
-	print "done"
-
-def printLintErrors():
-	"""If lint errors have been found, prints them."""
-	if len(lint_errors) > 0:
-		print "LINT ERRORS"
-		for error in lint_errors:
-			print "   ",error
 
 def compileComponent(src_files, root_dir, output_path):
 	files = ["header.js"] + src_files + ["footer.js"]
@@ -168,9 +148,7 @@ def copyBuildDirTree():
 if __name__ == "__main__":
 	# lint and test
 	if "-s" not in sys.argv:
-		[lintFiles("./src/model/"+f) for f in model_src_files]
 		[runTests("./test/model/"+f) for f in model_test_files]
-		printLintErrors()
 		if encountered_unit_test_errors:
 			print "Some file(s) failed test. See build log for details."
 		else:
