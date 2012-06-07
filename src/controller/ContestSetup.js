@@ -112,7 +112,13 @@ var CONTEST_SETUP = (function () {
 
 		// when the user is done and wants to start the contest
 		view.contest.on("go", function () {
-			CONTEST.go(_contest.brains, _contest.worlds);
+			if (_contest.brains.length < 2) {
+				alert("You must pick at least two brains");
+			} else if (_contest.worlds.length < 1) {
+				alert("You must pick at least one world");
+			} else {
+				CONTEST.go(_contest.brains, _contest.worlds);
+			}
 		});
 	};
 

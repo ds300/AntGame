@@ -1,4 +1,3 @@
-var Ant = Ant || function () {}; // to avoid lint errors
 /**
  * AntGame objects represent a match between two ant brains on a specific
  * world.

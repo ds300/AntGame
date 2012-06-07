@@ -77,7 +77,7 @@ var canvasWidth;
 var canvasHeight;
 
 var markerColors = {
-	red: ["#bc7f65", "#d47c62", "#e28b72", "#e19996", "#e28b8e", "#d9a0a1"]
+	red: ["#bc7f65", "#d47c62", "#e28b72", "#e19996", "#e28b8e", "#d9a0a1"],
 	black: ["#a6c4b7", "#97b3bc", "#979dbc", "#a6b7b7", "#838cba", "#867ca4"]
 };
 

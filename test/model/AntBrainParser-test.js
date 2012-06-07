@@ -7,7 +7,7 @@ exports["Test that _parseInt strips zeroes properly"] = function (test) {
 	test.expect(3);
 	test.strictEqual(3,_parseInt("00003"),"these should be equal");
 	test.strictEqual(30,_parseInt("0030"),"these should be equal");
-	test.strictEqual(0,_parseInt("0"),"these should be equal");
+	test.strictEqual(0,_parseInt("000"),"these should be equal");
 	test.done();
 };
 
