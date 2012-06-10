@@ -21,6 +21,10 @@ var EDIT = (function () {
 		view.edit.on("cancel", function () {
 			view.edit.hide();
 		});
+		// when the user presses enter
+		view.edit.on("enter_pressed", function () {
+			view.edit.trigger("compile");
+		});
 	};
 
 	return {

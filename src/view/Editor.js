@@ -28,6 +28,18 @@ var events = [
 				callback($("#ag-edit-name").val());
 			});
 		}
+	},
+	{
+		// triggered when the user presses enter
+		name: "enter_pressed",
+		binder: function (callback) {
+			$("#ag-edit-name").keypress(function (e) {
+				if (e.which === 13) {
+					e.preventDefault();
+					callback();
+				}
+			});
+		}
 	}
 ];
 

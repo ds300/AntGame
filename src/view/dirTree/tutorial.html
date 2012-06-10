@@ -101,16 +101,40 @@
 							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div>
 
+						<a name="rules"></a>
+						<div class="docsection" style="clear: left">
+							<hr>
+							<h2>Rules</h2>
+							<p>
+								AntGame is fairly simple. Here are the rules:
+							</p>
+							<ul>
+								<li>The team who gathers the most food wins.</li>
+								<li>Food is counted as being "gathered" if it has been dropped on one of the team's home cells. Food that an ant is carrying is not counted, even if that ant is standing on a home cell.</li>
+								<li>When an ant is adjacent to 5 or more enemy ants it dies, depositing 3 food particles in the cell it was in.</li>
+								<li>At the start of the game, each home cell for a particular color ant is populated with an ant of that color facing east.</li>
+								<li>Ants cannot move onto rocky cells.</li>
+							</ul>
+							<p>There are also some <a href="#worldrules">rules concerning the formation of worlds</a>.</p>
+							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
+						</div>
+
 						<a name="matches"></a>
 						<div class="docsection" style="clear: left">
 							<hr>
 							<h2>Single Match</h2>
 							<p>
+								The Single Match mode lets you select two <a href="#brains">brains</a>, and play them against each other on one <a href="#worlds">world</a>.
+							</p>
+							<p>
 								The Single Match setup screen looks like this:
 							</p>
 							<center><img src="./img/sm-setup.png"></center>
 							<p>
-								You can pick two <a href="#brains">brains</a>, a <a href="#worlds">world</a>, and run the game. The brains are colored red and black. This means that they will start in different places in the world, so if your brain doesn't perform particularly well, fear not! Try swapping the colors around and you may fare better. 
+								To choose which <a href="#brains">brains</a> and which <a href="#worlds">world</a> to use, simply click the corresponding blue "pick" button.
+							</p>
+							<p>
+								You may have noticed that the brains are colored red and black. This means that they will start in different places in the world, so if your brain doesn't perform particularly well, fear not! Try swapping the colors around and you may fare better. 
 							</p>
 							<p>
 								Before you run the game, you can change some settings. Notice a text field with some numbers? That's the number of rounds or <em>iterations</em> that the game will last for. Be careful not to pick a number which is too low, or your ants might not have enough time to gather food! The maximum number of rounds is 999,999.
@@ -119,7 +143,11 @@
 								Another setting which you can change is whether or not the game runs with graphics. If you're strapped for time, running the game without graphics is much faster. Click the orange button to toggle graphics on and off.
 							</p>
 							<p>
-								From this screen you can either start a <a href="matches">single match</a> or a <a href="#contests">contest.</a> Click the corresponding big blue button for your choice of destination.
+								To <a href="#running">run the game</a>, click the green "go" button. When the game is finished, you will be presented with a window showing the results of the match. It should look a bit like this:
+							</p>
+							<center><img src="./img/sm-results.png"></center>
+							<p>
+								As you can see, it shows how much food was gathered by each team and how many ants died on each team too.
 							</p>
 							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div>
@@ -129,20 +157,51 @@
 						<div class="docsection">
 							<hr>
 							<h2>Worlds</h2>
-							<p>
-								In AntGame, worlds are 2D hexagonal grids. You can make your own, or generate random ones on-the-fly. Worlds consist of four types of cells:
-							</p>
+							<p>In AntGame, worlds are 2D hexagonal grids. You can make your own, or generate random ones on-the-fly.</p> 
+							<p>Worlds consist of four types of cells:</p>
 							<ul>
 								<li>Rock</li>
 								<li>Clear</li>
-								<li>Red Hill</li>
-								<li>Black Hill</li>
+								<li>Red Home</li>
+								<li>Black Home</li>
 							</ul>
+
+							<a name="worldsuse"></a>
+							<h3>How To Use Them</h3>
+							<p>When asked to choose a world or some worlds, you are presented with the following screen:</p>
+							<center><img src="./img/worldlist.png"></center>
+							<p>On the left you see a list of available worlds. On the right is shown the thumbnail for the currently selected world.</p>
+							<p>To choose a world, simply click the green "use" button that appears when you hover over it in the list.</p>
+							<p>To generate random contest-legal worlds, click the green "generate" button.</p>
+
+							<a name="worldsadd"></a>
+							<h3>How To Add a New One</h3>
+							<p>Worlds can be added by clicking the blue "add" button shown in the screenshot above. A window will open that allows you to give your new world a name, specify it's source code, and then compile it for use in AntGame. The window will look like this:</p>
+							<center><img src="./img/worldedit.png"></center>
+							<p>If your world fails to compile, you will recieve an alert stating the error in your code. You can then fix the error and try to compile again. If you change your mind about adding a new world, click cancel at any time to return to the list of available worlds.</p>
+
+							<p>
+								If you've added a new world, when you hover over it in the list of available worlds, you will now have the option to delete it (the red button), or edit it (the yellow button). 
+							</p>
+							<center><img src="./img/worldcustom.png"></center>
+							<p>
+								If you choose to edit a world, it works just like adding a new one except that when you recompile, it will overwrite the one you chose to edit.
+							</p>
+
 							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div>
 
 
+						<a name="running"></a>
+						<div class="docsection">
+							<hr>
+							<h2>While the Game is Running</h2>
+							
+							<center><img src="./img/worldexample.png"></center>
+							<p>The green circles are blobs of food. They change size depending on how much food is in the cell.</p>
 
+							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
+						</div>
 
 						<a name="brains"></a>
 						<div class="docsection">
