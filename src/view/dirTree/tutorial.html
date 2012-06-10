@@ -15,7 +15,7 @@
 	<div class="navbar navbar-fixed-top" id="ag-navbar" style="position: absolute;">
 		<div class="navbar-inner">
 			<div class="container">
-				
+				<a name="top"></a>
 				<a class=" brand ag-btn-root" href="./index.html">AntGame</a>
 				<span class="brand" style="color: #888">
 					&raquo; &nbsp;
@@ -85,15 +85,43 @@
 						</div>
 
 						<a name="howto"></a>
-						<div class="docsection">
+						<div class="docsection" style="clear: left">
 							<hr>
 							<h2>How to Play</h2>
 							<p>
-								You construct a <a href="#brains">brain</a> for your ants. You then run a <a href="#matches">single match</a> against another brain or a <a href="#contests">contest</a> against a collection of brains to give your brain the ultimate test.
+								When you load the game, you are greeted with the following screen: (you've probably already seen this)
+							</p>
+							<center><img src="./img/startscreen.png"></center>
+							<p>
+								Keep an eye on that white bar at the bottom. That's the breadcrumb trail. It tells you where you are and where you've been. You can use it to travel back up in the menu structure. Using your browser's back button will take you away from AntGame and we don't want that to happen so remember to use the breadcrumbs instead!
 							</p>
 							<p>
-								Matches and contests need more than just brains, though. They need worlds.
+								From this screen you can either start a <a href="matches">single match</a> or a <a href="#contests">contest.</a> To do this, simply click the big blue button which corresponds to your choice of game type.
 							</p>
+							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
+						</div>
+
+						<a name="matches"></a>
+						<div class="docsection" style="clear: left">
+							<hr>
+							<h2>Single Match</h2>
+							<p>
+								The Single Match setup screen looks like this:
+							</p>
+							<center><img src="./img/sm-setup.png"></center>
+							<p>
+								You can pick two <a href="#brains">brains</a>, a <a href="#worlds">world</a>, and run the game. The brains are colored red and black. This means that they will start in different places in the world, so if your brain doesn't perform particularly well, fear not! Try swapping the colors around and you may fare better. 
+							</p>
+							<p>
+								Before you run the game, you can change some settings. Notice a text field with some numbers? That's the number of rounds or <em>iterations</em> that the game will last for. Be careful not to pick a number which is too low, or your ants might not have enough time to gather food! The maximum number of rounds is 999,999.
+							</p>
+							<p>
+								Another setting which you can change is whether or not the game runs with graphics. If you're strapped for time, running the game without graphics is much faster. Click the orange button to toggle graphics on and off.
+							</p>
+							<p>
+								From this screen you can either start a <a href="matches">single match</a> or a <a href="#contests">contest.</a> Click the corresponding big blue button for your choice of destination.
+							</p>
+							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div>
 
 
@@ -110,6 +138,7 @@
 								<li>Red Hill</li>
 								<li>Black Hill</li>
 							</ul>
+							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div>
 
 
@@ -283,7 +312,7 @@
 									<h3 class="antcode bleu">Move</h3>
 									<p>Above we see:</p>
 									<pre class="well antcode thinner"><span class="bleu">Move</span> st1 st2</pre>	
-									<p>This instruction causes an ant to attempt to move one step in the direction it is facing. If the ant is successful, it will go to the state specified by <span class="antcode">st1</span>. If the cell ahead is blocked for some reason, then it will go to the state specified by <span class="antcode">st2</span></p>
+									<p>This instruction causes an ant to attempt to move one step in the direction it is facing. If the ant is successful, it will go to the state specified by <span class="antcode">st1</span>. If the cell ahead is blocked for some reason, then it will go to the state specified by <span class="antcode">st2</span></p>. Be weary of using this instruction because, if an ant is successful in moving, they cannot do anything for the next 14 iterations the game!
 								</li>
 								<li>
 									<a name="brainsflip"></a>
@@ -327,7 +356,7 @@
 							
 
 
-							
+							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div> <!-- END BRAINS SECTION -->
 					</div>
 				</div>

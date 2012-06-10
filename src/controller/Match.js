@@ -28,7 +28,11 @@ var MATCH = (function () {
 	 * @param str A string representation of the number of rounds
 	 */
 	function _validateRounds(str) {
-		view.single_match.text("rounds", str.replace(/\D/g, ""));
+		str = str.replace(/\D/g, "");
+		if (str === "" || parseInt(str, 10) === 0) {
+			str = "1";
+		}
+		view.single_match.text("rounds", str);
 	};
 
 	/**
