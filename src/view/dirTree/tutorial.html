@@ -21,10 +21,6 @@
 					&raquo; &nbsp;
 					Docs
 				</span>
-				<ul class="nav">
-					<li><a href="#intro">Introduction</a></li>
-					<li><a href="#brains">Brains</a></li>
-				</ul>
 			</div>
 		</div>
 	</div>
@@ -41,28 +37,30 @@
 							<h4>Contents</h4>
 							<ul>
 								<li><a href="#intro">Introduction</a></li>
+								<li><a href="#howto">How to Play</a></li>
+								<li><a href="#rules">Rules</a></li>
+								<li><a href="#matches">Single Matches</a></li>
+								<li><a href="#contests">Contests</a></li>
+								<li><a href="#running">While the Game is Running</a></li>
 								<li><a href="#brains">Brains</a>
 									<ul>
 										<li><a href="#brainsuse">How to Use Them</a></li>
-										<li><a href="#brainsuse">How to Add a New One</a></li>
+										<li><a href="#brainsadd">How to Add a New One</a></li>
 										<li><a href="#brainswrite">How to Write Them</a></li>
 										<li><a href="#brainsinstr">Instructions</a>
-											<ul>
-												<li><a href="#brainssense">Sense</a></li>
-												<li><a href="#brainsmark">Mark</a></li>
-												<li><a href="#brainsunmark">Unmark</a></li>
-												<li><a href="#brainspickup">PickUp</a></li>
-												<li><a href="#brainsdrop">Drop</a></li>
-												<li><a href="#brainsturn">Turn</a></li>
-												<li><a href="#brainsmove">Move</a></li>
-												<li><a href="#brainsflip">Flip</a></li>
-											</ul>
-										</li>
 										<li><a href="#brainsnotes">Notes</a></li>
 										<li><a href="#brainsexample">Example Brain</a></li>
 									</ul>
 								</li>
-								<li>Milk</li>
+								<li><a href="#worlds">Worlds</a>
+									<ul>
+										<li><a href="#worldsuse">How to Use Them</a></li>
+										<li><a href="#worldsadd">How to Add a New One</a></li>
+										<li><a href="#worldswrite">How to Write Them</a></li>
+										<li><a href="#worldsexample">Example World</a></li>
+										<li><a href="#worldsrules">Restrictions</a>
+									</ul>
+								</li>
 							</ul>
 						</div>
 						
@@ -115,14 +113,14 @@
 								<li>At the start of the game, each home cell for a particular color ant is populated with an ant of that color facing east.</li>
 								<li>Ants cannot move onto rocky cells.</li>
 							</ul>
-							<p>There are also some <a href="#worldrules">rules concerning the formation of worlds</a>.</p>
+							<p>There are also some <a href="#worldsrules">rules concerning the formation of worlds</a>.</p>
 							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div>
 
 						<a name="matches"></a>
 						<div class="docsection" style="clear: left">
 							<hr>
-							<h2>Single Match</h2>
+							<h2>Single Matches</h2>
 							<p>
 								The Single Match mode lets you select two <a href="#brains">brains</a>, and play them against each other on one <a href="#worlds">world</a>.
 							</p>
@@ -149,59 +147,88 @@
 							<p>
 								As you can see, it shows how much food was gathered by each team and how many ants died on each team too.
 							</p>
+							<p>Closing the results window takes you back to the single match setup screen.</p>
 							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div>
 
 
-						<a name="worlds"></a>
-						<div class="docsection">
+						<a name="contests"></a>
+						<div class="docsection" style="clear: left">
 							<hr>
-							<h2>Worlds</h2>
-							<p>In AntGame, worlds are 2D hexagonal grids. You can make your own, or generate random ones on-the-fly.</p> 
-							<p>Worlds consist of four types of cells:</p>
-							<ul>
-								<li>Rock</li>
-								<li>Clear</li>
-								<li>Red Home</li>
-								<li>Black Home</li>
-							</ul>
-
-							<a name="worldsuse"></a>
-							<h3>How To Use Them</h3>
-							<p>When asked to choose a world or some worlds, you are presented with the following screen:</p>
-							<center><img src="./img/worldlist.png"></center>
-							<p>On the left you see a list of available worlds. On the right is shown the thumbnail for the currently selected world.</p>
-							<p>To choose a world, simply click the green "use" button that appears when you hover over it in the list.</p>
-							<p>To generate random contest-legal worlds, click the green "generate" button.</p>
-
-							<a name="worldsadd"></a>
-							<h3>How To Add a New One</h3>
-							<p>Worlds can be added by clicking the blue "add" button shown in the screenshot above. A window will open that allows you to give your new world a name, specify it's source code, and then compile it for use in AntGame. The window will look like this:</p>
-							<center><img src="./img/worldedit.png"></center>
-							<p>If your world fails to compile, you will recieve an alert stating the error in your code. You can then fix the error and try to compile again. If you change your mind about adding a new world, click cancel at any time to return to the list of available worlds.</p>
-
+							<h2>Contests</h2>
 							<p>
-								If you've added a new world, when you hover over it in the list of available worlds, you will now have the option to delete it (the red button), or edit it (the yellow button). 
+								The Contest mode lets you select two or more <a href="#brains">brains</a>, and play them against each other on one or more contest-legal <a href="#worlds">worlds</a>.
 							</p>
-							<center><img src="./img/worldcustom.png"></center>
 							<p>
-								If you choose to edit a world, it works just like adding a new one except that when you recompile, it will overwrite the one you chose to edit.
+								The Contest setup screen looks like this:
 							</p>
-
+							<center><img src="./img/contestsetup.png"></center>
+							<p>
+								To choose which <a href="#brains">brains</a> and which <a href="#worlds">worlds</a> to use, simply click the corresponding blue "select" button. When you return to the contest setup screen, it should look something like this:
+							</p>
+							<center><img src="./img/contestsetup2.png"></center>
+							<p>
+								Notice that when you hover over a brain or a world, an orange button appears which allows you to dismiss that world or brain. (i.e. to exclude it from the contest).
+							</p>
+							<p>
+								When you are happy with the chosen components, you can click the green "go" button to go to the Contest Home screen, which looks like this:
+							</p>
+							<center><img src="./img/contesthome.png"></center>
+							<p>
+								From here you can inspect the current rankinigs of the brains. You can see which fixtures have been played, and which remain unplayed.
+							</p>
+							<p>
+								To run the entire contest sequentially, click the green "play all" button. When the contest is over, you will be returned to the contest home screen where you can see how the brains fared. If you cancel a match at any point during the contest, the results of any completed fixtures will be saved and you will be returned to the contest home screen where you can see the current statistics.
+							</p>
+							<p>
+								Alternatively, you can play fixtures individually. Do this by hovering over an unplayed fixture and clicking the blue "play" button that appears.
+							</p>
+							<center><img src="./img/contestindividual.png"></center>
+							<p>
+								When viewing played fixtures, the name of the winning team is highlighted in red. Or, in the case of a draw, both team names are highlighted blue.
+							</p>
+							<center><img src="./img/contestplayed.png"></center>
+							<p>
+								You can toggle graphics on and off from the contest home screen using the orange button at the top-right of the screen.
+							</p>
 							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div>
-
 
 						<a name="running"></a>
 						<div class="docsection">
 							<hr>
 							<h2>While the Game is Running</h2>
+							<a name="runningwith"></a>
+							<h3>With Graphics</h3>
+
+							<p>When you run the game with graphics enabled, you will be presented with a visual representation of the ant world. Something like this:</p>
+							<center><img src="./img/bigscreenshot.png"></center>
+							<p>The dark grey cells are rocks.</p>
+							<img src="./img/rocks.png" style="margin-left: 30px">
+							<p>The green circles are blobs of food. They change size depending on how much food is in the cell.</p>
+							<img src="./img/food.png" style="margin-left: 30px">
+							<p>The Red Home cells are slightly red.</p>
+							<img src="./img/redhome.png" style="margin-left: 30px">
+							<p>The Black Home cells are slightly black.</p>
+							<img src="./img/blackhome.png" style="margin-left: 30px">
+							<br>
+							<p>You have the ability to change the speed at which the game runs within the range 1-10. To do this, click the blue buttons in the top bar marked "+" (to increase speed) and "-" (to decrease speed).</p>
+							<center><img src="./img/controls.png"></center>
+							<p>You can cancel the game at any time by clicking the button marked "cancel". This will take you back to wherever you were before the game started.</p>
+
+							<a name="runningsans"></a>
+							<h3>Without Graphics</h3>
+
+							<p>If you run the game without graphics, you are simply presented with a progress bar which indicates how much of the game has been completed. You have the option to cancel the game (by clicking the button marked "cancel") which will take you back to wherever you were before the game started.</p>
 							
 							<center><img src="./img/worldexample.png"></center>
-							<p>The green circles are blobs of food. They change size depending on how much food is in the cell.</p>
+							<p>The green circles are blobs of food. </p>
 
 							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div>
+
+
+
 
 						<a name="brains"></a>
 						<div class="docsection">
@@ -417,6 +444,94 @@
 
 							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
 						</div> <!-- END BRAINS SECTION -->
+						
+
+
+						<a name="worlds"></a>
+						<div class="docsection">
+							<hr>
+							<h2>Worlds</h2>
+							<p>In AntGame, worlds are 2D hexagonal grids. You can make your own, or generate random ones on-the-fly.</p> 
+							<p>Worlds consist of four types of cells:</p>
+							<ul>
+								<li>Rock</li>
+								<li>Clear</li>
+								<li>Red Home</li>
+								<li>Black Home</li>
+							</ul>
+
+							<a name="worldsuse"></a>
+							<h3>How To Use Them</h3>
+							<p>When asked to choose a world or some worlds, you are presented with the following screen:</p>
+							<center><img src="./img/worldlist.png"></center>
+							<p>On the left you see a list of available worlds. On the right is shown the thumbnail for the currently selected world.</p>
+							<p>To choose a world, simply click the green "use" button that appears when you hover over it in the list.</p>
+							<p>To generate random contest-legal worlds, click the green "generate" button.</p>
+
+							<a name="worldsadd"></a>
+							<h3>How To Add a New One</h3>
+							<p>Worlds can be added by clicking the blue "add" button shown in the screenshot above. A window will open that allows you to give your new world a name, specify it's source code, and then compile it for use in AntGame. The window will look like this:</p>
+							<center><img src="./img/worldedit.png"></center>
+							<p>If your world fails to compile, you will recieve an alert stating the error in your code. You can then fix the error and try to compile again. If you change your mind about adding a new world, click cancel at any time to return to the list of available worlds.</p>
+
+							<p>
+								If you've added a new world, when you hover over it in the list of available worlds, you will now have the option to delete it (the red button), or edit it (the yellow button). 
+							</p>
+							<center><img src="./img/worldcustom.png"></center>
+							<p>
+								If you choose to edit a world, it works just like adding a new one except that when you recompile, it will overwrite the one you chose to edit.
+							</p>
+
+							<a name="worldswrite"></a>
+							<h3>How To Write Them</h3>
+							<p>Like <a href="#brains">brains</a>, worlds are written in a text file.</p>
+							<p>The first two lines of the text file must contain an integer each (and nothing else). These integers specify the width and the height of the world respectively.</p>
+							<p>The following lines represent the hexagonal grid of the world. Cells are defined as single characters. The possible characters are:</p>
+							<ul>
+								<li><span class="antcode">#</span> - Rock</li>
+								<li><span class="antcode">.</span> - Clear Cell</li>
+								<li><span class="antcode">+</span> - Red Hill</li>
+								<li><span class="antcode">-</span> - Black Hill</li>
+								<li><span class="antcode"><span style="color: black">[</span>n<span style="color: black">]</span></span> - A number between 1 and 9 which denotes a clear cell containing <span class="antcode">n</span> food particles.</li>
+							</ul>
+
+							<p>Each line of the grid must contain exactly the number of characters as specified by the width of the world on the first line. There must also be exactly the number of grid lines as specified by the height of the world on the second line.</p>
+							<p>The characters in the grid are separated by spaces. Even-numbered lines (if we say that the first line of the file is line 1) have an extra space at the front.</p>
+							<a name="worldsexample"></a>
+							<p>Let's take a look at an example:</p>
+<pre class="antcode"><span style="color: black">10
+10</span>
+<span style="color: #666"># # # # # # # # # #</span>
+ <span style="color: #666"># </span>9 9 <span style="color: #c57a0f">. . . . </span>3 3 <span style="color: #666">#</span>
+<span style="color: #666"># </span>9 <span style="color: #666"># </span><span style="color: #c57a0f">. </span><span style="color: black">- - - - - </span><span style="color: #666">#</span>
+ <span style="color: #666"># </span><span style="color: #c57a0f">. </span><span style="color: #666"># </span><span style="color: black">- - - - - - </span><span style="color: #666">#</span>
+<span style="color: #666"># </span><span style="color: #c57a0f">. . </span>5 <span style="color: black">- - - - - </span><span style="color: #666">#</span>
+ <span style="color: #666"># </span><span style="color: #993333">+ + + + + </span>5 <span style="color: #c57a0f">. . </span><span style="color: #666">#</span>
+<span style="color: #666"># </span><span style="color: #993333">+ + + + + + </span><span style="color: #666"># </span><span style="color: #c57a0f">. </span><span style="color: #666">#</span>
+ <span style="color: #666"># </span><span style="color: #993333">+ + + + + </span><span style="color: #c57a0f">. </span><span style="color: #666"># </span>9 <span style="color: #666">#</span>
+<span style="color: #666"># </span>3 3 <span style="color: #c57a0f">. . . . </span>9 9 <span style="color: #666">#</span>
+ <span style="color: #666"># # # # # # # # # #</span></pre>
+
+ 							<a name="worldsrules"></a>
+							<h3>Restrictions</h3>
+							<p>All worlds must conform to the following rules:</p>
+							<ul>
+								<li>The perimeter of the world must be entirely rocky cells.</li>
+								<li>There must be at least one home cell for each color of ant.</li>
+								<li>There must be at least one food particle in the world.</li>
+							</ul>
+							<p>In order for a world to be used in a contest, it must conform to the following additional rules:</p>
+							<ul>
+								<li>The worlds must have width and height 150.</li>
+								<li>There must be 2 ant homes which must be hexagons with sides length 7.</li>
+								<li>Food must be arranged in 'blobs' shaped as parallelograms with sides length 5, where each cell contains 5 particles of food.</li>
+								<li>There must be 11 food blobs.</li>
+								<li>There must be 14 separate rocky areas.</li>
+								<li>Non-food elements can not be directly adjacent to each other.</li>
+							</ul>
+							<div clas
+							<div class="pull-right"><a href="#top"><i class="icon-chevron-up"></i> top</a></div>
+						</div>
 					</div>
 				</div>
 
