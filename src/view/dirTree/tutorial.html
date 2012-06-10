@@ -25,7 +25,6 @@
 					<li><a href="#intro">Introduction</a></li>
 					<li><a href="#brains">Brains</a></li>
 				</ul>
-				
 			</div>
 		</div>
 	</div>
@@ -44,6 +43,8 @@
 								<li><a href="#intro">Introduction</a></li>
 								<li><a href="#brains">Brains</a>
 									<ul>
+										<li><a href="#brainsuse">How to Use Them</a></li>
+										<li><a href="#brainsuse">How to Add a New One</a></li>
 										<li><a href="#brainswrite">How to Write Them</a></li>
 										<li><a href="#brainsinstr">Instructions</a>
 											<ul>
@@ -75,9 +76,24 @@
 								Hello. Yes this is AntGame.
 							</p>
 							<p>
-								Consider a world in which only three things exist: ants, rocks, and food. This is the world we shall be exploring. AntGame is a challenge of cunnning and logic. It is your task, as the player, to collect more food than your opponents. In order to succeed in this goal, you must carefully instruct your ants in the ways of their world. Without you, they are nothing. With you, perhaps they are unstoppable. Only time will tell.
+								AntGame is a challenge of cunnning and logic. Consider a world with a finite food supply scattered throughout. It is your task, as the player, to collect as much food as possible. In order to succeed in this goal, you wield an army of ants, whom you must carefully instruct in the ways of their world. Without you, they are nothing. 
+							</p>
+							<p>
+								At the same time, another player has their own army of ants, who are trying to gather up the same limited food supply. The player with the most food at the end wins the game. Have you got what it takes to give your ants the competetive edge? 
 							</p>
 							
+						</div>
+
+						<a name="howto"></a>
+						<div class="docsection">
+							<hr>
+							<h2>How to Play</h2>
+							<p>
+								You construct a <a href="#brains">brain</a> for your ants. You then run a <a href="#matches">single match</a> against another brain or a <a href="#contests">contest</a> against a collection of brains to give your brain the ultimate test.
+							</p>
+							<p>
+								Matches and contests need more than just brains, though. They need worlds.
+							</p>
 						</div>
 
 
@@ -86,8 +102,14 @@
 							<hr>
 							<h2>Worlds</h2>
 							<p>
-								Hello. Yes this is AntGame.
+								In AntGame, worlds are 2D hexagonal grids. You can make your own, or generate random ones on-the-fly. Worlds consist of four types of cells:
 							</p>
+							<ul>
+								<li>Rock</li>
+								<li>Clear</li>
+								<li>Red Hill</li>
+								<li>Black Hill</li>
+							</ul>
 						</div>
 
 
@@ -97,10 +119,31 @@
 						<div class="docsection">
 							<hr>
 							<h2>Brains</h2>
-							<p>In AntGame, an ant is a simple state machine. That is to say, ants can only be in one state at any given time. Each state specifies some instruction which tells an ant what to do next.</p>
-							<p>Brains are, in that respect, an ordered series of states. States are numbered from 0 to n-1 where n is the total number of states in the brain.</p>
+							<a name="brainsuse"></a>
+							<h3>How To Use Them</h3>
+							<p>When asked to choose a brain or some brains, you are presented with the following screen:</p>
+							<center><img src="./img/brainlist.png"></center>
+							<p>On the left you see a list of available brains. On the right is shown the source code for the currently selected brain.</p>
+							<p>To choose a brain, simply click the green "use" button that appears when you hover over it in the list.</p>
+
+							<a name="brainsadd"></a>
+							<h3>How To Add a New One</h3>
+							<p>Brains can be added by clicking the blue "add" button shown in the screenshot above. A window will open that allows you to give your new brain a name, specify it's source code, and then compile it for use in AntGame. The window will look like this:</p>
+							<center><img src="./img/brainedit.png"></center>
+							<p>If your brain fails to compile, you will recieve an alert stating the error in your code. You can then fix the error and try to compile again. If you change your mind about adding a new brain, click cancel at any time to return to the list of available brains.</p>
+
+							<p>
+								If you've added a new brain, when you hover over it in the list of available brains, you will now have the option to delete it (the red button), or edit it (the yellow button). 
+							</p>
+							<center><img src="./img/braincustom.png"></center>
+							<p>
+								If you choose to edit a brain, it works just like adding a new one except that when you recompile, it will overwrite the one you chose to edit.
+							</p>
+							
 							<a name="brainswrite"></a>
 							<h3>How To Write Them</h3>
+							<p>In AntGame, an ant is a simple state machine. That is to say, ants can only be in one state at any given time. Each state specifies some instruction which tells an ant what to do next.</p>
+							<p>Brains are, in that respect, an ordered series of states. States are numbered from 0 to n-1 where n is the total number of states in the brain.</p>
 							<p>Instructions for each state are written in a text file. Every line that contains an instruction represents a single state. You can't specify the number of a particular state. Rather, they are numbered implicity by the order in which they appear in the file.</p>
 							<p>To begin, let's take a look at the full set of instructions our ants understand: (don't worry if <em>you</em> don't yet!)</p>
 							<a name="brainsinstr"></a>
