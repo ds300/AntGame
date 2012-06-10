@@ -44,7 +44,6 @@
 								<li><a href="#intro">Introduction</a></li>
 								<li><a href="#brains">Brains</a>
 									<ul>
-										<li><a href="#brainsintro">Introduction</a></li>
 										<li><a href="#brainswrite">How to Write Them</a></li>
 										<li><a href="#brainsinstr">Instructions</a>
 											<ul>
@@ -58,6 +57,8 @@
 												<li><a href="#brainsflip">Flip</a></li>
 											</ul>
 										</li>
+										<li><a href="#brainsnotes">Notes</a></li>
+										<li><a href="#brainsexample">Example Brain</a></li>
 									</ul>
 								</li>
 								<li>Milk</li>
@@ -68,6 +69,7 @@
 						<h1>User Documentation</h1>
 						<a name="intro"></a>
 						<div class="docsection">
+							<hr>
 							<h2>Introduction</h2>
 							<p>
 								Hello. Yes this is AntGame.
@@ -75,11 +77,26 @@
 							<p>
 								Consider a world in which only three things exist: ants, rocks, and food. This is the world we shall be exploring. AntGame is a challenge of cunnning and logic. It is your task, as the player, to collect more food than your opponents. In order to succeed in this goal, you must carefully instruct your ants in the ways of their world. Without you, they are nothing. With you, perhaps they are unstoppable. Only time will tell.
 							</p>
+							
 						</div>
-						<div class="docsection" name="brains">
+
+
+						<a name="worlds"></a>
+						<div class="docsection">
+							<hr>
+							<h2>Worlds</h2>
+							<p>
+								Hello. Yes this is AntGame.
+							</p>
+						</div>
+
+
+
+
+						<a name="brains"></a>
+						<div class="docsection">
+							<hr>
 							<h2>Brains</h2>
-							<a name="brainsintro"></a>
-							<h3>Introduction</h3>
 							<p>In AntGame, an ant is a simple state machine. That is to say, ants can only be in one state at any given time. Each state specifies some instruction which tells an ant what to do next.</p>
 							<p>Brains are, in that respect, an ordered series of states. States are numbered from 0 to n-1 where n is the total number of states in the brain.</p>
 							<a name="brainswrite"></a>
@@ -133,84 +150,142 @@
 								</tr>
 
 							</table>
-<br><br>
-<p>Let me just explain those a bit more carefully...</p>
-<ul>
-	<li>
-		<a name="brainssense"></a>
-		<h2 class="antcode bleu">Sense</h2>
-		<p>Above we see the example as follows:</p>
-		<pre class="well antcode thinner"><span class="bleu">Sense</span> sensedir st1 st2 cond</pre>
-		<p>There are a variety of different ways this can be used, for example:</p>
-		<pre class="well antcode thinner"><span class="bleu">Sense</span> Ahead 1 3 Food</pre>
-		<p>Would search to see if there is food directly in front of the ant, going to State 1 if there is, and going to State 3 if there isn't.</p>
-		
-		<p>The options for <span class="antcode">sensedir</span> are: </p>
-		<div class="pull-left"><img  src="./img/sensedirs.png" /></div>
-		<div class="pull-left">
-			<ul>
-				<li><span class="antcode" style="background: #8cc63f; color: black; padding: 1px 3px;">Here</span> (the cell the ant is currently occupying)</li>
-				<li><span class="antcode" style="background: #7ed3ed; color: black; padding: 1px 3px;">Ahead</span> (the cell directly ahead of the ant)</li>
-				<li><span class="antcode" style="background: #fcb040; color: black; padding: 1px 3px;">LeftAhead</span></li>
-				<li><span class="antcode" style="background: #f5ee30; color: black; padding: 1px 3px;">RightAhead</span></li>
-			</ul>
-		</div>
-		<div style="clear: both;"></div>
+							<br>
+							<p>Let me just explain those a bit more carefully...</p>
+							<ul>
+								<li>
+									<a name="brainssense"></a>
+									<h3 class="antcode bleu">Sense</h3>
+									<p>Above we see the example as follows:</p>
+									<pre class="well antcode thinner"><span class="bleu">Sense</span> sensedir st1 st2 cond</pre>
+									<p>There are a variety of different ways this can be used, for example:</p>
+									<pre class="well antcode thinner"><span class="bleu">Sense</span> Ahead 1 3 Food</pre>
+									<p>Would search to see if there is food directly in front of the ant, going to State 1 if there is, and going to State 3 if there isn't.</p>
+									
+									<p>The options for <span class="antcode">sensedir</span> are: </p>
+									<div class="pull-left"><img  src="./img/sensedirs.png" /></div>
+									<div class="pull-left">
+										<ul>
+											<li><span class="antcode" style="background: #8cc63f; color: black; padding: 1px 3px;">Here</span> (the cell the ant is currently occupying)</li>
+											<li><span class="antcode" style="background: #7ed3ed; color: black; padding: 1px 3px;">Ahead</span> (the cell directly ahead of the ant)</li>
+											<li><span class="antcode" style="background: #fcb040; color: black; padding: 1px 3px;">LeftAhead</span></li>
+											<li><span class="antcode" style="background: #f5ee30; color: black; padding: 1px 3px;">RightAhead</span></li>
+										</ul>
+									</div>
+									<div style="clear: both;"></div><br>
+									<p>An ant cannot sense behind the direction it is facing.</p>
+									<p>The options for <span class="antcode">cond</span> are:</p>
+									<ul>
+										<li><span class="antcode" style="color: black;">Friend</span>  (a friendly ant)</li>
+										<li><span class="antcode" style="color: black;">Foe</span>  (an enemy ant)</li>
+										<li><span class="antcode" style="color: black;">FriendWithFood</span></li>
+										<li><span class="antcode" style="color: black;">FoeWithFood</span></li>
+										<li><span class="antcode" style="color: black;">Food</span></li>
+										<li><span class="antcode" style="color: black;">Rock</span></li>
+										<li><span class="antcode" style="color: black;">Marker i</span>  (where i is the type of marker)</li>
+										<li><span class="antcode" style="color: black;">FoeMarker</span> (Ants can only check if an enemy marker is present, they cannot detect white type of marker it is)</li>
+										<li><span class="antcode" style="color: black;">Home</span> (Friendly ant nest)</li>
+										<li><span class="antcode" style="color: black;">FoeHome</span> (Enemy ant nest)</li>
+									</ul>
+									
+								</li>
 
-		
-		
-	</li>
-</ul>
+								<li>
+									<a name="brainsmark"></a>
+									<h3 class="antcode bleu">Mark</h3>
+									<p>Above we see:</p>
+									<pre class="well antcode thinner"><span class="bleu">Mark</span> i st</pre>
+									<p>An example use of this instruction would be:</p>
+									<pre class="well antcode thinner"><span class="bleu">Mark</span> 0 3</pre>
+									<p>This would put a marker of type 0 (Markers can be of type 0-5) in the cell the ant is currently in, then move to state 3, markers are key to creating an advanced brain.</p>
+								</li>
+
+								<li>
+									<a name="brainsunmark"></a>
+									<h3 class="antcode bleu">Unmark</h3>
+									<p>This instruction is the opposite of the mark function. It removes the specified marker from the cell the ant is currently in. An example:</p>
+									<pre class="well antcode thinner"><span class="bleu">Unmark</span> 3 0</pre>
+									<p>This would remove the marker of type 3 from the cell the ant is currently in, then move to state 0.</p>
+								</li>
+
+								<li>
+									<a name="brainspickup"></a>
+									<h3 class="antcode bleu">Pickup</h3>
+									<p>Above we see:</p>
+									<pre class="well antcode thinner"><span class="bleu">Pickup</span> st1 st2</pre>		
+									<p>This will cause the ant to attempt to pickup food from the cell it is currently in. If the ant is successful, it will go to the state specified by <span class="antcode">st1</span>. If there is no food in the current cell, then it will go to the state specified by <span class="antcode">st2</span></p>
+								</li>
+
+								<li>
+									<a name="brainsdrop"></a>
+									<h3 class="antcode bleu">Drop</h3>
+									<p>Above we see:</p>
+									<pre class="well antcode thinner"><span class="bleu">Drop</span> st</pre>	
+									<p>This instruction causes an ant to drop food if it is carrying any. Regardless of whether any food was dropped, the ant will then go to the state specified by <span class="antcode">st</span>.</p>
+								</li>
+								<li>
+									<a name="brainsturn"></a>
+									<h3 class="antcode bleu">Turn</h3>
+									<p>Above we see:</p>
+									<pre class="well antcode thinner"><span class="bleu">Turn</span> lr st</pre>	
+									<p>This instruction causes an ant to turn one step (60 degrees) in the direction specified by <span class="antcode">lr</span>, and then go to the state specified by <span class="antcode">st</span>.</p>
+									<p>The two possible values of <span class="antcode">lr</span> are:</p>
+									<ul>
+										<li><span class="antcode" style="color: black">Left</span></li>
+										<li><span class="antcode" style="color: black">Right</span></li>
+									</ul>
+								</li>
+								<li>
+									<a name="brainsmove"></a>
+									<h3 class="antcode bleu">Move</h3>
+									<p>Above we see:</p>
+									<pre class="well antcode thinner"><span class="bleu">Move</span> st1 st2</pre>	
+									<p>This instruction causes an ant to attempt to move one step in the direction it is facing. If the ant is successful, it will go to the state specified by <span class="antcode">st1</span>. If the cell ahead is blocked for some reason, then it will go to the state specified by <span class="antcode">st2</span></p>
+								</li>
+								<li>
+									<a name="brainsflip"></a>
+									<h3 class="antcode bleu">Flip</h3>
+									<p>This instruction provides the ability to inject a degree of uncertainty into the actions of your ants.</p>
+									<p>Above we see:</p>
+									<pre class="well antcode thinner"><span class="bleu">Flip</span> p st1 st2</pre>	
+									<p><span class="antcode">p</span> is an integer with any value &ge; 0. This number gives a <em>probability</em> that the ant will end up in <span class="antcode">st1</span>. The value of this probability is 1/<span class="antcode">p</span>. (so if <span class="antcode">p</span> has value 0 or 1, the ant will always go to <span class="antcode">st1</span>). Otherwise, the ant will go to <span class="antcode">st2</span>.</p>
+									<p>To illustrate:</p>
+									<pre class="well antcode thinner"><span class="bleu">Flip</span> 3 1 7</pre>
+									This gives the ant a 1 in 3 chance of going to state 1 and, therefore, a 2 in 3 chance of going to state 7.
+								</li>
+							</ul>
+							<a name="brainsnotes"></a>
+							<h3>Notes</h3>
+							<p>Brain code is case-insensitive.</p>
+							<p>The code can also be commented using a semicolon to delimit the start of a comment. Anything which follows a semicolon until the end of the line is ignored by the compiler. To illustrate this, have a look at the example code below.</p>
+
+							<a name="brainsexample"></a>
+							<h3>An Example Brain</h3>
+							<p>To conclude, we will look at a complete (but simple) brain. This brain has been commented to help you understand what is going on. If you want to look at a completed brain in correct syntax, please look at one of the sample brains provided in the game, you can look at these by selecting "Single Match" "Pick" Then highlighting the brain you want to view the source code for.</p>
+
+							<pre class="well antcode"><span class="bleu">Sense</span> Ahead 1 3 Food <span style="color: black">; state 0: [SEARCH] is there food in front of me?</span>
+<span class="bleu">Move</span> 2 0 <span style="color: black">; state 1: YES: move onto food (return to state 0 on failure)</span>
+<span class="bleu">PickUp</span> 8 0 <span style="color: black">; state 2: pick up food and jump to state 8 (or 0 on failure)</span>
+<span class="bleu">Flip</span> 3 4 5 <span style="color: black">; state 3: NO: choose whether to...</span>
+<span class="bleu">Turn</span> Left 0 <span style="color: black">; state 4: turn left and return to state 0</span>
+<span class="bleu">Flip</span> 2 6 7 <span style="color: black">; state 5: ... or ...</span>
+<span class="bleu">Turn</span> Right 0 <span style="color: black">; state 6: turn right and return to state 0</span>
+<span class="bleu">Move</span> 0 3 <span style="color: black">; state 7: ... or move forward and return to state 0 (or 3 on failure)</span>
+<span class="bleu">Sense</span> Ahead 9 11 Home <span style="color: black">; state 8: [GO HOME] is the cell in front of me my anthill?</span>
+<span class="bleu">Move</span> 10 8 <span style="color: black">; state 9: YES: move onto anthill</span>
+<span class="bleu">Drop</span> 0 <span style="color: black">; state 10: drop food and return to searching</span>
+<span class="bleu">Flip</span> 3 12 13 <span style="color: black">; state 11: NO: choose whether to...</span>
+<span class="bleu">Turn</span> Left 8 <span style="color: black">; state 12: turn left and return to state 8</span>
+<span class="bleu">Flip</span> 2 14 15 <span style="color: black">; state 13: ...or...</span>
+<span class="bleu">Turn</span> Right 8 <span style="color: black">; state 14: turn right and return to state 8</span>
+<span class="bleu">Move</span> 8 11 <span style="color: black">; state 15: ...or move forward and return to state 8</span></pre>
+							<p>More complicated brains would have functions for finding enemy ants and killing them, protecting the colony, potentially even raiding the enemy colony.</p>
+
+							
 
 
-
-
-
-Would search to see if there was food directly in front of the ant, going to State 1 if there is, and going to State 3 if there isn't. The different options for sensedir are: Here(this cell), Ahead(the cell ahead) LeftAhead and RightAhead. An ant cannot sense behind the direction it is facing. The different options for cond are as follows: Friend (a friendly ant) Foe (an enemy ant) FriendWithFood, FoeWithFood, Food, Rock, Marker i (where i is the type of marker), FoeMarker(Ants can only check if an enemy marker is present, not what type)Home(Friendly ant nest), FoeHome(Enemy ant nest). 
-Mark
-Above we see:
-Mark i st
-An example of this is:
-Mark 0 3
-This would put a marker of type 0 (Markers can be of type 0-5) in the cell the ant is currently in, then move to state 3, markers are key to creating an advanced brain.
-Unmark
-Above we see:
-Unmark i st
-This operation is very similar to the mark function, only it removes a marker from a cell.
-Pickup
-Above we see:
-Pickup st1 st2
-This will cause the ant to attempt to pickup food from the cell it is currently in, if there is no food in the current cell, then it will move to the second state presents.
-Flip
-Using the information above, the Drop, Turn and Move instructions should be easy to derive, flip is slightly more complicated. 
-Flip p st1 st2
-Flip presents an aspect of randomisation to ant brains, for example if:
-Flip 3 1 7 
-Was presented, there would be a 1 in 3 chance of the antbrain going to state 1 and a 2 in 3 chance of it going to state 7. This allows ants to perform more elaborate strategies (for example, upon finding an enemy marker, it might choose to chase the enemy marker to find out where it leads, or it might ignore it).
-An Example Brain
-To conclude, we will look at a complete (but simple) brain. This brain has been commented to help you understand what is going on. If you want to look at a completed brain in correct syntax, please look at one of the sample brains provided in the game, you can look at these by selecting "Single Match" "Pick" Then highlighting the brain you want to view the source code for. Below we have highlighted each state however this is not neccesarry in the ant brain code. 
-Sense Ahead 1 3 Food state 0: [SEARCH] is there food in front of me?
-Move 2 0 state 1: YES: move onto food (return to state 0 on failure)
-PickUp 8 0 state 2: pick up food and jump to state 8 
-(or 0 on failure)
-Flip 3 4 5 state 3: NO: choose whether to...
-Turn Left 0 state 4: turn left and return to state 0
-Flip 2 6 7 state 5: ... or ...
-Turn Right 0 state 6: turn right and return to state 0
-Move 0 3 state 7: ... or move forward and return to state 0 
-(or 3 on failure)
-Sense Ahead 9 11 Home state 8: [GO HOME] is the cell in front of me my anthill?
-Move 10 8 state 9: YES: move onto anthill
-Drop 0 state 10: drop food and return to searching
-Flip 3 12 13 state 11: NO: choose whether to...
-Turn Left 8 state 12: turn left and return to state 8
-Flip 2 14 15 state 13: ...or...
-Turn Right 8 state 14: turn right and return to state 8
-Move 8 11 state 15: ...or move forward and return to state 8
-More complicated brains would have functions for finding enemy ants and killing them, protecting the colony, potentially even raiding the enemy colony.
-
-
-						</div>
+							
+						</div> <!-- END BRAINS SECTION -->
 					</div>
 				</div>
 
@@ -223,10 +298,8 @@ More complicated brains would have functions for finding enemy ants and killing 
 
 	<!-- LOAD JAVASCRIPT STUFFS -->
 	<script type="text/javascript" src="./js/jquery1.7.2.min.js"></script>
-	<script type="text/javascript">loadedSomeMore();</script>
 
 	<script type="text/javascript" src="./bootstrap/js/bootstrap-button.js"></script>
-	<script type="text/javascript">loadedSomeMore();</script>
 	
 </body>
 </html>
