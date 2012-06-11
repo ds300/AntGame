@@ -1,0 +1,995 @@
+Sense LeftAhead 2 1 Home
+Sense RightAhead 2 17 Home
+Turn Right 3
+Sense LeftAhead 5 4 Home
+Sense RightAhead 5 17 Home
+Turn Right 6
+Sense LeftAhead 8 7 Home
+Sense RightAhead 8 17 Home
+Turn Right 9
+Sense LeftAhead 11 10 Home
+Sense RightAhead 11 17 Home
+Turn Right 12
+Sense LeftAhead 14 13 Home
+Sense RightAhead 14 17 Home
+Turn Right 15
+Sense LeftAhead 19 16 Home
+Sense RightAhead 19 17 Home
+Mark 3 18
+Move 114 18
+Flip 0 20 20
+Flip 0 21 21
+Flip 0 22 22
+Flip 0 23 23
+Sense Ahead 34 24 Marker 3
+Turn Right 25
+Sense Ahead 34 26 Marker 3
+Turn Right 27
+Sense Ahead 34 28 Marker 3
+Turn Right 29
+Sense Ahead 34 30 Marker 3
+Turn Right 31
+Sense Ahead 34 32 Marker 3
+Turn Right 33
+Sense Ahead 34 39 Marker 3
+Sense LeftAhead 35 36 Home
+Sense RightAhead 38 37 Home
+Mark 2 38
+Mark 4 38
+Flip 0 38 38
+Flip 1 40 40
+Flip 1 41 41
+Flip 1 42 42
+Flip 1 43 43
+Sense Ahead 60 44 Marker 2
+Sense Ahead 61 45 Marker 4
+Turn Right 46
+Sense Ahead 60 47 Marker 2
+Sense Ahead 61 48 Marker 4
+Turn Right 49
+Sense Ahead 60 50 Marker 2
+Sense Ahead 61 51 Marker 4
+Turn Right 52
+Sense Ahead 60 53 Marker 2
+Sense Ahead 61 54 Marker 4
+Turn Right 55
+Sense Ahead 60 56 Marker 2
+Sense Ahead 61 57 Marker 4
+Turn Right 58
+Sense Ahead 60 59 Marker 2
+Sense Ahead 61 62 Marker 4
+Sense LeftAhead 62 104 Home
+Sense RightAhead 62 109 Home
+Flip 1 63 63
+Flip 1 64 64
+Flip 1 65 65
+Flip 1 66 66
+Flip 1 67 67
+Flip 1 68 68
+Flip 1 69 69
+Flip 1 70 70
+Flip 1 71 71
+Flip 1 72 72
+Flip 1 73 73
+Flip 1 74 74
+Flip 1 75 75
+Flip 1 76 76
+Flip 1 77 77
+Flip 1 78 78
+Flip 1 79 79
+Flip 1 80 80
+Flip 1 81 81
+Flip 1 82 82
+Flip 1 83 83
+Flip 1 84 84
+Flip 1 85 85
+Flip 1 86 86
+Flip 1 87 87
+Flip 1 88 88
+Flip 1 89 89
+Flip 1 90 90
+Flip 1 91 91
+Flip 1 92 92
+Flip 1 93 93
+Flip 1 94 94
+Flip 1 95 95
+Flip 1 96 96
+Flip 1 97 97
+Flip 1 98 98
+Flip 1 99 99
+Flip 1 100 100
+Flip 1 101 101
+Flip 1 102 102
+Flip 1 103 103
+Flip 1 453 453
+Turn Left 105
+Move 106 105
+Turn Right 107
+Move 108 107
+Turn Right 38
+Turn Right 110
+Move 111 110
+Turn Left 112
+Move 113 112
+Turn Left 38
+Mark 0 115
+Move 114 116
+Move 114 117
+Move 114 118
+Move 114 119
+Move 114 120
+Move 114 121
+Move 114 122
+Move 114 123
+Move 114 124
+Move 114 125
+Move 114 126
+Move 114 127
+Move 114 128
+Move 114 129
+Move 114 130
+Move 114 131
+Move 114 132
+Move 114 133
+Move 114 134
+Move 114 135
+Move 114 136
+Move 114 137
+Move 114 138
+Move 114 139
+Move 114 140
+Move 114 141
+Move 114 142
+Move 114 143
+Move 114 144
+Move 114 145
+Move 114 146
+Move 114 147
+Move 114 148
+Move 114 149
+Move 114 150
+Move 114 151
+Move 114 152
+Move 114 153
+Move 114 154
+Move 114 155
+Move 114 156
+Move 114 157
+Move 114 158
+Move 114 159
+Move 114 160
+Move 114 161
+Move 114 162
+Move 114 163
+Move 114 164
+Move 114 165
+Move 114 166
+Move 114 167
+Move 114 168
+Move 114 169
+Move 114 170
+Move 114 171
+Move 114 172
+Move 114 173
+Move 114 174
+Move 114 175
+Move 114 176
+Move 114 177
+Move 114 178
+Move 114 179
+Move 114 180
+Move 114 181
+Move 114 182
+Move 114 183
+Move 114 184
+Move 114 185
+Move 114 186
+Move 114 187
+Move 114 188
+Move 114 189
+Move 114 190
+Move 114 191
+Move 114 192
+Move 114 193
+Move 114 194
+Move 114 195
+Move 114 196
+Move 114 197
+Move 114 198
+Move 114 199
+Move 114 200
+Move 114 201
+Move 114 202
+Move 114 203
+Move 114 204
+Move 114 205
+Move 114 206
+Move 114 207
+Move 114 208
+Move 114 209
+Move 114 210
+Move 114 211
+Move 114 212
+Move 114 213
+Move 114 214
+Turn Left 215
+Turn Left 216
+Turn Left 217
+Move 218 217
+Sense Ahead 219 217 Home
+Turn Left 220
+Turn Left 221
+Turn Left 222
+Sense Ahead 453 223 Rock
+Move 224 223
+Sense Ahead 453 225 Rock
+Move 226 225
+Sense Ahead 453 227 Rock
+Move 228 227
+Sense Ahead 453 229 Rock
+Move 230 229
+Sense Ahead 453 231 Rock
+Mark 5 232
+Move 233 232
+Flip 1 234 234
+Sense LeftAhead 237 235 Marker 0
+Sense LeftAhead 237 236 Rock
+Turn Left 240
+Sense RightAhead 287 238 Marker 0
+Sense RightAhead 287 239 Rock
+Turn Right 240
+Sense Ahead 276 241 Marker 0
+Mark 0 242
+Sense Ahead 276 243 Rock
+Move 240 244
+Move 240 245
+Move 240 246
+Move 240 247
+Move 240 248
+Move 240 249
+Move 240 250
+Move 240 251
+Move 240 252
+Move 240 253
+Move 240 254
+Move 240 255
+Move 240 256
+Move 240 257
+Move 240 258
+Move 240 259
+Move 240 260
+Move 240 261
+Move 240 262
+Move 240 263
+Move 240 264
+Move 240 265
+Move 240 266
+Move 240 267
+Move 240 268
+Move 240 269
+Move 240 270
+Move 240 271
+Move 240 272
+Move 240 273
+Move 240 274
+Move 240 275
+Move 240 276
+Turn Left 277
+Turn Left 278
+Turn Left 279
+Sense Ahead 280 281 Marker 0
+Move 279 280
+Turn Right 282
+Sense RightAhead 283 284 Marker 0
+Turn Right 233
+Turn Left 285
+Turn Left 286
+Turn Left 233
+Move 320 288
+Move 320 289
+Move 320 290
+Move 320 291
+Move 320 292
+Move 320 293
+Move 320 294
+Move 320 295
+Move 320 296
+Move 320 297
+Move 320 298
+Move 320 299
+Move 320 300
+Move 320 301
+Move 320 302
+Move 320 303
+Move 320 304
+Move 320 305
+Move 320 306
+Move 320 307
+Move 320 308
+Move 320 309
+Move 320 310
+Move 320 311
+Move 320 312
+Move 320 313
+Move 320 314
+Move 320 315
+Move 320 316
+Move 320 317
+Move 320 318
+Move 320 319
+Move 320 453
+Move 353 321
+Move 353 322
+Move 353 323
+Move 353 324
+Move 353 325
+Move 353 326
+Move 353 327
+Move 353 328
+Move 353 329
+Move 353 330
+Move 353 331
+Move 353 332
+Move 353 333
+Move 353 334
+Move 353 335
+Move 353 336
+Move 353 337
+Move 353 338
+Move 353 339
+Move 353 340
+Move 353 341
+Move 353 342
+Move 353 343
+Move 353 344
+Move 353 345
+Move 353 346
+Move 353 347
+Move 353 348
+Move 353 349
+Move 353 350
+Move 353 351
+Move 353 352
+Move 353 453
+Move 386 354
+Move 386 355
+Move 386 356
+Move 386 357
+Move 386 358
+Move 386 359
+Move 386 360
+Move 386 361
+Move 386 362
+Move 386 363
+Move 386 364
+Move 386 365
+Move 386 366
+Move 386 367
+Move 386 368
+Move 386 369
+Move 386 370
+Move 386 371
+Move 386 372
+Move 386 373
+Move 386 374
+Move 386 375
+Move 386 376
+Move 386 377
+Move 386 378
+Move 386 379
+Move 386 380
+Move 386 381
+Move 386 382
+Move 386 383
+Move 386 384
+Move 386 385
+Move 386 453
+Move 419 387
+Move 419 388
+Move 419 389
+Move 419 390
+Move 419 391
+Move 419 392
+Move 419 393
+Move 419 394
+Move 419 395
+Move 419 396
+Move 419 397
+Move 419 398
+Move 419 399
+Move 419 400
+Move 419 401
+Move 419 402
+Move 419 403
+Move 419 404
+Move 419 405
+Move 419 406
+Move 419 407
+Move 419 408
+Move 419 409
+Move 419 410
+Move 419 411
+Move 419 412
+Move 419 413
+Move 419 414
+Move 419 415
+Move 419 416
+Move 419 417
+Move 419 418
+Move 419 453
+Mark 5 420
+Move 233 421
+Move 233 422
+Move 233 423
+Move 233 424
+Move 233 425
+Move 233 426
+Move 233 427
+Move 233 428
+Move 233 429
+Move 233 430
+Move 233 431
+Move 233 432
+Move 233 433
+Move 233 434
+Move 233 435
+Move 233 436
+Move 233 437
+Move 233 438
+Move 233 439
+Move 233 440
+Move 233 441
+Move 233 442
+Move 233 443
+Move 233 444
+Move 233 445
+Move 233 446
+Move 233 447
+Move 233 448
+Move 233 449
+Move 233 450
+Move 233 451
+Move 233 452
+Move 233 453
+Move 457 454
+Flip 2 455 456
+Turn Left 453
+Turn Right 453
+Sense Here 532 458 Food
+Sense LeftAhead 459 493 Food
+Turn Left 460
+Move 532 461
+Move 532 462
+Move 532 463
+Move 532 464
+Move 532 465
+Move 532 466
+Move 532 467
+Move 532 468
+Move 532 469
+Move 532 470
+Move 532 471
+Move 532 472
+Move 532 473
+Move 532 474
+Move 532 475
+Move 532 476
+Move 532 477
+Move 532 478
+Move 532 479
+Move 532 480
+Move 532 481
+Move 532 482
+Move 532 483
+Move 532 484
+Move 532 485
+Move 532 486
+Move 532 487
+Move 532 488
+Move 532 489
+Move 532 490
+Move 532 491
+Move 532 492
+Move 532 453
+Sense RightAhead 494 528 Food
+Turn Right 495
+Move 532 496
+Move 532 497
+Move 532 498
+Move 532 499
+Move 532 500
+Move 532 501
+Move 532 502
+Move 532 503
+Move 532 504
+Move 532 505
+Move 532 506
+Move 532 507
+Move 532 508
+Move 532 509
+Move 532 510
+Move 532 511
+Move 532 512
+Move 532 513
+Move 532 514
+Move 532 515
+Move 532 516
+Move 532 517
+Move 532 518
+Move 532 519
+Move 532 520
+Move 532 521
+Move 532 522
+Move 532 523
+Move 532 524
+Move 532 525
+Move 532 526
+Move 532 527
+Move 532 453
+Flip 6 529 453
+Flip 2 530 531
+Turn Left 453
+Turn Right 453
+PickUp 533 533
+Move 537 534
+Flip 2 535 536
+Turn Left 533
+Turn Right 533
+Sense Here 612 538 Marker 0
+Sense LeftAhead 539 573 Marker 0
+Turn Left 540
+Move 612 541
+Move 612 542
+Move 612 543
+Move 612 544
+Move 612 545
+Move 612 546
+Move 612 547
+Move 612 548
+Move 612 549
+Move 612 550
+Move 612 551
+Move 612 552
+Move 612 553
+Move 612 554
+Move 612 555
+Move 612 556
+Move 612 557
+Move 612 558
+Move 612 559
+Move 612 560
+Move 612 561
+Move 612 562
+Move 612 563
+Move 612 564
+Move 612 565
+Move 612 566
+Move 612 567
+Move 612 568
+Move 612 569
+Move 612 570
+Move 612 571
+Move 612 572
+Move 612 533
+Sense RightAhead 574 608 Marker 0
+Turn Right 575
+Move 612 576
+Move 612 577
+Move 612 578
+Move 612 579
+Move 612 580
+Move 612 581
+Move 612 582
+Move 612 583
+Move 612 584
+Move 612 585
+Move 612 586
+Move 612 587
+Move 612 588
+Move 612 589
+Move 612 590
+Move 612 591
+Move 612 592
+Move 612 593
+Move 612 594
+Move 612 595
+Move 612 596
+Move 612 597
+Move 612 598
+Move 612 599
+Move 612 600
+Move 612 601
+Move 612 602
+Move 612 603
+Move 612 604
+Move 612 605
+Move 612 606
+Move 612 607
+Move 612 533
+Flip 6 609 533
+Flip 2 610 611
+Turn Left 533
+Turn Right 533
+Turn Right 613
+Sense Ahead 614 612 Marker 0
+Move 788 615
+Move 788 616
+Move 788 617
+Move 788 618
+Move 788 619
+Move 788 620
+Move 788 621
+Move 788 622
+Move 788 623
+Move 788 624
+Move 788 625
+Move 788 626
+Move 788 627
+Move 788 628
+Move 788 629
+Move 788 630
+Move 788 631
+Move 788 632
+Move 788 633
+Move 788 634
+Move 788 635
+Move 788 636
+Move 788 637
+Move 788 638
+Move 788 639
+Move 788 640
+Move 788 641
+Move 788 642
+Move 788 643
+Move 788 644
+Move 788 645
+Move 788 646
+Move 788 647
+Turn Left 648
+Move 681 649
+Move 681 650
+Move 681 651
+Move 681 652
+Move 681 653
+Move 681 654
+Move 681 655
+Move 681 656
+Move 681 657
+Move 681 658
+Move 681 659
+Move 681 660
+Move 681 661
+Move 681 662
+Move 681 663
+Move 681 664
+Move 681 665
+Move 681 666
+Move 681 667
+Move 681 668
+Move 681 669
+Move 681 670
+Move 681 671
+Move 681 672
+Move 681 673
+Move 681 674
+Move 681 675
+Move 681 676
+Move 681 677
+Move 681 678
+Move 681 679
+Move 681 680
+Move 681 717
+Turn Right 682
+Turn Right 683
+Move 716 684
+Move 716 685
+Move 716 686
+Move 716 687
+Move 716 688
+Move 716 689
+Move 716 690
+Move 716 691
+Move 716 692
+Move 716 693
+Move 716 694
+Move 716 695
+Move 716 696
+Move 716 697
+Move 716 698
+Move 716 699
+Move 716 700
+Move 716 701
+Move 716 702
+Move 716 703
+Move 716 704
+Move 716 705
+Move 716 706
+Move 716 707
+Move 716 708
+Move 716 709
+Move 716 710
+Move 716 711
+Move 716 712
+Move 716 713
+Move 716 714
+Move 716 715
+Move 716 453
+Turn Left 788
+Turn Right 718
+Turn Right 719
+Move 752 720
+Move 752 721
+Move 752 722
+Move 752 723
+Move 752 724
+Move 752 725
+Move 752 726
+Move 752 727
+Move 752 728
+Move 752 729
+Move 752 730
+Move 752 731
+Move 752 732
+Move 752 733
+Move 752 734
+Move 752 735
+Move 752 736
+Move 752 737
+Move 752 738
+Move 752 739
+Move 752 740
+Move 752 741
+Move 752 742
+Move 752 743
+Move 752 744
+Move 752 745
+Move 752 746
+Move 752 747
+Move 752 748
+Move 752 749
+Move 752 750
+Move 752 751
+Move 752 453
+Turn Left 753
+Turn Left 754
+Move 787 755
+Move 787 756
+Move 787 757
+Move 787 758
+Move 787 759
+Move 787 760
+Move 787 761
+Move 787 762
+Move 787 763
+Move 787 764
+Move 787 765
+Move 787 766
+Move 787 767
+Move 787 768
+Move 787 769
+Move 787 770
+Move 787 771
+Move 787 772
+Move 787 773
+Move 787 774
+Move 787 775
+Move 787 776
+Move 787 777
+Move 787 778
+Move 787 779
+Move 787 780
+Move 787 781
+Move 787 782
+Move 787 783
+Move 787 784
+Move 787 785
+Move 787 786
+Move 787 453
+Turn Right 788
+Sense Ahead 789 792 Rock
+Turn Left 790
+Turn Left 791
+Turn Left 614
+Sense Ahead 815 793 Home
+Sense Ahead 614 794 Marker 0
+Sense Ahead 614 795 Marker 5
+Turn Right 796
+Sense Ahead 614 797 Marker 5
+Turn Right 798
+Sense Ahead 614 799 Marker 5
+Turn Right 800
+Sense Ahead 614 801 Marker 5
+Turn Right 802
+Sense Ahead 614 803 Marker 5
+Turn Right 804
+Sense Ahead 614 805 Marker 0
+Turn Right 806
+Sense Ahead 614 807 Marker 0
+Turn Right 808
+Sense Ahead 614 809 Marker 0
+Turn Right 810
+Sense Ahead 614 811 Marker 0
+Turn Right 812
+Sense Ahead 614 813 Marker 0
+Turn Right 814
+Sense Ahead 614 453 Marker 0
+Move 989 816
+Move 989 817
+Move 989 818
+Move 989 819
+Move 989 820
+Move 989 821
+Move 989 822
+Move 989 823
+Move 989 824
+Move 989 825
+Move 989 826
+Move 989 827
+Move 989 828
+Move 989 829
+Move 989 830
+Move 989 831
+Move 989 832
+Move 989 833
+Move 989 834
+Move 989 835
+Move 989 836
+Move 989 837
+Move 989 838
+Move 989 839
+Move 989 840
+Move 989 841
+Move 989 842
+Move 989 843
+Move 989 844
+Move 989 845
+Move 989 846
+Move 989 847
+Move 989 647
+Turn Left 849
+Move 681 850
+Move 681 851
+Move 681 852
+Move 681 853
+Move 681 854
+Move 681 855
+Move 681 856
+Move 681 857
+Move 681 858
+Move 681 859
+Move 681 860
+Move 681 861
+Move 681 862
+Move 681 863
+Move 681 864
+Move 681 865
+Move 681 866
+Move 681 867
+Move 681 868
+Move 681 869
+Move 681 870
+Move 681 871
+Move 681 872
+Move 681 873
+Move 681 874
+Move 681 875
+Move 681 876
+Move 681 877
+Move 681 878
+Move 681 879
+Move 681 880
+Move 681 881
+Move 681 717
+Turn Right 883
+Turn Right 884
+Move 716 885
+Move 716 886
+Move 716 887
+Move 716 888
+Move 716 889
+Move 716 890
+Move 716 891
+Move 716 892
+Move 716 893
+Move 716 894
+Move 716 895
+Move 716 896
+Move 716 897
+Move 716 898
+Move 716 899
+Move 716 900
+Move 716 901
+Move 716 902
+Move 716 903
+Move 716 904
+Move 716 905
+Move 716 906
+Move 716 907
+Move 716 908
+Move 716 909
+Move 716 910
+Move 716 911
+Move 716 912
+Move 716 913
+Move 716 914
+Move 716 915
+Move 716 916
+Move 716 453
+Turn Left 989
+Turn Right 919
+Turn Right 920
+Move 752 921
+Move 752 922
+Move 752 923
+Move 752 924
+Move 752 925
+Move 752 926
+Move 752 927
+Move 752 928
+Move 752 929
+Move 752 930
+Move 752 931
+Move 752 932
+Move 752 933
+Move 752 934
+Move 752 935
+Move 752 936
+Move 752 937
+Move 752 938
+Move 752 939
+Move 752 940
+Move 752 941
+Move 752 942
+Move 752 943
+Move 752 944
+Move 752 945
+Move 752 946
+Move 752 947
+Move 752 948
+Move 752 949
+Move 752 950
+Move 752 951
+Move 752 952
+Move 752 453
+Turn Left 954
+Turn Left 955
+Move 787 956
+Move 787 957
+Move 787 958
+Move 787 959
+Move 787 960
+Move 787 961
+Move 787 962
+Move 787 963
+Move 787 964
+Move 787 965
+Move 787 966
+Move 787 967
+Move 787 968
+Move 787 969
+Move 787 970
+Move 787 971
+Move 787 972
+Move 787 973
+Move 787 974
+Move 787 975
+Move 787 976
+Move 787 977
+Move 787 978
+Move 787 979
+Move 787 980
+Move 787 981
+Move 787 982
+Move 787 983
+Move 787 984
+Move 787 985
+Move 787 986
+Move 787 987
+Move 787 453
+Turn Right 989
+Drop 990
+Turn Left 991
+Turn Left 992
+Turn Left 993
+Move 453 993
+
