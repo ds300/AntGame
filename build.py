@@ -84,34 +84,16 @@ def compileComponent(src_files, root_dir, output_path):
 		print "unable to open source files"
 		sys.exit(1)
 
-def minimiseJSFile(path):
-	try:
-		outputFile = open(path+".tmp","w")
-		proc = subprocess.Popen(["jsmin","-l","3",path],
-			                    stdout=minmodel, 
-			                    shell=True)
-		proc.wait()
-		outputFile.close()
-		os.remove(path)
-		os.rename(path+".tmp",path)
-	except OSError:
-		"unable to remove or rename"
-	except IOError:
-		"unable to open file", path
-
-def compileModel(minimise=False):
+def compileModel():
 	"""Compiles all of the model source files into one big file"""
 	print "Compiling model...",
 	# create directory structure
 	compileComponent(model_src_files,"./src/model/","./build/js/model.js")
 	print "done"
-	if minimise:
-		print "Minimising model...",
-		minimiseJSFile("./build/js/model.js")
-		print "done"
 
 
-def compileView(minimise=False):
+
+def compileView():
 	"""Compiles the view component"""
 	print "Compiling view...",
 	compileComponent(view_src_files,"./src/view/","./build/js/view.js")
@@ -123,21 +105,15 @@ def compileView(minimise=False):
 	proc.wait()
 	style.close()
 	print "done"
-	if minimise:
-		print "Minimising view...",
-		minimiseJSFile("./build/js/view.js")
-		print "done"
 
-def compileController(minimise=False):
+
+def compileController():
 	print "Compiling controller...",
 	compileComponent(controller_src_files,
 		"./src/controller/",
 		"./build/js/controller.js")
 	print "done"
-	if minimise:
-		print "Minimising controller...",
-		minimiseJSFile("./build/js/controller.js")
-		print "done"
+
 
 def copyBuildDirTree():
 	print "Copying build directory tree...",
@@ -154,7 +130,7 @@ if __name__ == "__main__":
 		else:
 			print "All tests passed! Congrats!"
 	copyBuildDirTree()
-	compileModel(("-m" in sys.argv))
-	compileView(("-m" in sys.argv))
-	compileController(("-m" in sys.argv));
+	compileModel()
+	compileView()
+	compileController();
 	buildLog.close()
