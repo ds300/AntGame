@@ -19,3 +19,4 @@ add the -s flag to skip tests, use the -m flag to minimize js output
 
 The folder ./build will be created with all of the relevant files
 
+To see a working demo, [go here](http://teamgood.github.com/antgame)

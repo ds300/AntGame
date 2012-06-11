@@ -155,6 +155,6 @@ if __name__ == "__main__":
 			print "All tests passed! Congrats!"
 	copyBuildDirTree()
 	compileModel(("-m" in sys.argv))
-	compileView()
-	compileController();
+	compileView(("-m" in sys.argv))
+	compileController(("-m" in sys.argv));
 	buildLog.close()

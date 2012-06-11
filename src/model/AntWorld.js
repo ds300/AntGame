@@ -1,5 +1,3 @@
-var WorldCell = WorldCell || function () {}; // to avoid lint errors
-
 /**
  * AntWorld
  * This function returns an object which provides access to a hexagonal grid of
